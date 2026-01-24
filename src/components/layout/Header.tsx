@@ -103,15 +103,14 @@ export function Header() {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               {useLogo ? (
-                <img 
-                  src={logoUrl} 
-                  alt={name} 
-                  className={cn(
-                    logoSizeClasses[headerLogoSize],
-                    "w-auto object-contain",
-                    isTransparent && "brightness-0 invert"
-                  )}
-                />
+             <img 
+  src={logoUrl} 
+  alt={name} 
+  className={cn(
+    logoSizeClasses[headerLogoSize],
+    "w-auto object-contain relative z-[9999]"
+  )}
+/>
               ) : (
                 <span className="text-sm font-light tracking-[0.2em] uppercase">
                   {name}
