@@ -5,7 +5,6 @@ import * as z from 'zod';
 import { motion } from 'framer-motion';
 import { Loader2, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { useDesignerInfo } from '@/hooks/useSiteSettings';
 import {
   Form,
   FormControl,
@@ -25,21 +24,27 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 
-// Validation schema with security best practices
+/* ===============================
+   Validation Schema
+================================ */
 const contactFormSchema = z.object({
   name: z
     .string()
     .trim()
     .min(2, { message: 'Name must be at least 2 characters' })
     .max(100, { message: 'Name must be less than 100 characters' }),
+
   email: z
     .string()
     .trim()
     .email({ message: 'Please enter a valid email address' })
     .max(255, { message: 'Email must be less than 255 characters' }),
-  projectType: z.enum(['branding', 'print', 'social-media', 'ai', 'packaging', 'merchandise', 'others'], {
-    required_error: 'Please select a project type',
-  }),
+
+  projectType: z.enum(
+    ['branding', 'print', 'social-media', 'ai', 'packaging', 'merchandise', 'others'],
+    { required_error: 'Please select a project type' }
+  ),
+
   message: z
     .string()
     .trim()
@@ -49,14 +54,12 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-/**
- * Contact form component with validation and error handling
- * Uses react-hook-form + zod for type-safe validation
- */
+/* ===============================
+   Component
+================================ */
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const { data: designerInfo } = useDesignerInfo();
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -70,9 +73,8 @@ export function ContactForm() {
 
   const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true);
-    
+
     try {
-      // Save message to database
       const { error } = await supabase
         .from('contact_messages')
         .insert({
@@ -82,28 +84,11 @@ export function ContactForm() {
           message: data.message,
         });
 
-      if (error) {
-        throw new Error('Failed to send message');
-      }
+      if (error) throw error;
 
-      // Send email notification (fire and forget - don't block on failure)
-      if (designerInfo?.email) {
-        supabase.functions.invoke('send-contact-notification', {
-          body: {
-            name: data.name,
-            email: data.email,
-            projectType: data.projectType,
-            message: data.message,
-            adminEmail: designerInfo.email,
-          },
-        }).catch(console.error);
-      }
-
-      // Show success state
       setIsSuccess(true);
       form.reset();
 
-      // Reset success message after 5 seconds
       setTimeout(() => {
         setIsSuccess(false);
       }, 5000);
@@ -116,7 +101,9 @@ export function ContactForm() {
     }
   };
 
-  // Show success message
+  /* ===============================
+     Success State
+  ================================ */
   if (isSuccess) {
     return (
       <motion.div
@@ -140,130 +127,99 @@ export function ContactForm() {
     );
   }
 
+  /* ===============================
+     Form
+  ================================ */
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Name Field */}
+
+        {/* Name */}
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-light tracking-wide">
-                Name
-              </FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Your full name"
-                  className="font-light"
-                  {...field}
-                />
+                <Input placeholder="Your full name" {...field} />
               </FormControl>
-              <FormMessage className="text-xs font-light" />
+              <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Email Field */}
+        {/* Email */}
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-light tracking-wide">
-                Email
-              </FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  type="email"
-                  placeholder="your.email@example.com"
-                  className="font-light"
-                  {...field}
-                />
+                <Input type="email" placeholder="your@email.com" {...field} />
               </FormControl>
-              <FormMessage className="text-xs font-light" />
+              <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Project Type Select */}
+        {/* Project Type */}
         <FormField
           control={form.control}
           name="projectType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-light tracking-wide">
-                Project Type
-              </FormLabel>
+              <FormLabel>Project Type</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="font-light">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select project type" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="bg-popover z-50">
-                  <SelectItem value="branding" className="font-light">
-                    Branding
-                  </SelectItem>
-                  <SelectItem value="print" className="font-light">
-                    Print
-                  </SelectItem>
-                  <SelectItem value="social-media" className="font-light">
-                    Social Media
-                  </SelectItem>
-                  <SelectItem value="ai" className="font-light">
-                    AI
-                  </SelectItem>
-                  <SelectItem value="packaging" className="font-light">
-                    Packaging
-                  </SelectItem>
-                  <SelectItem value="merchandise" className="font-light">
-                    Merchandise
-                  </SelectItem>
-                  <SelectItem value="others" className="font-light">
-                    Others
-                  </SelectItem>
+                <SelectContent>
+                  <SelectItem value="branding">Branding</SelectItem>
+                  <SelectItem value="print">Print</SelectItem>
+                  <SelectItem value="social-media">Social Media</SelectItem>
+                  <SelectItem value="ai">AI</SelectItem>
+                  <SelectItem value="packaging">Packaging</SelectItem>
+                  <SelectItem value="merchandise">Merchandise</SelectItem>
+                  <SelectItem value="others">Others</SelectItem>
                 </SelectContent>
               </Select>
-              <FormMessage className="text-xs font-light" />
+              <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Message Textarea */}
+        {/* Message */}
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-light tracking-wide">
-                Message
-              </FormLabel>
+              <FormLabel>Message</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell me about your project..."
-                  className="min-h-32 font-light resize-none"
+                  className="min-h-32 resize-none"
                   {...field}
                 />
               </FormControl>
-              <FormMessage className="text-xs font-light" />
+              <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Root Error Message */}
+        {/* Root Error */}
         {form.formState.errors.root && (
-          <div className="text-sm text-destructive font-light">
+          <div className="text-sm text-destructive">
             {form.formState.errors.root.message}
           </div>
         )}
 
-        {/* Submit Button */}
-        <Button
-          type="submit"
-          className="w-full py-6 text-base font-light tracking-wide"
-          disabled={isSubmitting}
-        >
+        {/* Submit */}
+        <Button type="submit" className="w-full py-6" disabled={isSubmitting}>
           {isSubmitting ? (
             <>
               <Loader2 className="mr-2 size-5 animate-spin" />
