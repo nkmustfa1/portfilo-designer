@@ -264,7 +264,8 @@ const biography = t(
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.7, delay: 0.2 }}
               >
-                {biography?.split('\n\n')[0]}
+               {biography ? biography.split('\n\n')[0] : ""}
+
 
               </motion.p>
               
