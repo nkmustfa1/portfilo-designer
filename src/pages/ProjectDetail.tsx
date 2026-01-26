@@ -19,6 +19,7 @@ export default function ProjectDetail() {
   const heroRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   const [isHeroMounted, setIsHeroMounted] = useState(false);
+  const isMobile = window.innerWidth < 768;
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -125,16 +126,22 @@ export default function ProjectDetail() {
       />
       
       <div className="min-h-screen relative overflow-hidden">
+        {/* Mobile fast background */}
+<div className="mobile-brand-bg md:hidden absolute inset-0 z-0" />
+
         {/* Glass Background Effect with Brand Pattern */}
-        <GlassBackground variant="hero" />
-        
+       <div className="hidden md:block">
+  <GlassBackground variant="hero" />
+</div>
+
         {/* Hero Section */}
         <section ref={heroRef} className="relative h-screen overflow-hidden" style={{ zIndex: 1 }}>
           {/* Background Image with Parallax */}
-          <motion.div 
-            className="absolute inset-0"
-            style={{ y: heroY }}
-          >
+         <motion.div
+  className="absolute inset-0"
+  style={isMobile ? {} : { y: heroY }}
+>
+
             <img
               src={project.coverImage}
               alt={project.title}
@@ -165,10 +172,11 @@ export default function ProjectDetail() {
           </motion.div>
 
           {/* Hero Content */}
-          <motion.div 
-            className="absolute bottom-0 left-0 right-0 p-8 md:p-16 lg:p-24"
-            style={{ opacity: heroOpacity }}
-          >
+         <motion.div
+  className="absolute bottom-0 left-0 right-0 p-8 md:p-16 lg:p-24"
+  style={isMobile ? {} : { opacity: heroOpacity }}
+>
+
             <div className="max-w-4xl space-y-6">
               {/* Category & Year */}
               <motion.div

@@ -63,6 +63,7 @@ export default function About() {
   const { data: designerInfo, isLoading } = useDesignerInfo();
   const { data: footerSettings } = useFooterSettings();
   const containerRef = useRef<HTMLDivElement>(null);
+const isMobile = window.innerWidth < 768;
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -106,22 +107,26 @@ export default function About() {
       />
       
       <div ref={containerRef} className="min-h-screen relative overflow-hidden">
+        {/* Mobile fast background */}
+<div className="mobile-brand-bg md:hidden absolute inset-0 z-0" />
+
         {/* Glass Background Effect with Brand Pattern */}
-        <GlassBackground variant="hero" />
-        
+       <div className="hidden md:block">
+  <GlassBackground variant="hero" />
+</div>
+
         {/* Hero Section */}
         <section className="relative min-h-screen grid lg:grid-cols-2" style={{ zIndex: 1 }}>
           <motion.div 
             className="relative h-[50vh] lg:h-screen overflow-hidden"
-            style={{ y: imageY }}
-          >
+style={isMobile ? {} : { y: imageY }}          >
             <motion.img
               src={portraitImage}
               alt={`Portrait of ${name}`}
               className="w-full h-full object-cover transition-all duration-700"
               initial={{ scale: 1.1, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              style={{ scale: imageScale }}
+  style={isMobile ? {} : { scale: imageScale }}
               transition={{ duration: 1.2 }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/90 hidden lg:block" />

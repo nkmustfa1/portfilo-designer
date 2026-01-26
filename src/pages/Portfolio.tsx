@@ -41,9 +41,14 @@ export default function Portfolio() {
       />
       
       <div className="min-h-screen relative overflow-hidden">
+        {/* Mobile fast background */}
+<div className="mobile-brand-bg md:hidden absolute inset-0 z-0" />
+
         {/* Glass Background Effect with Brand Pattern */}
-        <GlassBackground variant="hero" />
-        
+        <div className="hidden md:block">
+  <GlassBackground variant="hero" />
+</div>
+
         {/* Hero Section */}
         <section className="relative py-20 md:py-28 px-6 lg:px-8 overflow-hidden" style={{ zIndex: 1 }}>
           <div className="relative max-w-7xl mx-auto">

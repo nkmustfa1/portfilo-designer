@@ -36,9 +36,14 @@ export default function Contact() {
       />
       
       <div className="min-h-screen relative overflow-hidden">
+        {/* Mobile fast background */}
+<div className="mobile-brand-bg md:hidden absolute inset-0 z-0" />
+
         {/* Glass Background Effect with Brand Pattern */}
-        <GlassBackground variant="hero" />
-        
+      <div className="hidden md:block">
+  <GlassBackground variant="hero" />
+</div>
+
         {/* Hero Section */}
         <section className="pt-40 pb-20 md:pt-48 md:pb-32 px-8 lg:px-20 relative" style={{ zIndex: 1 }}>
           <div className="max-w-3xl mx-auto">
