@@ -279,30 +279,22 @@ All colors MUST be HSL.
 .nav-link-hover[data-transparent="true"]::after {
   background-color: white;
 }
-/* ✅ Mobile brand gradient background (lightweight) */
+/* 📱 Mobile: keep exact colors, disable motion */
 @media (max-width: 768px) {
-  .mobile-brand-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
 
-    background: linear-gradient(
-      160deg,
-      var(--brand-deep-blue) 0%,
-      var(--brand-blue) 35%,
-      var(--brand-teal) 65%,
-      var(--brand-coral) 100%
-    );
+  /* Disable aurora / glow animations */
+  .animate-aurora,
+  .animate-glow {
+    animation: none !important;
+    transform: none !important;
   }
-}
 
-@media (max-width: 768px) {
+  /* Disable blur but KEEP same background */
   .glass,
-  .glass-card {
-    background: hsl(240 10% 6%) !important;
-    border: 1px solid var(--border);
-    box-shadow: none;
+  .glass-strong,
+  .glass-background {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
 
