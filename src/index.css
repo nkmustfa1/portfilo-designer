@@ -282,9 +282,13 @@ All colors MUST be HSL.
 
 /* ===== MOBILE FAST BACKGROUND (نفس ألوان البراند) ===== */
 .mobile-brand-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100svh; /* مهم للموبايل */
+  z-index: -1;
+
   background:
     radial-gradient(
       700px circle at 20% 15%,
@@ -301,8 +305,8 @@ All colors MUST be HSL.
       hsl(240 10% 6%),
       hsl(240 10% 4%)
     );
-    
 }
+
 
 @media (max-width: 768px) {
 
