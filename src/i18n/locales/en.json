@@ -1,0 +1,17 @@
+{
+  "common": {
+    "viewPortfolio": "View Portfolio",
+    "viewAll": "View All",
+    "learnMore": "Learn More About Me"
+  },
+
+  "hero": {
+    "badge": "Graphic Designer & Visual Artist"
+  },
+
+  "home": {
+    "aboutTitle": "About My Work",
+    "featuredLabel": "Featured Work",
+    "featuredTitle": "Selected Projects"
+  }
+}

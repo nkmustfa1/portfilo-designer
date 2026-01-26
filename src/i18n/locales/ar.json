@@ -1,0 +1,17 @@
+{
+  "common": {
+    "viewPortfolio": "عرض الأعمال",
+    "viewAll": "عرض الكل",
+    "learnMore": "اعرف المزيد عني"
+  },
+
+  "hero": {
+    "badge": "مصممة جرافيك وفنانة بصرية"
+  },
+
+  "home": {
+    "aboutTitle": "عن عملي",
+    "featuredLabel": "أعمال مميزة",
+    "featuredTitle": "مختارات من الأعمال"
+  }
+}

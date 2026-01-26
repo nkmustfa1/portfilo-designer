@@ -15,8 +15,6 @@ import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
 
 type Lang = "en" | "ar";
 
-// مؤقتًا
-const lang: Lang = "ar";
 
 /**
  * Homepage with immersive hero section and featured projects grid
@@ -24,6 +22,7 @@ const lang: Lang = "ar";
  */
 export default function Home() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+const lang: Lang = "ar";
 
 useEffect(() => {
   const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -49,15 +48,11 @@ useEffect(() => {
     offset: ['start start', 'end start']
   });
   
-  useEffect(() => {
-  if (lang === "ar") {
-    document.documentElement.dir = "rtl";
-    document.documentElement.lang = "ar";
-  } else {
-    document.documentElement.dir = "ltr";
-    document.documentElement.lang = "en";
-  }
-}, []);
+useEffect(() => {
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.documentElement.lang = lang;
+}, [lang]);
+
 
   const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const heroImageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
@@ -269,7 +264,8 @@ const biography = t(
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.7, delay: 0.2 }}
               >
-                {biography.split('\n\n')[0]}
+                {biography?.split('\n\n')[0]}
+
               </motion.p>
               
               <motion.div
