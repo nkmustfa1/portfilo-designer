@@ -93,16 +93,26 @@ const t = (en?: string, ar?: string) => {
 };
 
   // Merge database settings with fallback static data
-const name = t(designerInfo?.name, designerInfo?.name_ar);
-const tagline = t(designerInfo?.tagline, designerInfo?.tagline_ar);
+const name = t(
+  designerInfo?.name,
+  (designerInfo as any)?.name_ar
+);
+
+const tagline = t(
+  designerInfo?.tagline,
+  (designerInfo as any)?.tagline_ar
+);
+
 const heroIntroduction = t(
   designerInfo?.heroIntroduction,
-  designerInfo?.heroIntroduction_ar
+  (designerInfo as any)?.heroIntroduction_ar
 );
+
 const biography = t(
   designerInfo?.biography,
-  designerInfo?.biography_ar
+  (designerInfo as any)?.biography_ar
 );
+
 
   if (
   isDesignerLoading ||
