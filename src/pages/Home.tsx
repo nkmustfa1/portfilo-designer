@@ -3,7 +3,6 @@ import { useRef, useState, useEffect } from 'react';
 import { useDesignerInfo, useHomeSettings } from '@/hooks/useSiteSettings';
 import { useFeaturedProjects } from '@/hooks/useProjects';
 import { photographerInfo } from '@/data/photographer';
-import { getFeaturedProjects } from '@/data/projects';
 import { FeaturedProjectsCarousel } from '@/components/portfolio/FeaturedProjectsCarousel';
 import { ScrollIndicator } from '@/components/ui/ScrollIndicator';
 import { GlassBackground } from '@/components/ui/GlassBackground';
@@ -19,7 +18,6 @@ import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
  * Features scroll-based animations and parallax effects
  */
 export default function Home() {
-  const staticFeaturedProjects = getFeaturedProjects();
   const { data: dbFeaturedProjects, isLoading: isFeaturedLoading } = useFeaturedProjects();
   const { data: designerInfo, isLoading: isDesignerLoading } = useDesignerInfo();
   const { data: homeSettings, isLoading: isHomeLoading } = useHomeSettings();
@@ -43,32 +41,27 @@ export default function Home() {
   const heroContentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroContentY = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
 
-  // Show loading state while fetching settings
-  if (isDesignerLoading || isHomeLoading || isFeaturedLoading) {
-    return <LoadingFallback />;
-  }
+
 
   // Use database featured projects if available, otherwise fallback to static
-  const featuredProjects = dbFeaturedProjects && dbFeaturedProjects.length > 0
-    ? dbFeaturedProjects.map(p => ({
-        id: p.id,
-        title: p.title,
-        category: p.category,
-        year: p.year || '',
-        slug: p.slug,
-        coverImage: p.main_image || '',
-        description: p.description || '',
-        client: p.client || '',
-        tools: p.tools?.join(', ') || '',
-        location: '',
-        images: (p.gallery_images || []).map((img, i) => ({
-          id: `${p.id}-${i}`,
-          src: img,
-          alt: `${p.title} image ${i + 1}`,
-          aspectRatio: 'landscape' as const
-        }))
-      }))
-    : staticFeaturedProjects;
+const featuredProjects = dbFeaturedProjects?.map(p => ({
+  id: p.id,
+  title: p.title,
+  category: p.category,
+  year: p.year || '',
+  slug: p.slug,
+  coverImage: p.main_image || '',
+  description: p.description || '',
+  client: p.client || '',
+  tools: p.tools?.join(', ') || '',
+  location: '',
+  images: (p.gallery_images || []).map((img, i) => ({
+    id: `${p.id}-${i}`,
+    src: img,
+    alt: `${p.title} image ${i + 1}`,
+    aspectRatio: 'landscape' as const
+  }))
+})) || [];
 
   // Merge database settings with fallback static data
   const name = designerInfo?.name || photographerInfo.name;
@@ -76,6 +69,7 @@ export default function Home() {
   const heroIntroduction = designerInfo?.heroIntroduction || photographerInfo.heroIntroduction;
   const biography = designerInfo?.biography || photographerInfo.biography;
   const heroImage = homeSettings?.heroImage || "https://images.unsplash.com/photo-1558655146-9f40138edfeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8Z3JhcGhpYyUyMGRlc2lnbiUyMHN0dWRpb3xlbnwwfHx8fDE3MDQ3Njk1NjB8MA&ixlib=rb-4.0.3&q=80&w=1920";
+
 
   return (
     <>
@@ -228,45 +222,47 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Featured Projects Section */}
-        <section className="relative py-20 md:py-28 overflow-hidden" style={{ zIndex: 1 }}>
-          <div className="px-4 md:px-8 lg:px-12">
-            {/* Section Header */}
-            <motion.div
-              {...scrollAnimationVariants.staggerContainer}
-              className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 gap-4"
-            >
-              <motion.div 
-                {...scrollAnimationVariants.fadeLeft}
-                className="space-y-2"
-              >
-                <span className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
-                  Featured Work
-                </span>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-wide text-foreground">
-                  Selected Projects
-                </h2>
-              </motion.div>
-              
-              <motion.div {...scrollAnimationVariants.fadeRight}>
-                <Link
-                  to="/portfolio"
-                  className="group inline-flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors"
-                >
-                  <span className="font-medium">View All</span>
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </motion.div>
-            </motion.div>
+       {/* Featured Projects Section */}
+<section className="relative py-20 md:py-28 overflow-hidden" style={{ zIndex: 1 }}>
+  <div className="px-4 md:px-8 lg:px-12">
 
-            {/* Carousel with fade in */}
-            <motion.div
-              {...scrollAnimationVariants.scaleUp}
-            >
-              <FeaturedProjectsCarousel projects={featuredProjects} />
-            </motion.div>
-          </div>
-        </section>
+    {/* Section Header */}
+    <motion.div
+      {...scrollAnimationVariants.staggerContainer}
+      className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 gap-4"
+    >
+      <motion.div {...scrollAnimationVariants.fadeLeft} className="space-y-2">
+        <span className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+          Featured Work
+        </span>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-wide text-foreground">
+          Selected Projects
+        </h2>
+      </motion.div>
+
+      <motion.div {...scrollAnimationVariants.fadeRight}>
+        <Link
+          to="/portfolio"
+          className="group inline-flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors"
+        >
+          <span className="font-medium">View All</span>
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+        </Link>
+      </motion.div>
+    </motion.div>
+
+    {/* Carousel */}
+    <motion.div {...scrollAnimationVariants.scaleUp}>
+      {isFeaturedLoading ? (
+        <LoadingFallback />
+      ) : (
+        <FeaturedProjectsCarousel projects={featuredProjects} />
+      )}
+    </motion.div>
+
+  </div>
+</section>
+
       </div>
     </>
   );

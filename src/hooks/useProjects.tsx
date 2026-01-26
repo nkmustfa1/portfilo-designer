@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
+import imageCompression from 'browser-image-compression';
+
 export interface Project {
   id: string;
   title: string;
@@ -199,19 +201,32 @@ export function useDeleteProject() {
 export function useUploadImage() {
   return useMutation({
     mutationFn: async (file: File) => {
-      const fileExt = file.name.split('.').pop();
+
+      // 🔹 ضغط الصورة قبل الرفع
+      const options = {
+        maxSizeMB: 0.8,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true
+      };
+
+      const compressedFile = await imageCompression(file, options);
+
+      const fileExt = compressedFile.name.split('.').pop();
       const fileName = `${crypto.randomUUID()}.${fileExt}`;
-      
+
       const { error } = await supabase.storage
         .from('project-images')
-        .upload(fileName, file);
-      
+        .upload(fileName, compressedFile, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
       if (error) throw error;
-      
+
       const { data: { publicUrl } } = supabase.storage
         .from('project-images')
         .getPublicUrl(fileName);
-      
+
       return publicUrl;
     },
     onError: (error: Error) => {
@@ -219,3 +234,4 @@ export function useUploadImage() {
     }
   });
 }
+
