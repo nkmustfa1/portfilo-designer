@@ -108,6 +108,7 @@ const biography = t(
   (designerInfo as any)?.biography_ar
 );
 
+const heroImage = homeSettings?.heroImage;
 
   if (
   isDesignerLoading ||
