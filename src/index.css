@@ -312,3 +312,9 @@ All colors MUST be HSL.
     );
   }
 }
+@media (max-width: 768px) {
+  body {
+    background: red !important;
+  }
+}
+
