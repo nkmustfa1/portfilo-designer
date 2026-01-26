@@ -296,3 +296,15 @@ All colors MUST be HSL.
     ) !important;
   }
 }
+/* ✅ Ultra-light mobile background */
+.mobile-gradient-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    #1a1a1a 0%,
+    #0f0f0f 60%,
+    #000000 100%
+  );
+}
