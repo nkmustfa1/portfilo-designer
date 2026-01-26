@@ -112,9 +112,10 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
 
           {/* Hero Content with scroll fade */}
           <motion.div 
-            className="relative h-full flex flex-col items-center justify-center px-6 z-10"
-            style={{ opacity: heroContentOpacity, y: heroContentY }}
-          >
+  className="relative h-full flex flex-col items-center justify-center px-6 z-10"
+  style={isMobile ? {} : { opacity: heroContentOpacity, y: heroContentY }}
+>
+
             <motion.div
               className="text-center space-y-8 max-w-4xl"
               initial={{ opacity: 0, y: 30 }}
