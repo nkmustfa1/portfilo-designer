@@ -319,3 +319,30 @@ All colors MUST be HSL.
   }
 }
 
+/* ===== GLOBAL BOTTOM COLOR EXTENSION ===== */
+body::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45vh;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      700px circle at 30% 100%,
+      hsl(175 55% 55% / 0.18),
+      transparent 65%
+    ),
+    radial-gradient(
+      600px circle at 80% 90%,
+      hsl(20 90% 58% / 0.14),
+      transparent 70%
+    );
+}
+@media (min-width: 768px) {
+  body::after {
+    display: none;
+  }
+}
