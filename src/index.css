@@ -280,32 +280,6 @@ All colors MUST be HSL.
   background-color: white;
 }
 
-/* ===== MOBILE FAST BACKGROUND (نفس ألوان البراند) ===== */
-.mobile-brand-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 100svh; /* مهم للموبايل */
-  z-index: -1;
-
-  background:
-    radial-gradient(
-      700px circle at 20% 15%,
-      hsl(175 55% 55% / 0.18),
-      transparent 60%
-    ),
-    radial-gradient(
-      600px circle at 80% 30%,
-      hsl(20 90% 58% / 0.14),
-      transparent 65%
-    ),
-    linear-gradient(
-      180deg,
-      hsl(240 10% 6%),
-      hsl(240 10% 4%)
-    );
-}
 
 html, body {
   min-height: 100%;
@@ -326,3 +300,36 @@ html, body {
   }
 }
 
+@media (max-width: 768px) {
+  html, body {
+    min-height: 100%;
+  }
+
+  body {
+    background:
+      radial-gradient(
+        700px circle at 20% 15%,
+        hsl(175 55% 55% / 0.18),
+        transparent 60%
+      ),
+      radial-gradient(
+        600px circle at 80% 30%,
+        hsl(20 90% 58% / 0.14),
+        transparent 65%
+      ),
+      linear-gradient(
+        180deg,
+        hsl(240 10% 6%),
+        hsl(240 10% 4%)
+      );
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  /* أوقف الخلفيات الثقيلة */
+  .bg-brand-gradient,
+  .animate-aurora,
+  .animate-glow {
+    display: none !important;
+  }
+}
