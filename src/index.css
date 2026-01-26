@@ -279,7 +279,7 @@ All colors MUST be HSL.
 .nav-link-hover[data-transparent="true"]::after {
   background-color: white;
 }
-/* 🔥 Disable heavy blur effects on mobile */
+/* ✅ Mobile optimization WITHOUT killing gradients */
 @media (max-width: 768px) {
   .glass,
   .glass-card,
@@ -287,6 +287,12 @@ All colors MUST be HSL.
   .glass-effect {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(0, 0, 0, 0.6) !important;
+
+    /* 👇 نحافظ على التدرج */
+    background: linear-gradient(
+      180deg,
+      rgba(20, 20, 20, 0.85),
+      rgba(10, 10, 10, 0.95)
+    ) !important;
   }
 }
