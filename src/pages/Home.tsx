@@ -18,6 +18,8 @@ import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
  * Features scroll-based animations and parallax effects
  */
 export default function Home() {
+  const isMobile = window.innerWidth < 768;
+
   const { data: dbFeaturedProjects, isLoading: isFeaturedLoading } = useFeaturedProjects();
   const { data: designerInfo, isLoading: isDesignerLoading } = useDesignerInfo();
   const { data: homeSettings, isLoading: isHomeLoading } = useHomeSettings();
@@ -94,9 +96,10 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
           {/* Hero image with parallax */}
           {heroImage && (
             <motion.div 
-              className="absolute inset-0"
-              style={{ y: heroImageY, scale: heroImageScale }}
-            >
+  className="absolute inset-0"
+  style={isMobile ? {} : { y: heroImageY, scale: heroImageScale }}
+>
+
               <img
                 src={heroImage}
                 alt="Creative design workspace"
