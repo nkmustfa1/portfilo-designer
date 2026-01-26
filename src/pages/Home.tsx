@@ -89,8 +89,8 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
       
       <div className="min-h-screen relative overflow-hidden">
         {/* Glass Background Effect with Brand Pattern - covers full page */}
-        <GlassBackground variant="hero" />
-        
+       {!isMobile && <GlassBackground variant="hero" />}
+
         {/* Hero Section - Full viewport with parallax hero image */}
         <section ref={heroRef} className="relative h-screen w-full overflow-hidden" style={{ zIndex: 1 }}>
           {/* Hero image with parallax */}
