@@ -306,27 +306,41 @@ html, body {
   }
 
   body {
+    position: relative;
+    background: hsl(240 10% 4%);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+
     background:
       radial-gradient(
-        700px circle at 20% 15%,
-        hsl(175 55% 55% / 0.18),
-        transparent 60%
+        700px circle at 20% 20%,
+        hsl(175 55% 55% / 0.22),
+        transparent 65%
       ),
       radial-gradient(
-        600px circle at 80% 30%,
-        hsl(20 90% 58% / 0.14),
+        700px circle at 80% 40%,
+        hsl(20 90% 58% / 0.22),
         transparent 65%
+      ),
+      radial-gradient(
+        800px circle at 50% 80%,
+        hsl(185 70% 55% / 0.15),
+        transparent 70%
       ),
       linear-gradient(
         180deg,
         hsl(240 10% 6%),
         hsl(240 10% 4%)
       );
-    background-repeat: no-repeat;
-    background-attachment: fixed;
   }
 
-  /* أوقف الخلفيات الثقيلة */
+  /* أوقف أي خلفيات ثقيلة */
   .bg-brand-gradient,
   .animate-aurora,
   .animate-glow {
