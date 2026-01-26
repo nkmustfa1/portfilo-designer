@@ -307,6 +307,9 @@ All colors MUST be HSL.
     );
 }
 
+html, body {
+  min-height: 100%;
+}
 
 @media (max-width: 768px) {
 
