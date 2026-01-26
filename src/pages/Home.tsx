@@ -65,12 +65,22 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
 })) || [];
 
   // Merge database settings with fallback static data
- const name = designerInfo!.name;
- const tagline = designerInfo!.tagline;
- const heroIntroduction = designerInfo!.heroIntroduction;
- const biography = designerInfo!.biography;
- const heroImage = homeSettings!.heroImage;
+const name = designerInfo.name;
+const tagline = designerInfo.tagline;
+const heroIntroduction = designerInfo.heroIntroduction;
+const biography = designerInfo.biography;
 
+const heroImage = homeSettings.heroImage;
+
+if (
+  isDesignerLoading ||
+  isHomeLoading ||
+  isFeaturedLoading ||
+  !designerInfo ||
+  !homeSettings
+) {
+  return <LoadingFallback />;
+}
 
 
   return (
