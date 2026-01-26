@@ -320,61 +320,33 @@ All colors MUST be HSL.
 }
 
 /* ===== GLOBAL BOTTOM COLOR EXTENSION ===== */
-/* ===== FIX MOBILE BLACK OVERLAY ISSUE ===== */
-@media (max-width: 768px) {
-  body {
-    background:
-      radial-gradient(
-        700px circle at 20% 15%,
-        hsl(175 55% 55% / 0.18),
-        transparent 60%
-      ),
-      radial-gradient(
-        600px circle at 80% 30%,
-        hsl(20 90% 58% / 0.14),
-        transparent 65%
-      ),
-      linear-gradient(
-        180deg,
-        hsl(240 10% 6%),
-        hsl(240 10% 4%)
-      );
-    background-attachment: scroll;
-  }
+body::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45vh;
+  pointer-events: none;
+
+  /* 👇 مهم جدًا */
+  z-index: -1;
+
+  background:
+    radial-gradient(
+      700px circle at 30% 100%,
+      hsl(175 55% 55% / 0.16),
+      transparent 65%
+    ),
+    radial-gradient(
+      600px circle at 80% 90%,
+      hsl(20 90% 58% / 0.12),
+      transparent 70%
+    );
 }
 
 @media (min-width: 768px) {
   body::after {
     display: none;
-  }
-}
-/* ===== GRADIENT BEFORE FOOTER (MOBILE ONLY) ===== */
-@media (max-width: 768px) {
-  footer {
-    position: relative;
-    z-index: 1;
-    background: transparent;
-  }
-
-  footer::before {
-    content: '';
-    position: absolute;
-    top: -40vh;           /* 👈 مكان التدرج قبل الفوتر */
-    left: 0;
-    right: 0;
-    height: 40vh;
-    pointer-events: none;
-    z-index: -1;
-    background:
-      radial-gradient(
-        700px circle at 30% 100%,
-        hsl(175 55% 55% / 0.18),
-        transparent 65%
-      ),
-      radial-gradient(
-        600px circle at 80% 90%,
-        hsl(20 90% 58% / 0.14),
-        transparent 70%
-      );
   }
 }
