@@ -324,37 +324,28 @@ body {
   color: var(--foreground);
 
   background:
-    /* Top gradient */
     radial-gradient(
       700px circle at 20% 10%,
       hsl(175 55% 55% / 0.18),
       transparent 60%
     ),
-
-    /* Mid gradient */
     radial-gradient(
       600px circle at 80% 40%,
       hsl(20 90% 58% / 0.14),
       transparent 65%
     ),
-
-    /* Bottom gradient */
     radial-gradient(
       800px circle at 50% 100%,
       hsl(175 55% 55% / 0.16),
       transparent 70%
     ),
-
-    /* Base dark gradient (NOT solid black) */
     linear-gradient(
       180deg,
       hsl(240 10% 6%),
-      hsl(240 10% 5%),
-      hsl(240 10% 4%)
+      transparent
     );
 
   background-repeat: no-repeat;
-  background-attachment: scroll;
 }
 
 
