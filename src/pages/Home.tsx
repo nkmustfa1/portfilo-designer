@@ -13,7 +13,6 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
 
-
 /**
  * Homepage with immersive hero section and featured projects grid
  * Features scroll-based animations and parallax effects
@@ -65,22 +64,11 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
 })) || [];
 
   // Merge database settings with fallback static data
-const name = designerInfo.name;
-const tagline = designerInfo.tagline;
-const heroIntroduction = designerInfo.heroIntroduction;
-const biography = designerInfo.biography;
-
-const heroImage = homeSettings.heroImage;
-
-if (
-  isDesignerLoading ||
-  isHomeLoading ||
-  isFeaturedLoading ||
-  !designerInfo ||
-  !homeSettings
-) {
-  return <LoadingFallback />;
-}
+  const name = designerInfo?.name || photographerInfo.name;
+  const tagline = designerInfo?.tagline || photographerInfo.tagline;
+  const heroIntroduction = designerInfo?.heroIntroduction || photographerInfo.heroIntroduction;
+  const biography = designerInfo?.biography || photographerInfo.biography;
+  const heroImage = homeSettings?.heroImage || "https://images.unsplash.com/photo-1558655146-9f40138edfeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8Z3JhcGhpYyUyMGRlc2lnbiUyMHN0dWRpb3xlbnwwfHx8fDE3MDQ3Njk1NjB8MA&ixlib=rb-4.0.3&q=80&w=1920";
 
 
   return (
