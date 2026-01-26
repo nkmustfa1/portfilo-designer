@@ -320,6 +320,46 @@ All colors MUST be HSL.
 }
 
 /* ===== GLOBAL BOTTOM COLOR EXTENSION ===== */
+/* ===== GRADIENT BEFORE FOOTER (WORKING FIX) ===== */
+@media (max-width: 768px) {
+  footer {
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    /* 👇 مكان التدرج قبل الفوتر */
+    top: -45vh;
+    height: 45vh;
+
+    pointer-events: none;
+    z-index: 0;
+
+    background:
+      radial-gradient(
+        700px circle at 30% 100%,
+        hsl(175 55% 55% / 0.16),
+        transparent 65%
+      ),
+      radial-gradient(
+        600px circle at 80% 90%,
+        hsl(20 90% 58% / 0.12),
+        transparent 70%
+      );
+  }
+
+  /* نرفع محتوى الفوتر فوق التدرج */
+  footer > * {
+    position: relative;
+    z-index: 1;
+  }
+}
 @media (max-width: 768px) {
   footer {
     position: relative;
