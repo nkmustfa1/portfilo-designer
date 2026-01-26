@@ -13,6 +13,11 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
 
+type Lang = "en" | "ar";
+
+// مؤقتًا
+const lang: Lang = "ar";
+
 /**
  * Homepage with immersive hero section and featured projects grid
  * Features scroll-based animations and parallax effects
@@ -44,6 +49,16 @@ useEffect(() => {
     offset: ['start start', 'end start']
   });
   
+  useEffect(() => {
+  if (lang === "ar") {
+    document.documentElement.dir = "rtl";
+    document.documentElement.lang = "ar";
+  } else {
+    document.documentElement.dir = "ltr";
+    document.documentElement.lang = "en";
+  }
+}, []);
+
   const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const heroImageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
   const heroContentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -70,13 +85,25 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
     aspectRatio: 'landscape' as const
   }))
 })) || [];
+const t = (en?: string, ar?: string) => {
+  if (lang === "ar") {
+    return ar || en || "";
+  }
+  return en || "";
+};
 
   // Merge database settings with fallback static data
-  const name = designerInfo?.name ;
-  const tagline = designerInfo?.tagline ;
-  const heroIntroduction = designerInfo?.heroIntroduction ;
-  const biography = designerInfo?.biography ;
-  const heroImage = homeSettings?.heroImage ;
+const name = t(designerInfo?.name, designerInfo?.name_ar);
+const tagline = t(designerInfo?.tagline, designerInfo?.tagline_ar);
+const heroIntroduction = t(
+  designerInfo?.heroIntroduction,
+  designerInfo?.heroIntroduction_ar
+);
+const biography = t(
+  designerInfo?.biography,
+  designerInfo?.biography_ar
+);
+
   if (
   isDesignerLoading ||
   isHomeLoading ||
@@ -139,7 +166,12 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
                 <GlassCard className="inline-flex items-center gap-2 px-4 py-2 mb-6" hover={false}>
-                  <span className="text-sm font-medium text-foreground/80">Graphic Designer & Visual Artist</span>
+<span className="text-sm font-medium text-foreground/80">
+  {t(
+    "Graphic Designer & Visual Artist",
+    "مصممة جرافيك وفنانة بصرية"
+  )}
+</span>
                 </GlassCard>
               </motion.div>
 
@@ -179,7 +211,7 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
                   to="/portfolio"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass text-foreground font-medium transition-all hover:scale-105"
                 >
-                  <span>View Portfolio</span>
+<span>{t("View Portfolio", "عرض الأعمال")}</span>
                   <ArrowRight className="size-4" />
                 </Link>
               </motion.div>
@@ -209,6 +241,7 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
                 className="w-16 h-px bg-foreground/20 mx-auto mb-8 origin-left"
               />
               
+             
               <motion.h2 
                 className="text-3xl md:text-4xl font-light tracking-wide text-foreground"
                 initial={{ opacity: 0, y: 30 }}
@@ -216,7 +249,7 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.7, delay: 0.1 }}
               >
-                About My Work
+  {t("About My Work", "عن عملي")}
               </motion.h2>
               
               <motion.p 
@@ -239,7 +272,8 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
                   to="/about"
                   className="inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-primary transition-colors group"
                 >
-                  <span>Learn More About Me</span>
+                 <span>{t("Learn More About Me", "اعرف المزيد عني")}</span>
+
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </motion.div>
@@ -258,11 +292,13 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
     >
       <motion.div {...scrollAnimationVariants.fadeLeft} className="space-y-2">
         <span className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
-          Featured Work
-        </span>
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-wide text-foreground">
-          Selected Projects
-        </h2>
+  {t("Featured Work", "أعمال مميزة")}
+</span>
+
+<h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-wide text-foreground">
+  {t("Selected Projects", "مختارات من الأعمال")}
+</h2>
+
       </motion.div>
 
       <motion.div {...scrollAnimationVariants.fadeRight}>
@@ -270,7 +306,10 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
           to="/portfolio"
           className="group inline-flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors"
         >
-          <span className="font-medium">View All</span>
+         <span className="font-medium">
+  {t("View All", "عرض الكل")}
+</span>
+
           <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </motion.div>
