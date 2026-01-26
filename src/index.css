@@ -279,22 +279,36 @@ All colors MUST be HSL.
 .nav-link-hover[data-transparent="true"]::after {
   background-color: white;
 }
-/* 📱 Mobile: keep exact colors, disable motion */
+/* === MOBILE PERFORMANCE FIX === */
 @media (max-width: 768px) {
 
-  /* Disable aurora / glow animations */
+  /* 1️⃣ إيقاف blur (أكبر سبب للبطء) */
+  .glass,
+  .glass-strong {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* 2️⃣ تخفيف الظلال */
+  .glass,
+  .glass-strong {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+
+  /* 3️⃣ إيقاف الأنيميشن الثقيلة */
   .animate-aurora,
   .animate-glow {
     animation: none !important;
-    transform: none !important;
   }
 
-  /* Disable blur but KEEP same background */
-  .glass,
-  .glass-strong,
-  .glass-background {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+  /* 4️⃣ تبسيط الخلفية المتدرجة */
+  .bg-brand-gradient {
+    background: linear-gradient(
+      135deg,
+      hsl(185 70% 55%),
+      hsl(175 55% 60%),
+      hsl(20 90% 58%)
+    );
   }
 }
-

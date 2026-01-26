@@ -83,6 +83,8 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
 
 
 
+
+
   return (
     <>
       <SEOHead />
@@ -99,6 +101,9 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
   className="absolute inset-0"
   style={isMobile ? {} : { y: heroImageY, scale: heroImageScale }}
 >
+  <motion.div
+  animate={isMobile ? false : "aurora"}
+></motion.div>
 
               <img
                 src={heroImage}
