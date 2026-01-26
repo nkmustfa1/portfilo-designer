@@ -71,9 +71,7 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
  const biography = designerInfo!.biography;
  const heroImage = homeSettings!.heroImage;
 
-if (isDesignerLoading || isHomeLoading || isFeaturedLoading) {
-  return <LoadingFallback />;
-}
+
 
   return (
     <>
