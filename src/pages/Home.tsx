@@ -12,7 +12,6 @@ import { GlassCard } from '@/components/ui/GlassBackground';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
-import React from 'react';
 
 /**
  * Homepage with immersive hero section and featured projects grid
@@ -70,6 +69,17 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
   const heroIntroduction = designerInfo?.heroIntroduction ;
   const biography = designerInfo?.biography ;
   const heroImage = homeSettings?.heroImage ;
+  if (
+  isDesignerLoading ||
+  isHomeLoading ||
+  isFeaturedLoading ||
+  !designerInfo ||
+  !homeSettings
+) {
+  return <LoadingFallback />;
+}
+
+
 
   return (
     <>
