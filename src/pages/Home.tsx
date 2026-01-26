@@ -18,7 +18,13 @@ import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
  * Features scroll-based animations and parallax effects
  */
 export default function Home() {
-  const isMobile = window.innerWidth < 768;
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+useEffect(() => {
+  const onResize = () => setIsMobile(window.innerWidth < 768);
+  window.addEventListener('resize', onResize);
+  return () => window.removeEventListener('resize', onResize);
+}, []);
 
   const { data: dbFeaturedProjects, isLoading: isFeaturedLoading } = useFeaturedProjects();
   const { data: designerInfo, isLoading: isDesignerLoading } = useDesignerInfo();
@@ -83,15 +89,18 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
 
 
 
-
-
   return (
     <>
       <SEOHead />
       
       <div className="min-h-screen relative overflow-hidden">
+       {/* Mobile fast background (ONLY mobile) */}
+<div className="mobile-brand-bg md:hidden absolute inset-0 z-0" />
+
         {/* Glass Background Effect with Brand Pattern - covers full page */}
-       <GlassBackground variant="hero" />
+      <div className="hidden md:block">
+  <GlassBackground variant="hero" />
+</div>
 
         {/* Hero Section - Full viewport with parallax hero image */}
         <section ref={heroRef} className="relative h-screen w-full overflow-hidden" style={{ zIndex: 1 }}>
@@ -101,9 +110,6 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
   className="absolute inset-0"
   style={isMobile ? {} : { y: heroImageY, scale: heroImageScale }}
 >
-  <motion.div
-  animate={isMobile ? false : "aurora"}
-></motion.div>
 
               <img
                 src={heroImage}

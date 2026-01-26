@@ -279,42 +279,43 @@ All colors MUST be HSL.
 .nav-link-hover[data-transparent="true"]::after {
   background-color: white;
 }
-/* === MOBILE PERFORMANCE FIX === */
+
+/* ===== MOBILE FAST BACKGROUND (نفس ألوان البراند) ===== */
+.mobile-brand-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(
+      700px circle at 20% 15%,
+      hsl(175 55% 55% / 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      600px circle at 80% 30%,
+      hsl(20 90% 58% / 0.14),
+      transparent 65%
+    ),
+    linear-gradient(
+      180deg,
+      hsl(240 10% 6%),
+      hsl(240 10% 4%)
+    );
+       
+}
+
 @media (max-width: 768px) {
 
-  /* 1️⃣ إيقاف blur (أكبر سبب للبطء) */
-  .glass,
-  .glass-strong {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  /* 2️⃣ تخفيف الظلال */
-  .glass,
-  .glass-strong {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  }
-
-  /* 3️⃣ إيقاف الأنيميشن الثقيلة */
+  /* أخفِ الخلفية الثقيلة */
+  .bg-brand-gradient,
   .animate-aurora,
   .animate-glow {
-    animation: none !important;
+    display: none !important;
   }
 
-  /* 4️⃣ تبسيط الخلفية المتدرجة */
-  .bg-brand-gradient {
-    background: linear-gradient(
-      135deg,
-      hsl(185 70% 55%),
-      hsl(175 55% 60%),
-      hsl(20 90% 58%)
-    );
-  }
-}
-@media (max-width: 768px) {
-  body {
-    background: red !important;
+  /* فعّل الخلفية السريعة */
+  .mobile-brand-bg {
+    display: block;
   }
 }
 
