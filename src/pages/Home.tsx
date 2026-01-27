@@ -13,6 +13,8 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
 
+import { useLanguage } from "@/context/LanguageContext";
+
 
 
 /**
@@ -21,7 +23,7 @@ import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
  */
 export default function Home() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-const lang: "en" | "ar" = "ar";
+const { lang } = useLanguage();
 
 useEffect(() => {
   const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -56,10 +58,6 @@ const pickValue = (
     offset: ['start start', 'end start']
   });
   
-useEffect(() => {
-  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-  document.documentElement.lang = lang;
-}, [lang]);
 
 
   const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
