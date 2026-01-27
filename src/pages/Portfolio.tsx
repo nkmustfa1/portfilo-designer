@@ -6,12 +6,17 @@ import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
 import { GlassBackground } from '@/components/ui/GlassBackground';
+import { useLanguage } from "@/context/LanguageContext";
 
 /**
  * Portfolio page with interactive filter grid and 3D hover effects
  */
 export default function Portfolio() {
   const { data: dbProjects, isLoading } = useProjects();
+  const { lang } = useLanguage();
+const isAr = lang === "ar";
+
+const t = (en: string, ar: string) => (isAr ? ar : en);
 
   const convertedDbProjects = dbProjects?.map(p => ({
     id: p.id,
@@ -35,12 +40,20 @@ export default function Portfolio() {
 
   return (
     <>
-      <SEOHead 
-        title="Portfolio"
-        description="Browse my complete graphic design portfolio featuring branding, print design, packaging, illustration, and digital projects."
-      />
+     <SEOHead 
+  title={t("Portfolio", "الأعمال")}
+  description={t(
+    "Browse my complete graphic design portfolio featuring branding, print design, packaging, illustration, and digital projects.",
+    "تصفّح مجموعة مختارة من أعمالي في التصميم تشمل الهوية البصرية، المطبوعات، والتجارب الرقمية."
+  )}
+/>
+
       
-      <div className="min-h-screen relative overflow-hidden">
+     <div
+  className="min-h-screen relative overflow-hidden"
+  dir={isAr ? "rtl" : "ltr"}
+>
+
         {/* Mobile fast background */}
 <div className="mobile-brand-bg md:hidden absolute inset-0 z-0" />
 
@@ -72,7 +85,7 @@ export default function Portfolio() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="block text-sm font-medium uppercase tracking-wider text-muted-foreground"
               >
-                Portfolio
+                {t("Portfolio", "الأعمال")}
               </motion.span>
               
               <motion.h1 
@@ -81,7 +94,7 @@ export default function Portfolio() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-wide text-foreground"
               >
-                Selected Work
+                  {t("Selected Work", "مختارات من الأعمال")}
               </motion.h1>
               
               <motion.p 
@@ -90,7 +103,10 @@ export default function Portfolio() {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="text-lg text-muted-foreground font-light tracking-wide max-w-xl"
               >
-                A curated collection of design projects spanning branding, print, and digital experiences
+              {t(
+    "A curated collection of design projects spanning branding, print, and digital experiences",
+    "مجموعة مختارة من مشاريع التصميم تشمل الهوية البصرية، المطبوعات، والتجارب الرقمية"
+  )}
               </motion.p>
             </motion.div>
           </div>
