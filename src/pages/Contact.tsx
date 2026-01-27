@@ -62,11 +62,28 @@ export default function Contact() {
 const pickValue = (en?: string, ar?: string) =>
   lang === "ar" ? ar || en : en;
 
-  const contactDetails = [
-    { label: 'Email', value: email, isLink: true },
-    { label: 'Based in', value: location },
-    { label: 'Availability', value: availability }
-  ];
+const isAr = lang === "ar";
+
+const t = (en: string, ar: string) => (isAr ? ar : en);
+
+const contactDetails = [
+  {
+    label: t("Email", "البريد الإلكتروني"),
+    value: email,
+    isLink: true
+  },
+  {
+    label: t("Based in", "الموقع"),
+    value: isAr ? "متاح حول العالم" : location
+  },
+  {
+    label: t("Availability", "التوفر"),
+    value: isAr
+      ? "متاح حاليًا لمشاريع جديدة"
+      : availability
+  }
+];
+
 
   return (
     <>
@@ -149,6 +166,7 @@ const pickValue = (en?: string, ar?: string) =>
                 transition={{ duration: 0.7 }}
                 className="lg:col-span-2"
               >
+                <div dir={isAr ? "rtl" : "ltr"}>
                 <GlassCard className="p-8 space-y-12">
                   <motion.div 
                     initial={{ opacity: 0, x: -40 }}
@@ -211,6 +229,7 @@ const pickValue = (en?: string, ar?: string) =>
                     </p>
                   </motion.div>
                 </GlassCard>
+                </div>
               </motion.div>
 
               {/* Contact Form - Glass Card */}
