@@ -373,49 +373,59 @@ const updateCertification = <K extends keyof Certification>(
 <div className="space-y-2">
   <Label>English Font</Label>
  <select
-  value={brand.typography.fontLatin}
-  onChange={(e) =>
+  value={brand.typography?.preset ?? 'modern'}
+  onChange={(e) => {
+    const presetKey = e.target.value as TypographyPresetKey
+    const preset = TYPOGRAPHY_PRESETS[presetKey]
+
     setBrand(prev => ({
       ...prev,
       typography: {
-        ...prev.typography,
-        fontLatin: e.target.value,
-        preset: 'custom',
+        ...preset,
+        preset: presetKey,
       },
     }))
-  }
+  }}
   className="w-full h-10 px-3 rounded-md border border-input bg-background"
 >
-  {Object.entries(LATIN_FONTS).map(([key, label]) => (
+  {Object.keys(TYPOGRAPHY_PRESETS).map((key) => (
     <option key={key} value={key}>
-      {label}
+      {key.charAt(0).toUpperCase() + key.slice(1)}
     </option>
   ))}
+
+  <option value="custom">Custom</option>
 </select>
+
 
 </div>
 <div className="space-y-2">
   <Label>Arabic Font</Label>
  <select
-  value={brand.typography.fontArabic}
-  onChange={(e) =>
+  value={brand.typography?.preset ?? 'modern'}
+  onChange={(e) => {
+    const presetKey = e.target.value as TypographyPresetKey
+    const preset = TYPOGRAPHY_PRESETS[presetKey]
+
     setBrand(prev => ({
       ...prev,
       typography: {
-        ...prev.typography,
-        fontArabic: e.target.value,
-        preset: 'custom',
+        ...preset,
+        preset: presetKey,
       },
     }))
-  }
+  }}
   className="w-full h-10 px-3 rounded-md border border-input bg-background"
 >
-  {Object.entries(ARABIC_FONTS).map(([key, label]) => (
+  {Object.keys(TYPOGRAPHY_PRESETS).map((key) => (
     <option key={key} value={key}>
-      {label}
+      {key.charAt(0).toUpperCase() + key.slice(1)}
     </option>
   ))}
+
+  <option value="custom">Custom</option>
 </select>
+
 
 </div>
 
