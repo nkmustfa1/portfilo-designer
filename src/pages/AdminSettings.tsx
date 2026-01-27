@@ -766,23 +766,73 @@ export default function AdminSettings() {
                   </Button>
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Hero Title</Label>
-                  <Input
-                    value={home.heroTitle}
-                    onChange={(e) => setHome(prev => ({ ...prev, heroTitle: e.target.value }))}
-                    placeholder="Creative Design Solutions"
-                  />
-                </div>
+               <div className="space-y-4">
+  <Label>Hero Title</Label>
 
-                <div className="space-y-2">
-                  <Label>Hero Subtitle</Label>
-                  <Input
-                    value={home.heroSubtitle}
-                    onChange={(e) => setHome(prev => ({ ...prev, heroSubtitle: e.target.value }))}
-                    placeholder="Bringing your vision to life"
-                  />
-                </div>
+  <Input
+    value={home.heroTitle?.en || ''}
+    onChange={(e) =>
+      setHome(prev => ({
+        ...prev,
+        heroTitle: {
+          ...prev.heroTitle,
+          en: e.target.value,
+        },
+      }))
+    }
+    placeholder="Hero Title (English)"
+  />
+
+  <Input
+    value={home.heroTitle?.ar || ''}
+    onChange={(e) =>
+      setHome(prev => ({
+        ...prev,
+        heroTitle: {
+          ...prev.heroTitle,
+          ar: e.target.value,
+        },
+      }))
+    }
+    placeholder="عنوان الهيرو (عربي)"
+    dir="rtl"
+  />
+</div>
+
+
+                <div className="space-y-4">
+  <Label>Hero Subtitle</Label>
+
+  <Input
+    value={home.heroSubtitle?.en || ''}
+    onChange={(e) =>
+      setHome(prev => ({
+        ...prev,
+        heroSubtitle: {
+          ...prev.heroSubtitle,
+          en: e.target.value,
+        },
+      }))
+    }
+    placeholder="Hero Subtitle (English)"
+  />
+
+  <Input
+    value={home.heroSubtitle?.ar || ''}
+    onChange={(e) =>
+      setHome(prev => ({
+        ...prev,
+        heroSubtitle: {
+          ...prev.heroSubtitle,
+          ar: e.target.value,
+        },
+      }))
+    }
+    placeholder="الوصف الفرعي (عربي)"
+    dir="rtl"
+  />
+</div>
+
 
                 <Button onClick={saveHomeSettings} disabled={updateSettings.isPending}>
                   {updateSettings.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
