@@ -132,7 +132,7 @@ const isMobile = window.innerWidth < 768;
   return (
     <>
       <SEOHead
-        title={ui[lang].about}
+        title="about"
 
         description={`Learn about ${name}, ${tagline}. ${bioSections[0]}`}
         image={portraitImage}
@@ -185,7 +185,7 @@ style={isMobile ? {} : { y: imageY }}          >
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="block text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground"
               >
-                About
+               {ui[lang].about}
               </motion.span>
 
               <motion.h1
