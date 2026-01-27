@@ -48,17 +48,28 @@ export default function Contact() {
   if (isLoading) {
     return <LoadingFallback />;
   }
+const pickLang = (
+  value?: string | { en?: string; ar?: string }
+): string => {
+  if (!value) return "";
+
+  if (typeof value === "string") {
+    return value;
+  }
+
+  return lang === "ar" ? value.ar || value.en || "" : value.en || value.ar || "";
+};
 
   const name = designerInfo?.name || photographerInfo.name;
   const email = designerInfo?.email || photographerInfo.email;
-  const location = designerInfo?.location || photographerInfo.location;
-  const availability = designerInfo?.availability || photographerInfo.availability;
+const location = pickLang(
+  designerInfo?.location || photographerInfo.location
+);
+const availability = pickLang(
+  designerInfo?.availability || photographerInfo.availability
+);
   const { lang } = useLanguage();
-  const pickLang = (obj?: { en?: string; ar?: string }) => {
-  if (!obj) return "";
-  return lang === "ar" ? obj.ar || obj.en : obj.en;
-};
-
+ 
 const pickValue = (en?: string, ar?: string) =>
   lang === "ar" ? ar || en : en;
 
