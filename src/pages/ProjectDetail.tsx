@@ -8,6 +8,20 @@ import { useProject } from '@/hooks/useProjects';
 import { Lightbox } from '@/components/portfolio/Lightbox';
 import { cn } from '@/lib/utils';
 import { GlassBackground } from '@/components/ui/GlassBackground';
+import { useLanguage } from '@/context/LanguageContext';
+ 
+const t = {
+  back: isArabic ? 'رجوع' : 'Back',
+  client: isArabic ? 'العميل' : 'Client',
+  year: isArabic ? 'السنة' : 'Year',
+  category: isArabic ? 'التصنيف' : 'Category',
+  tools: isArabic ? 'الأدوات' : 'Tools',
+  designProcess: isArabic ? 'مراحل التصميم' : 'Design Process',
+  visualStory: isArabic ? 'الصور' : 'Visual Story',
+  images: isArabic ? 'صورة' : 'images',
+  interested: isArabic ? 'مهتم بمشروع مشابه؟' : 'Interested in a similar project?',
+  viewMore: isArabic ? 'عرض المزيد من الأعمال' : 'View More Work',
+};
 
 /**
  * Editorial Project detail page - clean, typography-focused, minimal
@@ -20,6 +34,8 @@ export default function ProjectDetail() {
   const galleryRef = useRef<HTMLDivElement>(null);
   const [isHeroMounted, setIsHeroMounted] = useState(false);
   const isMobile = window.innerWidth < 768;
+  const { lang } = useLanguage();
+const isArabic = lang === 'ar';
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -125,7 +141,11 @@ export default function ProjectDetail() {
         type="article"
       />
       
-      <div className="min-h-screen relative overflow-hidden">
+      <div
+  className="min-h-screen relative overflow-hidden"
+  dir={isArabic ? 'rtl' : 'ltr'}
+>
+
         {/* Mobile fast background */}
 <div className="mobile-brand-bg md:hidden absolute inset-0 z-0" />
 
@@ -167,7 +187,7 @@ export default function ProjectDetail() {
               className="flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors text-sm"
             >
               <ArrowLeft className="size-4" />
-              <span>Back</span>
+              <span>{t.back}</span>
             </Link>
           </motion.div>
 
@@ -224,21 +244,21 @@ export default function ProjectDetail() {
             >
               {project.client && (
                 <div className="space-y-2">
-                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Client</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">  {t.client}</p>
                   <p className="text-lg font-light text-foreground">{project.client}</p>
                 </div>
               )}
               <div className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Year</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{t.year}</p>
                 <p className="text-lg font-light text-foreground">{project.year}</p>
               </div>
               <div className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Category</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{t.category}</p>
                 <p className="text-lg font-light text-foreground capitalize">{project.category}</p>
               </div>
               {project.tools && (
                 <div className="space-y-2">
-                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Tools</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{t.tools}</p>
                   <p className="text-lg font-light text-foreground">{project.tools}</p>
                 </div>
               )}
@@ -259,7 +279,7 @@ export default function ProjectDetail() {
               <div className="flex items-center gap-6">
                 <div className="w-16 h-px bg-foreground/20" />
                 <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                  Design Process
+                    {t.designProcess}
                 </span>
               </div>
 
@@ -300,7 +320,7 @@ export default function ProjectDetail() {
                 <div className="flex items-center gap-6">
                   <div className="w-16 h-px bg-foreground/20" />
                   <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                    Visual Story
+                    {t.visualStory}
                   </span>
                 </div>
 
@@ -358,7 +378,7 @@ export default function ProjectDetail() {
             <div className="px-8 lg:px-20 mt-8">
               <div className="max-w-4xl mx-auto">
                 <span className="text-xs font-mono text-muted-foreground">
-                  {String(project.images.length).padStart(2, '0')} images
+                  {String(project.images.length).padStart(2, '0')} {t.images}
                 </span>
               </div>
             </div>
@@ -375,13 +395,13 @@ export default function ProjectDetail() {
               className="space-y-8"
             >
               <p className="text-lg text-muted-foreground font-light">
-                Interested in a similar project?
+                {t.interested}
               </p>
               <Link
                 to="/portfolio"
                 className="inline-flex items-center gap-3 text-2xl md:text-3xl font-light text-foreground hover:opacity-70 transition-opacity group"
               >
-                <span>View More Work</span>
+                <span>{t.viewMore}</span>
                 <ArrowRight className="size-6 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
