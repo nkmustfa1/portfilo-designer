@@ -7,6 +7,36 @@ import { SEOHead } from '@/components/seo/SEOHead';
 import { LoadingFallback } from '@/components/ui/LoadingFallback';
 import { Link } from 'react-router-dom';
 import { GlassBackground } from '@/components/ui/GlassBackground';
+import { useLanguage } from "@/context/LanguageContext";
+
+const ui = {
+  en: {
+    about: "About",
+    philosophy: "Philosophy",
+    approach: "Approach",
+    experience: "Experience",
+    skills: "Skills",
+    awards: "Awards",
+    certifications: "Certifications",
+    education: "Education",
+    availability: "Availability",
+    cta: "Have a project in mind?",
+    talk: "Let's talk",
+  },
+  ar: {
+    about: "من أنا",
+    philosophy: "الفلسفة",
+    approach: "المنهج",
+    experience: "الخبرات",
+    skills: "المهارات",
+    awards: "الجوائز",
+    certifications: "الشهادات",
+    education: "التعليم",
+    availability: "التوفر",
+    cta: "هل لديك مشروع في ذهنك؟",
+    talk: "لنتحدث",
+  },
+};
 
 // Custom SVG icons for platforms not in Lucide
 const TwitterIcon = ({ className }: { className?: string }) => (
@@ -64,6 +94,7 @@ export default function About() {
   const { data: footerSettings } = useFooterSettings();
   const containerRef = useRef<HTMLDivElement>(null);
 const isMobile = window.innerWidth < 768;
+  const { lang } = useLanguage();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -101,12 +132,18 @@ const isMobile = window.innerWidth < 768;
   return (
     <>
       <SEOHead
-        title="About"
+        title={ui[lang].about}
+
         description={`Learn about ${name}, ${tagline}. ${bioSections[0]}`}
         image={portraitImage}
       />
       
-      <div ref={containerRef} className="min-h-screen relative overflow-hidden">
+     <div
+  ref={containerRef}
+  dir={lang === "ar" ? "rtl" : "ltr"}
+  className="min-h-screen relative overflow-hidden"
+>
+
         {/* Mobile fast background */}
 <div className="mobile-brand-bg md:hidden absolute inset-0 z-0" />
 
@@ -194,7 +231,9 @@ style={isMobile ? {} : { y: imageY }}          >
                   className="w-16 h-px bg-foreground/20 origin-left"
                 />
                 <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                  Philosophy
+                 {ui[lang].philosophy}
+
+
                 </span>
               </motion.div>
 
@@ -235,7 +274,8 @@ style={isMobile ? {} : { y: imageY }}          >
                   className="w-16 h-px bg-foreground/20 origin-left"
                 />
                 <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                  Approach
+                  {ui[lang].approach}
+
                 </span>
               </motion.div>
 
@@ -276,7 +316,7 @@ style={isMobile ? {} : { y: imageY }}          >
                   className="w-16 h-px bg-foreground/20 origin-left"
                 />
                 <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                  Experience
+                  {ui[lang].experience}
                 </span>
               </motion.div>
 
@@ -472,16 +512,18 @@ style={isMobile ? {} : { y: imageY }}          >
               transition={{ duration: 0.7 }}
               className="space-y-12"
             >
-              <h2 className="text-3xl md:text-4xl font-light text-foreground">
-                Have a project in mind?
-              </h2>
+             <h2 className="text-3xl md:text-4xl font-light text-foreground">
+  {ui[lang].cta}
+</h2>
+
               
               <div className="flex flex-col sm:flex-row gap-6">
                 <Link
                   to="/contact"
                   className="inline-flex items-center gap-3 text-lg font-light text-foreground hover:opacity-70 transition-opacity group"
                 >
-                  <span>Let's talk</span>
+                 <span>{ui[lang].talk}</span>
+
                   <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 
