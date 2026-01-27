@@ -10,18 +10,6 @@ import { cn } from '@/lib/utils';
 import { GlassBackground } from '@/components/ui/GlassBackground';
 import { useLanguage } from '@/context/LanguageContext';
  
-const t = {
-  back: isArabic ? 'رجوع' : 'Back',
-  client: isArabic ? 'العميل' : 'Client',
-  year: isArabic ? 'السنة' : 'Year',
-  category: isArabic ? 'التصنيف' : 'Category',
-  tools: isArabic ? 'الأدوات' : 'Tools',
-  designProcess: isArabic ? 'مراحل التصميم' : 'Design Process',
-  visualStory: isArabic ? 'الصور' : 'Visual Story',
-  images: isArabic ? 'صورة' : 'images',
-  interested: isArabic ? 'مهتم بمشروع مشابه؟' : 'Interested in a similar project?',
-  viewMore: isArabic ? 'عرض المزيد من الأعمال' : 'View More Work',
-};
 
 /**
  * Editorial Project detail page - clean, typography-focused, minimal
@@ -36,6 +24,18 @@ export default function ProjectDetail() {
   const isMobile = window.innerWidth < 768;
   const { lang } = useLanguage();
 const isArabic = lang === 'ar';
+const t = {
+  back: isArabic ? 'رجوع' : 'Back',
+  client: isArabic ? 'العميل' : 'Client',
+  year: isArabic ? 'السنة' : 'Year',
+  category: isArabic ? 'التصنيف' : 'Category',
+  tools: isArabic ? 'الأدوات' : 'Tools',
+  designProcess: isArabic ? 'مراحل التصميم' : 'Design Process',
+  visualStory: isArabic ? 'الصور' : 'Visual Story',
+  images: isArabic ? 'صورة' : 'images',
+  interested: isArabic ? 'مهتم بمشروع مشابه؟' : 'Interested in a similar project?',
+  viewMore: isArabic ? 'عرض المزيد من الأعمال' : 'View More Work',
+};
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
