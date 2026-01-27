@@ -110,10 +110,13 @@ export interface FooterSettings {
 }
 
 export interface BrandSettings {
-  logoUrl: string;
-  useLogo: boolean;
-  headerLogoSize: 'small' | 'medium' | 'large';
-  footerLogoSize: 'small' | 'medium' | 'large';
+  logoUrl: string
+  useLogo: boolean
+  headerLogoSize: 'small' | 'medium' | 'large'
+  footerLogoSize: 'small' | 'medium' | 'large'
+
+  // ✅ جديد
+  fontFamily?: 'inter' | 'poppins' | 'cairo' | 'tajawal'
 }
 
 export function useSiteSettings<T>(key: string) {

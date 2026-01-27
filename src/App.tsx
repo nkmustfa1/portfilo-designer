@@ -13,6 +13,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AnimatePresence } from "framer-motion";
 import { lazy, Suspense } from "react";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { FontProvider } from "@/components/providers/FontProvider"
 
 // Code-split route components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -123,26 +124,27 @@ function AppContent() {
     </>
   );
 }
-
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <AuthProvider>
-          <LanguageProvider> {/* ✅ هنا الحل */}
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-                <AppContent />
-              </BrowserRouter>
-            </TooltipProvider>
+          <LanguageProvider>
+            <FontProvider> {/* ✅ هنا الإضافة */}
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <AppContent />
+                </BrowserRouter>
+              </TooltipProvider>
+            </FontProvider>
           </LanguageProvider>
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </ErrorBoundary>
-);
+)
 
 
 export default App;

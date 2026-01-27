@@ -82,12 +82,14 @@ const [home, setHome] = useState<HomeSettings>({
     socialLinks: []
   });
 
-  const [brand, setBrand] = useState<BrandSettings>({
-    logoUrl: '',
-    useLogo: false,
-    headerLogoSize: 'medium',
-    footerLogoSize: 'medium'
-  });
+const [brand, setBrand] = useState<BrandSettings>({
+  logoUrl: '',
+  useLogo: false,
+  headerLogoSize: 'medium',
+  footerLogoSize: 'medium',
+  fontFamily: 'inter'
+})
+
 
   const [skillInput, setSkillInput] = useState('');
   const [clientInput, setClientInput] = useState('');
@@ -333,6 +335,29 @@ const updateCertification = <K extends keyof Certification>(
                     />
                     <Label htmlFor="useLogo" className="text-foreground/80">Use logo image instead of text name</Label>
                   </div>
+                        <div className="space-y-2">
+  <Label className="text-foreground/80">Font Family</Label>
+
+  <select
+    value={brand.fontFamily || 'inter'}
+    onChange={(e) =>
+      setBrand(prev => ({
+        ...prev,
+        fontFamily: e.target.value as BrandSettings['fontFamily']
+      }))
+    }
+    className="w-full h-10 px-3 rounded-md border border-foreground/10 bg-background/50 text-foreground"
+  >
+    <option value="inter">Inter (English)</option>
+    <option value="poppins">Poppins</option>
+    <option value="cairo">Cairo (Arabic)</option>
+    <option value="tajawal">Tajawal (Arabic)</option>
+  </select>
+
+  <p className="text-xs text-muted-foreground">
+    This font will be applied to all website text
+  </p>
+</div>
 
                   <div className="space-y-2">
                     <Label className="text-foreground/80">Logo Image</Label>
