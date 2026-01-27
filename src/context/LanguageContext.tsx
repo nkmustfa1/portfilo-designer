@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import * as React from "react";
 
 export type Lang = "en" | "ar";
 
@@ -8,17 +8,19 @@ interface LanguageContextValue {
   toggleLang: () => void;
 }
 
-const LanguageContext = createContext<LanguageContextValue | undefined>(
+
+
+const LanguageContext = React.createContext<LanguageContextValue | undefined>(
   undefined
 );
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>(() => {
+  const [lang, setLang] = React.useState<Lang>(() => {
     const saved = localStorage.getItem("lang");
     return (saved as Lang) || "en";
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
     document.documentElement.lang = lang;
     localStorage.setItem("lang", lang);
@@ -36,7 +38,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useLanguage() {
-  const ctx = useContext(LanguageContext);
+  const ctx = React.useContext(LanguageContext);
   if (!ctx) {
     throw new Error("useLanguage must be used within LanguageProvider");
   }
