@@ -218,7 +218,7 @@ export function Header() {
                             : "text-muted-foreground hover:text-foreground"
                         )}
                       >
-                        {lang === "en" ? link.ar : link.en}
+                        {lang === "ar" ? link.ar : link.en}
 
                       </Link>
                     </motion.div>
