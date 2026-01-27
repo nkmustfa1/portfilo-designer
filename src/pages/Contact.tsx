@@ -6,6 +6,38 @@ import { ContactForm } from '@/components/forms/ContactForm';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { LoadingFallback } from '@/components/ui/LoadingFallback';
 import { GlassBackground, GlassCard } from '@/components/ui/GlassBackground';
+import { useLanguage } from "@/context/LanguageContext";
+
+const CONTACT_TEXT = {
+  title: {
+    en: "Let's work together.",
+    ar: "لنعمل معًا"
+  },
+  subtitle: {
+    en: "Have a project in mind? I'd love to hear about it.",
+    ar: "هل لديك مشروع؟ يسعدني سماع فكرتك."
+  },
+  contact: {
+    en: "Contact",
+    ar: "تواصل"
+  },
+  details: {
+    en: "Details",
+    ar: "التفاصيل"
+  },
+  sendMessage: {
+    en: "Send a Message",
+    ar: "أرسل رسالة"
+  },
+  preferEmail: {
+    en: "Prefer email?",
+    ar: "تفضل البريد الإلكتروني؟"
+  },
+  responseTime: {
+    en: "I typically respond within 24–48 hours.",
+    ar: "عادةً أرد خلال 24–48 ساعة."
+  }
+};
 
 /**
  * Editorial Contact page with scroll-based animations
@@ -21,6 +53,14 @@ export default function Contact() {
   const email = designerInfo?.email || photographerInfo.email;
   const location = designerInfo?.location || photographerInfo.location;
   const availability = designerInfo?.availability || photographerInfo.availability;
+  const { lang } = useLanguage();
+  const pickLang = (obj?: { en?: string; ar?: string }) => {
+  if (!obj) return "";
+  return lang === "ar" ? obj.ar || obj.en : obj.en;
+};
+
+const pickValue = (en?: string, ar?: string) =>
+  lang === "ar" ? ar || en : en;
 
   const contactDetails = [
     { label: 'Email', value: email, isLink: true },
@@ -35,7 +75,11 @@ export default function Contact() {
         description={`Get in touch with ${name} for design inquiries and collaborations. ${availability}`}
       />
       
-      <div className="min-h-screen relative overflow-hidden">
+       <div
+  className="min-h-screen relative overflow-hidden"
+  dir={lang === "ar" ? "rtl" : "ltr"}
+>
+
         {/* Mobile fast background */}
 <div className="mobile-brand-bg md:hidden absolute inset-0 z-0" />
 
@@ -66,7 +110,8 @@ export default function Contact() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="block text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground"
               >
-                Contact
+                <span>{pickLang(CONTACT_TEXT.contact)}</span>
+
               </motion.span>
 
               <motion.h1 
@@ -75,7 +120,9 @@ export default function Contact() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-foreground"
               >
-                Let's work together.
+              
+                {pickLang(CONTACT_TEXT.title)}
+
               </motion.h1>
 
               <motion.p 
@@ -84,7 +131,7 @@ export default function Contact() {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="text-xl text-muted-foreground font-light max-w-xl"
               >
-                Have a project in mind? I'd love to hear about it. Send me a message and let's create something meaningful.
+                 {pickLang(CONTACT_TEXT.subtitle)}
               </motion.p>
             </motion.div>
           </div>
@@ -118,7 +165,7 @@ export default function Contact() {
                       className="w-12 h-px bg-foreground/20 origin-left"
                     />
                     <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                      Details
+                      {pickLang(CONTACT_TEXT.details)}
                     </span>
                   </motion.div>
 
@@ -159,7 +206,8 @@ export default function Contact() {
                     className="pt-10 border-t border-foreground/10"
                   >
                     <p className="text-sm text-muted-foreground font-light">
-                      I typically respond within 24–48 hours.
+                     {pickLang(CONTACT_TEXT.responseTime)}
+
                     </p>
                   </motion.div>
                 </GlassCard>
@@ -189,7 +237,8 @@ export default function Contact() {
                       className="w-12 h-px bg-foreground/20 origin-left"
                     />
                     <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                      Send a Message
+                      {pickLang(CONTACT_TEXT.sendMessage)}
+
                     </span>
                   </motion.div>
 
@@ -211,7 +260,7 @@ export default function Contact() {
           >
             <GlassCard className="p-12 space-y-8">
               <p className="text-sm text-muted-foreground uppercase tracking-[0.2em]">
-                Prefer email?
+              {pickLang(CONTACT_TEXT.preferEmail)}
               </p>
               <motion.a
                 href={`mailto:${email}`}
