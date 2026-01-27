@@ -30,6 +30,10 @@ useEffect(() => {
   window.addEventListener('resize', onResize);
   return () => window.removeEventListener('resize', onResize);
 }, []);
+type LocalizedText = {
+  en?: string;
+  ar?: string;
+};
 
 const pickLang = (obj?: { en?: string; ar?: string }) => {
   if (!obj) return "";
@@ -93,21 +97,12 @@ const name = pickValue(
   designerInfo?.name,
   (designerInfo as any)?.name_ar
 );
+const tagline = pickLang(designerInfo?.tagline);
 
-const tagline = pickValue(
-  designerInfo?.tagline,
-  (designerInfo as any)?.tagline_ar
-);
+const heroIntroduction = pickLang(designerInfo?.heroIntroduction);
 
-const heroIntroduction = pickValue(
-  designerInfo?.heroIntroduction,
-  (designerInfo as any)?.heroIntroduction_ar
-);
+const biography = pickLang(designerInfo?.biography);
 
-const biography = pickValue(
-  designerInfo?.biography,
-  (designerInfo as any)?.biography_ar
-);
 
 const heroImage = homeSettings?.heroImage;
 const heroBadge = pickLang(homeSettings?.heroBadge);
