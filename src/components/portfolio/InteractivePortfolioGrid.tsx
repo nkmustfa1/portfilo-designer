@@ -4,21 +4,29 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Project, ProjectCategory } from '@/types';
+import { useLanguage } from "@/context/LanguageContext";
 
 interface InteractivePortfolioGridProps {
   projects: Project[];
 }
 
-const categories: { value: ProjectCategory | 'all'; label: string }[] = [
-  { value: 'all', label: 'All Work' },
-  { value: 'branding', label: 'Branding' },
-  { value: 'print', label: 'Print' },
-  { value: 'social-media', label: 'Social Media' },
-  { value: 'ai', label: 'AI' },
-  { value: 'packaging', label: 'Packaging' },
-  { value: 'merchandise', label: 'Merchandise' },
-  { value: 'others', label: 'Others' },
-];
+const { lang } = useLanguage();
+const isAr = lang === "ar";
+
+const categories = useMemo(
+  () => [
+    { value: 'all', label: isAr ? 'كل الأعمال' : 'All Work' },
+    { value: 'branding', label: isAr ? 'الهوية البصرية' : 'Branding' },
+    { value: 'print', label: isAr ? 'المطبوعات' : 'Print' },
+    { value: 'social-media', label: isAr ? 'وسائل التواصل' : 'Social Media' },
+    { value: 'ai', label: isAr ? 'الذكاء الاصطناعي' : 'AI' },
+    { value: 'packaging', label: isAr ? 'التغليف' : 'Packaging' },
+    { value: 'merchandise', label: isAr ? 'المنتجات' : 'Merchandise' },
+    { value: 'others', label: isAr ? 'أخرى' : 'Others' },
+  ],
+  [isAr]
+);
+
 
 // 3D Tilt Card Component with mouse tracking
 const ParallaxProjectCard = forwardRef<HTMLDivElement, { 
