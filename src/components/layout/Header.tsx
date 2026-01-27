@@ -46,16 +46,6 @@ function NavLink({
     </Link>
   );
 }
-import { useLanguage } from "@/context/LanguageContext";
-
-const { toggleLang, lang } = useLanguage();
-
-<button
-  onClick={toggleLang}
-  className="fixed top-4 right-4 z-50 px-3 py-1 rounded-full glass text-sm"
->
-  {lang === "en" ? "AR" : "EN"}
-</button>
 
 /**
  * Main header component with scroll-aware styling
