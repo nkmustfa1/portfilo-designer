@@ -8,13 +8,15 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { photographerInfo } from '@/data/photographer';
 import { cn } from '@/lib/utils';
 import { useDesignerInfo, useBrandSettings } from '@/hooks/useSiteSettings';
+import { useLanguage } from "@/context/LanguageContext";
 
 const navLinks = [
-  { name: 'Work', path: '/' },
-  { name: 'Portfolio', path: '/portfolio' },
-  { name: 'About', path: '/about' },
-  { name: 'Contact', path: '/contact' },
+  { en: "Work", ar: "الرئيسية", path: "/" },
+  { en: "Portfolio", ar: "الأعمال", path: "/portfolio" },
+  { en: "About", ar: "من أنا", path: "/about" },
+  { en: "Contact", ar: "تواصل", path: "/contact" },
 ];
+
 
 /**
  * NavLink component with elegant hover animation
@@ -22,16 +24,21 @@ const navLinks = [
  */
 function NavLink({ 
   link, 
+  lang,
   isActive, 
   isTransparent 
 }: { 
-  link: { name: string; path: string }; 
+  link: { en: string; ar: string; path: string }; 
+  lang: "en" | "ar";
   isActive: boolean; 
   isTransparent: boolean;
 }) {
+
+
   return (
     <Link
-      to={link.path}
+      to= {link.path}
+
       className={cn(
         "nav-link-hover relative py-2 text-sm font-light tracking-[0.15em] uppercase transition-colors duration-300",
         isTransparent
@@ -42,7 +49,8 @@ function NavLink({
       )}
       data-transparent={isTransparent}
     >
-      {link.name}
+      {lang === "ar" ? link.ar : link.en}
+     
     </Link>
   );
 }
@@ -63,7 +71,8 @@ export function Header() {
   const useLogo = brandSettings?.useLogo && brandSettings?.logoUrl;
   const logoUrl = brandSettings?.logoUrl;
   const headerLogoSize = brandSettings?.headerLogoSize || 'medium';
-  
+  const { lang, toggleLang } = useLanguage();
+
   const logoSizeClasses = {
     small: 'h-5',
     medium: 'h-6',
@@ -121,24 +130,29 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-10">
-            {navLinks.map((link, index) => (
-              <motion.div
-                key={link.path}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: 0.4 + (0.1 * index),
-                  ease: [0.22, 1, 0.36, 1]
-                }}
-              >
-                <NavLink 
-                  link={link} 
-                  isActive={location.pathname === link.path}
-                  isTransparent={isTransparent}
-                />
-              </motion.div>
-            ))}
+          {navLinks.map((link, index) => (
+  <motion.div key={link.path}>
+    <NavLink 
+      link={link}
+      lang={lang}
+      isActive={location.pathname === link.path}
+      isTransparent={isTransparent}
+    />
+  </motion.div>
+))}
+
+            <button
+  onClick={toggleLang}
+  className={cn(
+    "text-xs tracking-[0.15em] uppercase transition-opacity",
+    isTransparent
+      ? "text-white/70 hover:text-white"
+      : "text-muted-foreground hover:text-foreground"
+  )}
+>
+  {lang === "en" ? "AR" : "EN"}
+</button>
+
           </nav>
 
           {/* Mobile Menu */}
@@ -160,6 +174,16 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full sm:w-80 bg-background border-foreground/5">
+                <button
+  onClick={() => {
+    toggleLang();
+    setMobileMenuOpen(false);
+  }}
+  className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground"
+>
+  {lang === "en" ? "العربية" : "English"}
+</button>
+
                 <nav className="flex flex-col gap-8 mt-16">
                   {navLinks.map((link, index) => (
                     <motion.div
@@ -178,7 +202,8 @@ export function Header() {
                             : "text-muted-foreground hover:text-foreground"
                         )}
                       >
-                        {link.name}
+                        {lang === "ar" ? link.ar : link.en}
+
                       </Link>
                     </motion.div>
                   ))}
