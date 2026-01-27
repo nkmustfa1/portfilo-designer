@@ -85,5 +85,8 @@ export const TYPOGRAPHY_PRESETS = {
 } as const
 
 // ⭐ هذا السطر هو المفتاح
-export type TypographyPresetKey = keyof typeof TYPOGRAPHY_PRESETS
+export type TypographyPresetKey =
+  | keyof typeof TYPOGRAPHY_PRESETS
+  | 'custom'
+
 

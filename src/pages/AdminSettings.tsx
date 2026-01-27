@@ -13,6 +13,7 @@ import { ArrowLeft, Loader2, Upload, X, Plus, Briefcase, Trash2, Award } from 'l
 import { GlassBackground, GlassCard } from '@/components/ui/GlassBackground';
 import { TYPOGRAPHY_PRESETS } from "@/config/typographyPresets"
 import type { TypographyPresetKey } from "@/config/typographyPresets"
+import { LATIN_FONTS, ARABIC_FONTS } from "@/config/fonts"
 
 export default function AdminSettings() {
   const navigate = useNavigate();
@@ -369,6 +370,55 @@ const updateCertification = <K extends keyof Certification>(
     Applies a complete typography style instantly
   </p>
 </div>
+<div className="space-y-2">
+  <Label>English Font</Label>
+ <select
+  value={brand.typography.fontLatin}
+  onChange={(e) =>
+    setBrand(prev => ({
+      ...prev,
+      typography: {
+        ...prev.typography,
+        fontLatin: e.target.value,
+        preset: 'custom',
+      },
+    }))
+  }
+  className="w-full h-10 px-3 rounded-md border border-input bg-background"
+>
+  {Object.entries(LATIN_FONTS).map(([key, label]) => (
+    <option key={key} value={key}>
+      {label}
+    </option>
+  ))}
+</select>
+
+</div>
+<div className="space-y-2">
+  <Label>Arabic Font</Label>
+ <select
+  value={brand.typography.fontArabic}
+  onChange={(e) =>
+    setBrand(prev => ({
+      ...prev,
+      typography: {
+        ...prev.typography,
+        fontArabic: e.target.value,
+        preset: 'custom',
+      },
+    }))
+  }
+  className="w-full h-10 px-3 rounded-md border border-input bg-background"
+>
+  {Object.entries(ARABIC_FONTS).map(([key, label]) => (
+    <option key={key} value={key}>
+      {label}
+    </option>
+  ))}
+</select>
+
+</div>
+
 <div
   className="p-4 border rounded-lg"
   style={{
