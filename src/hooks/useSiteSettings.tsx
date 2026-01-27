@@ -109,16 +109,17 @@ export interface FooterSettings {
   socialLinks: FooterSocialLink[];
 }
 
-export interface TypographySettings {
-  preset?: 'modern' | 'creative' | 'luxury' | 'minimal' | 'custom'
+import type { TypographyPresetKey } from "@/config/typographyPresets"
 
+export interface TypographySettings {
+  preset?: TypographyPresetKey
   fontLatin: string
   fontArabic: string
-
   baseFontSize: number
   headingWeight: number
   bodyWeight: number
 }
+
 
 export interface BrandSettings {
   logoUrl: string

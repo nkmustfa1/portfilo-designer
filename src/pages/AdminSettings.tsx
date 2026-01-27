@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Loader2, Upload, X, Plus, Briefcase, Trash2, Award } from 'lucide-react';
 import { GlassBackground, GlassCard } from '@/components/ui/GlassBackground';
 import { TYPOGRAPHY_PRESETS } from "@/config/typographyPresets"
+import type { TypographyPresetKey } from "@/config/typographyPresets"
 
 export default function AdminSettings() {
   const navigate = useNavigate();
@@ -347,29 +348,23 @@ const updateCertification = <K extends keyof Certification>(
                   </div>
                       <div className="space-y-2">
   <Label>Typography Preset</Label>
+<select
+  value={brand.typography?.preset ?? 'modern'}
+  onChange={(e) => {
+    const presetKey = e.target.value as TypographyPresetKey
+    const preset = TYPOGRAPHY_PRESETS[presetKey]
 
-  <select
-    value={brand.typography?.preset || 'modern'}
-    onChange={(e) => {
-      const presetKey = e.target.value as keyof typeof TYPOGRAPHY_PRESETS
-      const preset = TYPOGRAPHY_PRESETS[presetKey]
-
-      setBrand(prev => ({
-        ...prev,
-        typography: {
-          ...preset,
-          preset: presetKey,
-        },
-      }))
-    }}
-    className="w-full h-10 px-3 rounded-md border border-input bg-background"
-  >
-    <option value="modern">Modern Clean</option>
-    <option value="creative">Creative</option>
-    <option value="luxury">Luxury</option>
-    <option value="minimal">Minimal</option>
-  </select>
-
+    setBrand(prev => ({
+      ...prev,
+      typography: {
+        ...preset,
+        preset: presetKey,
+      },
+    }))
+  }}
+  className="w-full h-10 px-3 rounded-md border border-input bg-background"
+></select>
+ 
   <p className="text-xs text-muted-foreground">
     Applies a complete typography style instantly
   </p>
