@@ -107,7 +107,14 @@ const isMobile = window.innerWidth < 768;
   if (isLoading) {
     return <LoadingFallback />;
   }
-
+  const toText = (value?: unknown): string => {
+  if (typeof value === "string") return value;
+  if (typeof value === "object" && value !== null) {
+    const v = value as { en?: string; ar?: string };
+    return (lang === "ar" ? v.ar : v.en) ?? "";
+  }
+  return "";
+};
   const name = designerInfo?.name || photographerInfo.name;
   const tagline = designerInfo?.tagline || photographerInfo.tagline;
   const biography = designerInfo?.biography || photographerInfo.biography;
@@ -117,10 +124,12 @@ const isMobile = window.innerWidth < 768;
   const skills = designerInfo?.skills || photographerInfo.skills;
   const workExperience = designerInfo?.workExperience || photographerInfo.workExperience || [];
   const certifications = designerInfo?.certifications || photographerInfo.certifications || [];
-  const education = designerInfo?.education || photographerInfo.education;
+  const education = toText(designerInfo?.education || photographerInfo.education);
   const email = designerInfo?.email || photographerInfo.email;
-  const availability = designerInfo?.availability || photographerInfo.availability;
+  const availability = toText(designerInfo?.availability || photographerInfo.availability);
   const footerSocialLinks = footerSettings?.socialLinks || [];
+
+
 const safeSplit = (value?: unknown, separator = '\n\n'): string[] => {
   if (typeof value !== 'string') return [];
   return value.split(separator);
