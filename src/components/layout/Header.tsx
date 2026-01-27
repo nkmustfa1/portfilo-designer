@@ -168,7 +168,7 @@ export function Header() {
          <div
   className={cn(
     "md:hidden flex items-center",
-    lang === "ar" ? "order-3" : "order-1"
+    lang === "ar" ? "ml-auto" : "mr-auto"
   )}
 >
 
