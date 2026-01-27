@@ -26,9 +26,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("lang", lang);
   }, [lang]);
 
-  const toggleLang = () => {
-    setLang((prev) => (prev === "en" ? "ar" : "en"));
-  };
+const toggleLang = () => {
+  setLang(prev => (prev === "en" ? "ar" : "en"));
+};
 
   return (
     <LanguageContext.Provider value={{ lang, setLang, toggleLang }}>

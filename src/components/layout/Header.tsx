@@ -66,15 +66,13 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data: designerInfo } = useDesignerInfo();
   const { data: brandSettings } = useBrandSettings();
-  
+  const { lang, toggleLang } = useLanguage();
+
   const name = designerInfo?.name || photographerInfo.name;
   const useLogo = brandSettings?.useLogo && brandSettings?.logoUrl;
   const logoUrl = brandSettings?.logoUrl;
   const headerLogoSize = brandSettings?.headerLogoSize || 'medium';
-  const lang: "en" | "ar" = "en";
-
-const toggleLang = () => {};
-
+  
   const logoSizeClasses = {
     small: 'h-5',
     medium: 'h-6',
