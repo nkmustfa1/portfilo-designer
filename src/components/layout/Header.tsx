@@ -165,7 +165,27 @@ export function Header() {
       )}
     >
       <div className="max-w-6xl mx-auto px-8 lg:px-12">
-       <div className="flex items-center h-20 md:justify-between">
+     <div
+  className={cn(
+    "flex items-center h-20",
+    "md:flex-row md:justify-between",
+    lang === "ar" ? "md:flex-row-reverse" : "md:flex-row"
+  )}
+>
+{/* Desktop Logo */}
+<Link to="/" className="hidden md:flex items-center gap-2">
+  {useLogo ? (
+    <img
+      src={logoUrl}
+      alt={name}
+      className={logoSizeClasses[headerLogoSize]}
+    />
+  ) : (
+    <span className="text-sm font-light tracking-wide">
+      {name}
+    </span>
+  )}
+</Link>
 
 
 
