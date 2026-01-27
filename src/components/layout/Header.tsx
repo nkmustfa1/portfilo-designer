@@ -95,44 +95,10 @@ export function Header() {
       )}
     >
       <div className="max-w-6xl mx-auto px-8 lg:px-12">
-       <div className="flex items-center justify-between h-20">
+       <div className="flex items-center  h-20">
 
 
-          {/* Logo */}
-          <Link
-  to="/"
-  className={cn(
-    'transition-all duration-300',
-    isTransparent
-      ? 'text-white hover:opacity-70'
-      : 'text-foreground hover:opacity-70',
-    // 🔥 التحكم بالترتيب
-    lang === "ar" ? "order-2 md:order-1" : "order-1"
-  )}
->
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              {useLogo ? (
-             <img 
-  src={logoUrl} 
-  alt={name} 
-  className={cn(
-    logoSizeClasses[headerLogoSize],
-    "w-auto object-contain relative z-[9999]"
-  )}
-/>
-              ) : (
-                <span className="text-sm font-light tracking-[0.2em] uppercase">
-                  {name}
-                </span>
-              )}
-            </motion.div>
-          </Link>
-
+        
           {/* Desktop Navigation */}
 <nav className="hidden md:flex items-center gap-10">
   <div
@@ -169,77 +135,41 @@ export function Header() {
 </nav>
 
           {/* Mobile Menu */}
-   <div
-  className={cn(
-    "md:hidden flex items-center",
-    lang === "ar" ? "mr-auto" : "ml-auto"
+   <div className="flex-1 flex items-center md:hidden">
+  {lang === "en" && (
+    <Button variant="ghost" size="icon">
+      <Menu className="size-5" />
+    </Button>
   )}
->
 
+  {lang === "ar" && (
+    <Link to="/">
+      {useLogo ? (
+        <img src={logoUrl} alt={name} className={logoSizeClasses[headerLogoSize]} />
+      ) : (
+        <span>{name}</span>
+      )}
+    </Link>
+  )}
+</div>
+<div className="flex-1 flex items-center justify-end md:hidden">
+  {lang === "ar" && (
+    <Button variant="ghost" size="icon">
+      <Menu className="size-5" />
+    </Button>
+  )}
 
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className={cn(
-                    'size-9',
-                    isTransparent 
-                      ? 'text-white hover:bg-white/10' 
-                      : 'text-foreground hover:bg-foreground/5'
-                  )}
-                  aria-label="Open menu"
-                >
-                  <Menu className="size-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent
-  side={lang === "ar" ? "right" : "left"}
-  className="w-full sm:w-80 bg-background border-foreground/5"
->
+  {lang === "en" && (
+    <Link to="/">
+      {useLogo ? (
+        <img src={logoUrl} alt={name} className={logoSizeClasses[headerLogoSize]} />
+      ) : (
+        <span>{name}</span>
+      )}
+    </Link>
+  )}
+</div>
 
-
-                <button
-  onClick={() => {
-    toggleLang();
-    setMobileMenuOpen(false);
-  }}
-  className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground"
->
-  {lang === "en" ? "العربية" : "English"}
-</button>
-
-                <nav className="flex flex-col gap-8 mt-16">
-                  {navLinks.map((link, index) => (
-                    <motion.div
-                      key={link.path}
-                      initial={{ opacity: 0, x: lang === "ar" ? 20 : -20 }}
-
-                      animate={{ opacity: 1, x: 0 }}
-
-                      transition={{ delay: 0.1 * index }}
-                    >
-                      <Link
-                        to={link.path}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={cn(
-                          "text-2xl font-light tracking-wide transition-opacity duration-300",
-                          lang === "ar" ? "text-right" : "text-left",
-
-                          location.pathname === link.path 
-                            ? "text-foreground" 
-                            : "text-muted-foreground hover:text-foreground"
-                        )}
-                      >
-                        {lang === "ar" ? link.ar : link.en}
-
-                      </Link>
-                    </motion.div>
-                  ))}
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
         </div>
       </div>
     </motion.header>
