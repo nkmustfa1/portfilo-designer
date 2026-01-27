@@ -191,26 +191,36 @@ const [home, setHome] = useState<HomeSettings>({
     setDesigner(prev => ({ ...prev, clients: prev.clients.filter((_, i) => i !== index) }));
   };
 
-  const addWorkExperience = () => {
-    const newExp: WorkExperience = {
-      id: crypto.randomUUID(),
-      company: '',
-      role: '',
-      startDate: '',
-      endDate: '',
-      description: ''
-    };
-    setDesigner(prev => ({ ...prev, workExperience: [...(prev.workExperience || []), newExp] }));
+const addWorkExperience = () => {
+  const newExp: WorkExperience = {
+    id: crypto.randomUUID(),
+    company: { en: '', ar: '' },
+    role: { en: '', ar: '' },
+    description: { en: '', ar: '' },
+    startDate: '',
+    endDate: ''
   };
 
-  const updateWorkExperience = (id: string, field: keyof WorkExperience, value: string) => {
-    setDesigner(prev => ({
-      ...prev,
-      workExperience: (prev.workExperience || []).map(exp => 
-        exp.id === id ? { ...exp, [field]: value } : exp
-      )
-    }));
-  };
+  setDesigner(prev => ({
+    ...prev,
+    workExperience: [...(prev.workExperience || []), newExp]
+  }));
+};
+
+
+const updateWorkExperience = <K extends keyof WorkExperience>(
+  id: string,
+  field: K,
+  value: WorkExperience[K]
+) => {
+  setDesigner(prev => ({
+    ...prev,
+    workExperience: prev.workExperience.map(exp =>
+      exp.id === id ? { ...exp, [field]: value } : exp
+    )
+  }));
+};
+
 
   const removeWorkExperience = (id: string) => {
     setDesigner(prev => ({
@@ -219,25 +229,34 @@ const [home, setHome] = useState<HomeSettings>({
     }));
   };
 
-  const addCertification = () => {
-    const newCert: Certification = {
-      id: crypto.randomUUID(),
-      title: '',
-      issuer: '',
-      year: '',
-      type: 'certification'
-    };
-    setDesigner(prev => ({ ...prev, certifications: [...(prev.certifications || []), newCert] }));
+const addCertification = () => {
+  const newCert: Certification = {
+    id: crypto.randomUUID(),
+    title: { en: '', ar: '' },
+    issuer: { en: '', ar: '' },
+    year: '',
+    type: 'certification'
   };
 
-  const updateCertification = (id: string, field: keyof Certification, value: string) => {
-    setDesigner(prev => ({
-      ...prev,
-      certifications: (prev.certifications || []).map(cert => 
-        cert.id === id ? { ...cert, [field]: value } : cert
-      )
-    }));
-  };
+  setDesigner(prev => ({
+    ...prev,
+    certifications: [...(prev.certifications || []), newCert]
+  }));
+};
+
+
+const updateCertification = <K extends keyof Certification>(
+  id: string,
+  field: K,
+  value: Certification[K]
+) => {
+  setDesigner(prev => ({
+    ...prev,
+    certifications: prev.certifications.map(cert =>
+      cert.id === id ? { ...cert, [field]: value } : cert
+    )
+  }));
+};
 
   const removeCertification = (id: string) => {
     setDesigner(prev => ({
@@ -769,22 +788,65 @@ const [home, setHome] = useState<HomeSettings>({
 
                     <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label>Company / الشركة</Label>
-                        <Input
-                          value={exp.company}
-                          onChange={(e) => updateWorkExperience(exp.id, 'company', e.target.value)}
-                          placeholder="Company name"
-                          className="bg-background/50 border-glass-border"
-                        />
+                       <Label>Company (English)</Label>
+<Input
+  value={exp.company.en}
+  onChange={(e) =>
+    updateWorkExperience(exp.id, 'company', {
+      ...exp.company,
+      en: e.target.value
+    })
+  }
+/>
+
+<Input
+  dir="rtl"
+  value={exp.company.ar}
+  onChange={(e) =>
+    updateWorkExperience(exp.id, 'company', {
+      ...exp.company,
+      ar: e.target.value
+    })
+  }
+/>
+
+
+<Label>الشركة (عربي)</Label>
+<Input
+  value={exp.company.ar}
+  dir="rtl"
+  onChange={(e) =>
+    updateWorkExperience(exp.id, 'company', {
+      ...exp.company,
+      ar: e.target.value
+    })
+  }
+/>
+
                       </div>
                       <div className="space-y-2">
                         <Label>Role / المنصب</Label>
-                        <Input
-                          value={exp.role}
-                          onChange={(e) => updateWorkExperience(exp.id, 'role', e.target.value)}
-                          placeholder="Job title"
-                          className="bg-background/50 border-glass-border"
-                        />
+                       <Input
+  value={exp.role.en}
+  onChange={(e) =>
+    updateWorkExperience(exp.id, 'role', {
+      ...exp.role,
+      en: e.target.value
+    })
+  }
+/>
+
+<Input
+  dir="rtl"
+  value={exp.role.ar}
+  onChange={(e) =>
+    updateWorkExperience(exp.id, 'role', {
+      ...exp.role,
+      ar: e.target.value
+    })
+  }
+/>
+
                       </div>
                     </div>
 
@@ -812,12 +874,26 @@ const [home, setHome] = useState<HomeSettings>({
                     <div className="space-y-2">
                       <Label>Description / الوصف</Label>
                       <Textarea
-                        value={exp.description}
-                        onChange={(e) => updateWorkExperience(exp.id, 'description', e.target.value)}
-                        placeholder="Describe your responsibilities and achievements..."
-                        rows={2}
-                        className="bg-background/50 border-glass-border"
-                      />
+  value={exp.description.en}
+  onChange={(e) =>
+    updateWorkExperience(exp.id, 'description', {
+      ...exp.description,
+      en: e.target.value
+    })
+  }
+/>
+
+<Textarea
+  dir="rtl"
+  value={exp.description.ar}
+  onChange={(e) =>
+    updateWorkExperience(exp.id, 'description', {
+      ...exp.description,
+      ar: e.target.value
+    })
+  }
+/>
+
                     </div>
                   </div>
                 ))}
@@ -874,13 +950,20 @@ const [home, setHome] = useState<HomeSettings>({
                       <div className="space-y-2">
                         <Label>Type / النوع</Label>
                         <select
-                          value={cert.type}
-                          onChange={(e) => updateCertification(cert.id, 'type', e.target.value)}
-                          className="w-full h-10 px-3 rounded-md border border-glass-border bg-background/50 text-foreground"
-                        >
-                          <option value="certification">Certification (شهادة)</option>
-                          <option value="award">Award (جائزة)</option>
-                        </select>
+  value={cert.type}
+  onChange={(e) =>
+    updateCertification(
+      cert.id,
+      'type',
+      e.target.value as 'certification' | 'award'
+    )
+  }
+  className="w-full h-10 px-3 rounded-md border border-glass-border bg-background/50 text-foreground"
+>
+  <option value="certification">Certification (شهادة)</option>
+  <option value="award">Award (جائزة)</option>
+</select>
+
                       </div>
                       <div className="space-y-2">
                         <Label>Year / السنة</Label>
@@ -895,22 +978,65 @@ const [home, setHome] = useState<HomeSettings>({
 
                     <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label>Title / العنوان</Label>
-                        <Input
-                          value={cert.title}
-                          onChange={(e) => updateCertification(cert.id, 'title', e.target.value)}
-                          placeholder="Certification or Award name"
-                          className="bg-background/50 border-glass-border"
-                        />
+                       <Label>Title (English)</Label>
+<Input
+  value={cert.title.en}
+  onChange={(e) =>
+    updateCertification(cert.id, 'title', {
+      ...cert.title,
+      en: e.target.value
+    })
+  }
+/>
+
+<Input
+  dir="rtl"
+  value={cert.title.ar}
+  onChange={(e) =>
+    updateCertification(cert.id, 'title', {
+      ...cert.title,
+      ar: e.target.value
+    })
+  }
+/>
+
+
+<Label>العنوان (عربي)</Label>
+<Input
+  value={cert.title.ar}
+  dir="rtl"
+  onChange={(e) =>
+    updateCertification(cert.id, 'title', {
+      ...cert.title,
+      ar: e.target.value
+    })
+  }
+/>
+
                       </div>
                       <div className="space-y-2">
                         <Label>Issuer / الجهة المانحة</Label>
                         <Input
-                          value={cert.issuer}
-                          onChange={(e) => updateCertification(cert.id, 'issuer', e.target.value)}
-                          placeholder="Organization name"
-                          className="bg-background/50 border-glass-border"
-                        />
+  value={cert.issuer.en}
+  onChange={(e) =>
+    updateCertification(cert.id, 'issuer', {
+      ...cert.issuer,
+      en: e.target.value
+    })
+  }
+/>
+
+<Input
+  dir="rtl"
+  value={cert.issuer.ar}
+  onChange={(e) =>
+    updateCertification(cert.id, 'issuer', {
+      ...cert.issuer,
+      ar: e.target.value
+    })
+  }
+/>
+
                       </div>
                     </div>
                   </div>

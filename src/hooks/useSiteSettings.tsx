@@ -2,27 +2,28 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
-export interface LocalizedText {
-  en?: string;
-  ar?: string;
-}
+export type LocalizedText = {
+  en: string;
+  ar: string;
+};
 
 export interface WorkExperience {
   id: string;
-  company: string;
-  role: string;
+  company: LocalizedText;
+  role: LocalizedText;
+  description: LocalizedText;
   startDate: string;
   endDate: string;
-  description: string;
 }
 
 export interface Certification {
   id: string;
-  title: string;
-  issuer: string;
+  title: LocalizedText;
+  issuer: LocalizedText;
   year: string;
   type: 'certification' | 'award';
 }
+
 
 export interface DesignerInfo {
   name: string; // خليه كما هو (اسم واحد فقط)

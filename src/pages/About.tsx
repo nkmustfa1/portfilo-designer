@@ -113,7 +113,15 @@ export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
 const isMobile = window.innerWidth < 768;
   const { lang } = useLanguage();
-
+const pickLang = (
+  value?: string | { en?: string; ar?: string }
+): string => {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  return lang === "ar"
+    ? value.ar || value.en || ""
+    : value.en || value.ar || "";
+};
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end']
@@ -362,15 +370,16 @@ style={isMobile ? {} : { y: imageY }}          >
                     <div className="absolute left-0 top-0 w-2 h-2 -translate-x-[5px] rounded-full bg-foreground/30" />
                     <div className="space-y-2">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                        <h3 className="text-xl font-light text-foreground">{exp.role}</h3>
+                        
+                        <h3 className="text-xl font-light text-foreground">{pickLang(exp.role)}</h3>
                         <span className="text-sm text-muted-foreground">
                           {exp.startDate} — {exp.endDate}
                         </span>
                       </div>
-                      <p className="text-base font-light text-foreground/60">{exp.company}</p>
+                      <p className="text-base font-light text-foreground/60">{pickLang(exp.company)}</p>
                       {exp.description && (
                         <p className="text-base font-light text-foreground/80 mt-4">
-                          {exp.description}
+                          {pickLang(exp.description)}
                         </p>
                       )}
                     </div>
@@ -415,8 +424,8 @@ style={isMobile ? {} : { y: imageY }}          >
                         >
                           <span className="text-2xl">🏆</span>
                           <div>
-                            <h4 className="text-base font-light text-foreground">{award.title}</h4>
-                            <p className="text-sm text-muted-foreground">{award.issuer} • {award.year}</p>
+                            <h4 className="text-base font-light text-foreground">{pickLang(award.title)}</h4>
+                            <p className="text-sm text-muted-foreground">{pickLang(award.issuer)} • {award.year}</p>
                           </div>
                         </motion.div>
                       ))}
@@ -453,8 +462,9 @@ style={isMobile ? {} : { y: imageY }}          >
                         >
                           <span className="text-2xl">📜</span>
                           <div>
-                            <h4 className="text-base font-light text-foreground">{cert.title}</h4>
-                            <p className="text-sm text-muted-foreground">{cert.issuer} • {cert.year}</p>
+                           
+                            <h4 className="text-base font-light text-foreground">{pickLang(cert.title)}</h4>
+                            <p className="text-sm text-muted-foreground"> {pickLang(cert.issuer)} • {cert.year}</p>
                           </div>
                         </motion.div>
                       ))}
