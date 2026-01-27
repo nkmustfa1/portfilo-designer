@@ -169,11 +169,10 @@ export function Header() {
 </nav>
 
           {/* Mobile Menu */}
-         <div
+   <div
   className={cn(
     "md:hidden flex items-center",
-    // 🔥 التحكم بالترتيب
-    lang === "ar" ? "order-1" : "order-2"
+    lang === "ar" ? "mr-auto" : "ml-auto"
   )}
 >
 
