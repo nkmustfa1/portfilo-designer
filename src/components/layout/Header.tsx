@@ -71,7 +71,9 @@ export function Header() {
   const useLogo = brandSettings?.useLogo && brandSettings?.logoUrl;
   const logoUrl = brandSettings?.logoUrl;
   const headerLogoSize = brandSettings?.headerLogoSize || 'medium';
-  const { lang, toggleLang } = useLanguage();
+  const lang: "en" | "ar" = "en";
+
+const toggleLang = () => {};
 
   const logoSizeClasses = {
     small: 'h-5',
@@ -202,7 +204,7 @@ export function Header() {
                             : "text-muted-foreground hover:text-foreground"
                         )}
                       >
-                        {lang === "ar" ? link.ar : link.en}
+                        {lang === "en" ? link.ar : link.en}
 
                       </Link>
                     </motion.div>
