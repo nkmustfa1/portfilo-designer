@@ -165,7 +165,8 @@ export function Header() {
       )}
     >
       <div className="max-w-6xl mx-auto px-8 lg:px-12">
-       <div className="flex items-center  h-20">
+       <div className="flex items-center h-20 md:justify-between">
+
 
 
         
@@ -205,63 +206,69 @@ export function Header() {
 </nav>
 
           {/* Mobile Menu */}
-  <div className="flex-1 flex items-center md:hidden">
-  {lang === "en" && (
-   <MobileMenuButton
-  side="left"
-  mobileMenuOpen={mobileMenuOpen}
-  setMobileMenuOpen={setMobileMenuOpen}
-  lang={lang}
-  toggleLang={toggleLang}
-  location={location}
->
-  <Button variant="ghost" size="icon">
-    <Menu className="size-5" />
-  </Button>
-</MobileMenuButton>
 
-  )}
+<div className="flex w-full items-center md:hidden">
 
-  {lang === "ar" && (
-    <Link to="/">
+  {/* LEFT */}
+  {lang === "en" ? (
+    <MobileMenuButton
+      side="left"
+      mobileMenuOpen={mobileMenuOpen}
+      setMobileMenuOpen={setMobileMenuOpen}
+      lang={lang}
+      toggleLang={toggleLang}
+      location={location}
+    >
+      <Button variant="ghost" size="icon">
+        <Menu className="size-5" />
+      </Button>
+    </MobileMenuButton>
+  ) : (
+    <Link to="/" className="flex items-center">
       {useLogo ? (
-        <img src={logoUrl} alt={name} className={logoSizeClasses[headerLogoSize]} />
+        <img
+          src={logoUrl}
+          alt={name}
+          className={logoSizeClasses[headerLogoSize]}
+        />
       ) : (
         <span>{name}</span>
       )}
     </Link>
   )}
-</div>
 
-<div className="flex-1 flex items-center justify-end md:hidden">
-  {lang === "ar" && (
-<MobileMenuButton
-  side="right"
-  mobileMenuOpen={mobileMenuOpen}
-  setMobileMenuOpen={setMobileMenuOpen}
-  lang={lang}
-  toggleLang={toggleLang}
-  location={location}
->
-  <Button variant="ghost" size="icon">
-    <Menu className="size-5" />
-  </Button>
-</MobileMenuButton>
+  {/* SPACER (هذا هو السر ✨) */}
+  <div className="flex-1" />
 
-
-  )}
-
-  {lang === "en" && (
-    <Link to="/">
+  {/* RIGHT */}
+  {lang === "ar" ? (
+    <MobileMenuButton
+      side="right"
+      mobileMenuOpen={mobileMenuOpen}
+      setMobileMenuOpen={setMobileMenuOpen}
+      lang={lang}
+      toggleLang={toggleLang}
+      location={location}
+    >
+      <Button variant="ghost" size="icon">
+        <Menu className="size-5" />
+      </Button>
+    </MobileMenuButton>
+  ) : (
+    <Link to="/" className="flex items-center">
       {useLogo ? (
-        <img src={logoUrl} alt={name} className={logoSizeClasses[headerLogoSize]} />
+        <img
+          src={logoUrl}
+          alt={name}
+          className={logoSizeClasses[headerLogoSize]}
+        />
       ) : (
         <span>{name}</span>
       )}
     </Link>
   )}
-</div>
 
+</div>
 
         </div>
       </div>
