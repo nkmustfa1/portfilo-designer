@@ -171,8 +171,21 @@ export function Header() {
         
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center justify-between h-full">
-  
-<nav className="hidden md:flex items-center gap-10">
+    {/* Logo */}
+  <Link to="/" className="flex items-center">
+    {useLogo ? (
+      <img
+        src={logoUrl}
+        alt={name}
+        className={logoSizeClasses[headerLogoSize]}
+      />
+    ) : (
+      <span>{name}</span>
+    )}
+  </Link>
+
+<nav className="flex items-center gap-10">
+
   <div
     className={cn(
       "flex items-center gap-10",
