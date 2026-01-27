@@ -165,12 +165,13 @@ export function Header() {
       )}
     >
       <div className="max-w-6xl mx-auto px-8 lg:px-12">
-       <div className="flex items-center h-20 md:justify-between">
-
+      <div className="relative h-20">
 
 
         
           {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center justify-between h-full">
+  
 <nav className="hidden md:flex items-center gap-10">
   <div
     className={cn(
@@ -204,10 +205,10 @@ export function Header() {
     {lang === "en" ? "AR" : "EN"}
   </button>
 </nav>
-
+</div>
           {/* Mobile Menu */}
 
-<div className="flex w-full items-center md:hidden">
+<div className="absolute inset-0 flex items-center md:hidden">
 
   {/* LEFT */}
   {lang === "en" ? (
