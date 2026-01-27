@@ -118,8 +118,8 @@ const isMobile = window.innerWidth < 768;
   const name = designerInfo?.name || photographerInfo.name;
   const tagline = designerInfo?.tagline || photographerInfo.tagline;
   const biography = designerInfo?.biography || photographerInfo.biography;
-  const philosophy = designerInfo?.philosophy || photographerInfo.philosophy;
-  const approach = designerInfo?.approach || photographerInfo.approach;
+const philosophyText = toText(designerInfo?.philosophy || photographerInfo.philosophy);
+const approachText = toText(designerInfo?.approach || photographerInfo.approach);
   const portraitImage = designerInfo?.portraitImage || photographerInfo.portraitImage;
   const skills = designerInfo?.skills || photographerInfo.skills;
   const workExperience = designerInfo?.workExperience || photographerInfo.workExperience || [];
@@ -135,8 +135,8 @@ const safeSplit = (value?: unknown, separator = '\n\n'): string[] => {
   return value.split(separator);
 };
 const bioSections = safeSplit(biography);
-const philosophySections = safeSplit(philosophy);
-const approachSections = safeSplit(approach);
+const philosophySections = safeSplit(philosophyText);
+const approachSections = safeSplit(approachText);
 
   const awards = certifications.filter(c => c.type === 'award');
   const certs = certifications.filter(c => c.type === 'certification');
@@ -269,7 +269,7 @@ style={isMobile ? {} : { y: imageY }}          >
         )}
 
         {/* Approach Section */}
-        {approach && (
+        {approachText && (
           <section className="py-32 md:py-48 px-8 lg:px-20 border-t border-foreground/10 relative" style={{ zIndex: 1 }}>
             <div className="max-w-3xl mx-auto space-y-16">
               <motion.div 
