@@ -39,13 +39,20 @@ export interface DesignerInfo {
 
   workExperience: WorkExperience[];
   certifications: Certification[];
+availability: {
+  en?: string;
+  ar?: string;
+};
 
-  education: string;
+education: {
+  en?: string;
+  ar?: string;
+};
+
   location: string;
   email: string;
   phone: string;
-  availability: string;
-
+ 
   socialLinks: {
     instagram?: string;
     linkedin?: string;

@@ -39,20 +39,35 @@ export default function AdminSettings() {
   clients: [],
   workExperience: [],
   certifications: [],
-  education: '',
+  
   location: '',
   email: '',
   phone: '',
-  availability: '',
+  availability: {
+  en: '',
+  ar: '',
+},
+education: {
+  en: '',
+  ar: '',
+},
+
   socialLinks: {},
   portraitImage: ''
 });
 
-  const [home, setHome] = useState<HomeSettings>({
-    heroImage: '',
-    heroTitle: '',
-    heroSubtitle: ''
-  });
+const [home, setHome] = useState<HomeSettings>({
+  heroImage: '',
+  heroTitle: {
+    en: '',
+    ar: '',
+  },
+  heroSubtitle: {
+    en: '',
+    ar: '',
+  },
+});
+
 
   const [footer, setFooter] = useState<FooterSettings>({
     copyrightText: '',
@@ -595,20 +610,70 @@ export default function AdminSettings() {
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label>Education</Label>
-                    <Input
-                      value={designer.education}
-                      onChange={(e) => setDesigner(prev => ({ ...prev, education: e.target.value }))}
-                      placeholder="Your education"
-                    />
+                   <Label>Education</Label>
+
+<Input
+  value={designer.education?.en || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      education: {
+        ...prev.education,
+        en: e.target.value,
+      },
+    }))
+  }
+  placeholder="Education (English)"
+/>
+
+<Input
+  value={designer.education?.ar || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      education: {
+        ...prev.education,
+        ar: e.target.value,
+      },
+    }))
+  }
+  placeholder="التعليم (عربي)"
+  dir="rtl"
+/>
+
                   </div>
                   <div className="space-y-2">
-                    <Label>Availability</Label>
-                    <Input
-                      value={designer.availability}
-                      onChange={(e) => setDesigner(prev => ({ ...prev, availability: e.target.value }))}
-                      placeholder="Available for new projects"
-                    />
+                   <Label>Availability</Label>
+
+<Input
+  value={designer.availability?.en || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      availability: {
+        ...prev.availability,
+        en: e.target.value,
+      },
+    }))
+  }
+  placeholder="Availability (English)"
+/>
+
+<Input
+  value={designer.availability?.ar || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      availability: {
+        ...prev.availability,
+        ar: e.target.value,
+      },
+    }))
+  }
+  placeholder="متاح للعمل (عربي)"
+  dir="rtl"
+/>
+
                   </div>
                 </div>
 
