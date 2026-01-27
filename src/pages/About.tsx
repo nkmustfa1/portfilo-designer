@@ -38,6 +38,24 @@ const ui = {
   },
 };
 
+const renderMarkdownLite = (text: string) => {
+  return text
+    .split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g)
+    .map((part, i) => {
+      if (part.startsWith('***')) {
+        return <em key={i} className="font-semibold italic">{part.slice(3, -3)}</em>;
+      }
+      if (part.startsWith('**')) {
+        return <strong key={i} className="font-medium">{part.slice(2, -2)}</strong>;
+      }
+      if (part.startsWith('*')) {
+        return <em key={i} className="italic">{part.slice(1, -1)}</em>;
+      }
+      return <span key={i}>{part}</span>;
+    });
+};
+
+
 // Custom SVG icons for platforms not in Lucide
 const TwitterIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -207,7 +225,7 @@ style={isMobile ? {} : { y: imageY }}          >
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-3xl md:text-4xl lg:text-5xl font-light leading-tight text-foreground"
               >
-              {toText(designerInfo?.heroQuote)}
+              {renderStyledText(toText(designerInfo?.heroQuote))}
               </motion.h1>
 
               <motion.p
