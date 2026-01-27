@@ -371,24 +371,22 @@ html, body {
 @import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700&display=swap');
 
 :root {
-  --font-latin: 'Inter', sans-serif;
-  --font-arabic: 'IBM Plex Arabic', sans-serif;
+  --font-latin: Inter, sans-serif;
+  --font-arabic: 'IBM Plex Sans Arabic', sans-serif;
+  --base-font-size: 16px;
+  --heading-weight: 600;
+  --body-weight: 400;
+}
 
-  --font-size-base: 16px;
-  --font-weight-body: 400;
-  --font-weight-heading: 600;
+html {
+  font-size: var(--base-font-size);
 }
 
 body {
   font-family: var(--font-latin);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-body);
+  font-weight: var(--body-weight);
 }
 
-[dir="rtl"] body {
+[dir="rtl"] {
   font-family: var(--font-arabic);
-}
-
-h1, h2, h3, h4 {
-  font-weight: var(--font-weight-heading);
 }

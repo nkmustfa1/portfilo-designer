@@ -11,8 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Loader2, Upload, X, Plus, Briefcase, Trash2, Award } from 'lucide-react';
 import { GlassBackground, GlassCard } from '@/components/ui/GlassBackground';
-import { TYPOGRAPHY_PRESETS } from "@/config/typographyPresets"
-import type { TypographyPresetKey } from "@/config/typographyPresets"
+
 import { LATIN_FONTS, ARABIC_FONTS } from "@/config/fonts"
 
 export default function AdminSettings() {
@@ -90,9 +89,7 @@ const [brand, setBrand] = useState<BrandSettings>({
   useLogo: false,
   headerLogoSize: 'medium',
   footerLogoSize: 'medium',
-
   typography: {
-    preset: 'modern',
     fontLatin: 'inter',
     fontArabic: 'ibm',
     baseFontSize: 16,
@@ -100,6 +97,36 @@ const [brand, setBrand] = useState<BrandSettings>({
     bodyWeight: 400,
   },
 })
+useEffect(() => {
+  const t = brand.typography
+  if (!t) return
+
+  document.documentElement.style.setProperty(
+    '--font-latin',
+    LATIN_FONTS[t.fontLatin]
+  )
+
+  document.documentElement.style.setProperty(
+    '--font-arabic',
+    ARABIC_FONTS[t.fontArabic]
+  )
+
+  document.documentElement.style.setProperty(
+    '--base-font-size',
+    `${t.baseFontSize}px`
+  )
+
+  document.documentElement.style.setProperty(
+    '--heading-weight',
+    String(t.headingWeight)
+  )
+
+  document.documentElement.style.setProperty(
+    '--body-weight',
+    String(t.bodyWeight)
+  )
+}, [brand.typography])
+
 
 
   const [skillInput, setSkillInput] = useState('');
@@ -348,24 +375,7 @@ const updateCertification = <K extends keyof Certification>(
                     <Label htmlFor="useLogo" className="text-foreground/80">Use logo image instead of text name</Label>
                   </div>
                       <div className="space-y-2">
-  <Label>Typography Preset</Label>
-<select
-  value={brand.typography?.preset ?? 'modern'}
-  onChange={(e) => {
-    const presetKey = e.target.value as TypographyPresetKey
-    const preset = TYPOGRAPHY_PRESETS[presetKey]
 
-    setBrand(prev => ({
-      ...prev,
-      typography: {
-        ...preset,
-        preset: presetKey,
-      },
-    }))
-  }}
-  className="w-full h-10 px-3 rounded-md border border-input bg-background"
-></select>
- 
   <p className="text-xs text-muted-foreground">
     Applies a complete typography style instantly
   </p>
@@ -420,17 +430,32 @@ const updateCertification = <K extends keyof Certification>(
 </div>
 
 <div
-  className="p-4 border rounded-lg"
+  className="p-4 border rounded-lg space-y-2"
   style={{
-    fontFamily: brand.typography.fontLatin,
-    fontSize: brand.typography.baseFontSize
+    fontSize: `${brand.typography.baseFontSize}px`,
   }}
 >
-  <p>English Preview Text</p>
-  <p dir="rtl" style={{ fontFamily: brand.typography.fontArabic }}>
+  <p
+    style={{
+      fontFamily: LATIN_FONTS[brand.typography.fontLatin],
+      fontWeight: brand.typography.bodyWeight,
+    }}
+  >
+    English Preview Text
+  </p>
+
+  <p
+    dir="rtl"
+    style={{
+      fontFamily: ARABIC_FONTS[brand.typography.fontArabic],
+      fontWeight: brand.typography.bodyWeight,
+    }}
+  >
     معاينة النص العربي
   </p>
 </div>
+
+
 
                   <div className="space-y-2">
                     <Label className="text-foreground/80">Logo Image</Label>
