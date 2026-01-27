@@ -25,25 +25,28 @@ export default function AdminSettings() {
   const heroRef = useRef<HTMLInputElement>(null);
   const logoRef = useRef<HTMLInputElement>(null);
 
-  const [designer, setDesigner] = useState<DesignerInfo>({
-    name: '',
-    tagline: '',
-    heroIntroduction: '',
-    biography: '',
-    philosophy: '',
-    approach: '',
-    skills: [],
-    clients: [],
-    workExperience: [],
-    certifications: [],
-    education: '',
-    location: '',
-    email: '',
-    phone: '',
-    availability: '',
-    socialLinks: {},
-    portraitImage: ''
-  });
+ const [designer, setDesigner] = useState<DesignerInfo>({
+  name: '',
+
+  tagline: { en: '', ar: '' },
+  heroIntroduction: { en: '', ar: '' },
+  biography: { en: '', ar: '' },
+
+  philosophy: { en: '', ar: '' },
+  approach: { en: '', ar: '' },
+
+  skills: [],
+  clients: [],
+  workExperience: [],
+  certifications: [],
+  education: '',
+  location: '',
+  email: '',
+  phone: '',
+  availability: '',
+  socialLinks: {},
+  portraitImage: ''
+});
 
   const [home, setHome] = useState<HomeSettings>({
     heroImage: '',
@@ -397,11 +400,30 @@ export default function AdminSettings() {
                   </div>
                   <div className="space-y-2">
                     <Label>Tagline</Label>
-                    <Input
-                      value={designer.tagline}
-                      onChange={(e) => setDesigner(prev => ({ ...prev, tagline: e.target.value }))}
-                      placeholder="Graphic Designer"
-                    />
+
+<Input
+  value={designer.tagline?.en || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      tagline: { ...prev.tagline, en: e.target.value }
+    }))
+  }
+  placeholder="Tagline (English)"
+/>
+
+<Input
+  value={designer.tagline?.ar || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      tagline: { ...prev.tagline, ar: e.target.value }
+    }))
+  }
+  placeholder="الشعار (عربي)"
+  dir="rtl"
+/>
+
                   </div>
                 </div>
 
@@ -438,44 +460,136 @@ export default function AdminSettings() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Hero Introduction</Label>
-                  <Textarea
-                    value={designer.heroIntroduction}
-                    onChange={(e) => setDesigner(prev => ({ ...prev, heroIntroduction: e.target.value }))}
-                    placeholder="A brief introduction..."
-                    rows={2}
-                  />
+                 <Label>Hero Introduction</Label>
+
+<Textarea
+  value={designer.heroIntroduction?.en || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      heroIntroduction: { ...prev.heroIntroduction, en: e.target.value }
+    }))
+  }
+  placeholder="Hero introduction (English)"
+  rows={2}
+/>
+
+<Textarea
+  value={designer.heroIntroduction?.ar || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      heroIntroduction: { ...prev.heroIntroduction, ar: e.target.value }
+    }))
+  }
+  placeholder="المقدمة (عربي)"
+  rows={2}
+  dir="rtl"
+/>
+
                 </div>
 
                 <div className="space-y-2">
                   <Label>Biography</Label>
-                  <Textarea
-                    value={designer.biography}
-                    onChange={(e) => setDesigner(prev => ({ ...prev, biography: e.target.value }))}
-                    placeholder="Your full biography..."
-                    rows={4}
-                  />
+
+<Textarea
+  value={designer.biography?.en || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      biography: { ...prev.biography, en: e.target.value }
+    }))
+  }
+  placeholder="Biography (English)"
+  rows={4}
+/>
+
+<Textarea
+  value={designer.biography?.ar || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      biography: { ...prev.biography, ar: e.target.value }
+    }))
+  }
+  placeholder="السيرة الذاتية (عربي)"
+  rows={4}
+  dir="rtl"
+/>
+
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Philosophy (الفلسفة)</Label>
-                  <Textarea
-                    value={designer.philosophy}
-                    onChange={(e) => setDesigner(prev => ({ ...prev, philosophy: e.target.value }))}
-                    placeholder="فلسفتك في التصميم... ما الذي تؤمن به؟"
-                    rows={3}
-                  />
+                  <Label>Philosophy</Label>
+
+<Textarea
+  value={designer.philosophy?.en || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      philosophy: {
+        ...prev.philosophy,
+        en: e.target.value,
+      },
+    }))
+  }
+  placeholder="Design philosophy (English)"
+  rows={3}
+/>
+
+<Textarea
+  value={designer.philosophy?.ar || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      philosophy: {
+        ...prev.philosophy,
+        ar: e.target.value,
+      },
+    }))
+  }
+  placeholder="فلسفة التصميم (عربي)"
+  rows={3}
+  dir="rtl"
+/>
+
                   <p className="text-xs text-muted-foreground">يظهر في قسم "Philosophy" في صفحة About</p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Approach (المنهج)</Label>
-                  <Textarea
-                    value={designer.approach}
-                    onChange={(e) => setDesigner(prev => ({ ...prev, approach: e.target.value }))}
-                    placeholder="منهجك في العمل..."
-                    rows={3}
-                  />
+                <Label>Approach</Label>
+
+<Textarea
+  value={designer.approach?.en || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      approach: {
+        ...prev.approach,
+        en: e.target.value,
+      },
+    }))
+  }
+  placeholder="Work approach (English)"
+  rows={3}
+/>
+
+<Textarea
+  value={designer.approach?.ar || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      approach: {
+        ...prev.approach,
+        ar: e.target.value,
+      },
+    }))
+  }
+  placeholder="منهج العمل (عربي)"
+  rows={3}
+  dir="rtl"
+/>
+
                   <p className="text-xs text-muted-foreground">يظهر في قسم "Approach" في صفحة About</p>
                 </div>
 

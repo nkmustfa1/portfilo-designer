@@ -25,29 +25,27 @@ export interface Certification {
 }
 
 export interface DesignerInfo {
-  name: string;
-  name_ar?: string;
+  name: string; // خليه كما هو (اسم واحد فقط)
 
-  tagline: string;
-  tagline_ar?: string;
+  tagline?: LocalizedText;
+  heroIntroduction?: LocalizedText;
+  biography?: LocalizedText;
 
-  heroIntroduction: string;
-  heroIntroduction_ar?: string;
+  philosophy?: LocalizedText;
+  approach?: LocalizedText;
 
-  biography: string;
-  biography_ar?: string;
-
-  philosophy: string;
-  approach: string;
   skills: string[];
   clients: string[];
+
   workExperience: WorkExperience[];
   certifications: Certification[];
+
   education: string;
   location: string;
   email: string;
   phone: string;
   availability: string;
+
   socialLinks: {
     instagram?: string;
     linkedin?: string;
@@ -60,8 +58,10 @@ export interface DesignerInfo {
     pinterest?: string;
     github?: string;
   };
+
   portraitImage: string;
 }
+
 
 export interface HomeSettings {
   heroImage: string;
