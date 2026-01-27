@@ -369,7 +369,9 @@ style={isMobile ? {} : { y: imageY }}          >
                     <div className="flex items-center gap-6">
                       <div className="w-16 h-px bg-foreground/20" />
                       <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                        Awards
+                        
+                        {ui[lang].awards}
+
                       </span>
                     </div>
                     <div className="space-y-6">
@@ -405,7 +407,9 @@ style={isMobile ? {} : { y: imageY }}          >
                     <div className="flex items-center gap-6">
                       <div className="w-16 h-px bg-foreground/20" />
                       <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                        Certifications
+                        
+                         {ui[lang].certifications}
+
                       </span>
                     </div>
                     <div className="space-y-6">
@@ -448,7 +452,9 @@ style={isMobile ? {} : { y: imageY }}          >
                 <div className="flex items-center gap-6">
                   <div className="w-16 h-px bg-foreground/20" />
                   <span className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                    Skills
+                    
+                     {ui[lang].skills}
+
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-3">
@@ -480,7 +486,8 @@ style={isMobile ? {} : { y: imageY }}          >
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-px bg-foreground/20" />
                       <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                        Education
+                        
+                        {ui[lang].education}
                       </span>
                     </div>
                     <p className="text-base font-light text-foreground/80 pl-14">{education}</p>
@@ -491,7 +498,8 @@ style={isMobile ? {} : { y: imageY }}          >
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-px bg-foreground/20" />
                       <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                        Availability
+                        
+                         {ui[lang].availability}
                       </span>
                     </div>
                     <p className="text-base font-light text-foreground/80 pl-14">{availability}</p>
