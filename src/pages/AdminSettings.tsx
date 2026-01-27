@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Loader2, Upload, X, Plus, Briefcase, Trash2, Award } from 'lucide-react';
 import { GlassBackground, GlassCard } from '@/components/ui/GlassBackground';
+import { TYPOGRAPHY_PRESETS } from "@/config/typographyPresets"
 
 export default function AdminSettings() {
   const navigate = useNavigate();
@@ -87,7 +88,15 @@ const [brand, setBrand] = useState<BrandSettings>({
   useLogo: false,
   headerLogoSize: 'medium',
   footerLogoSize: 'medium',
-  fontFamily: 'inter'
+
+  typography: {
+    preset: 'modern',
+    fontLatin: 'inter',
+    fontArabic: 'ibm',
+    baseFontSize: 16,
+    headingWeight: 600,
+    bodyWeight: 400,
+  },
 })
 
 
@@ -149,11 +158,12 @@ const [brand, setBrand] = useState<BrandSettings>({
     }
   }, [footerSettings, designerInfo]);
 
-  useEffect(() => {
-    if (brandSettings) {
-      setBrand(brandSettings);
-    }
-  }, [brandSettings]);
+useEffect(() => {
+  const t = brand?.typography
+  if (!t) return
+
+  // يطبق القيم مباشرة
+}, [brand?.typography])
 
   const handleImageUpload = async (file: File, type: 'portrait' | 'hero' | 'logo') => {
     setUploading(true);
@@ -335,36 +345,45 @@ const updateCertification = <K extends keyof Certification>(
                     />
                     <Label htmlFor="useLogo" className="text-foreground/80">Use logo image instead of text name</Label>
                   </div>
-                        <div className="space-y-2">
-  <Label className="text-foreground/80">Font Family</Label>
+                      <div className="space-y-2">
+  <Label>Typography Preset</Label>
 
   <select
-    value={brand.fontFamily || 'inter'}
-    onChange={(e) =>
+    value={brand.typography?.preset || 'modern'}
+    onChange={(e) => {
+      const presetKey = e.target.value as keyof typeof TYPOGRAPHY_PRESETS
+      const preset = TYPOGRAPHY_PRESETS[presetKey]
+
       setBrand(prev => ({
         ...prev,
-        fontFamily: e.target.value as BrandSettings['fontFamily']
+        typography: {
+          ...preset,
+          preset: presetKey,
+        },
       }))
-    }
-    className="w-full h-10 px-3 rounded-md border border-foreground/10 bg-background/50 text-foreground"
+    }}
+    className="w-full h-10 px-3 rounded-md border border-input bg-background"
   >
-  <option value="inter">Inter</option>
-<option value="poppins">Poppins</option>
-<option value="dm-sans">DM Sans</option>
-<option value="manrope">Manrope</option>
-<option value="space-grotesk">Space Grotesk</option>
-<option value="playfair">Playfair Display</option>
-
-<option value="ibm-arabic">IBM Plex Arabic</option>
-<option value="noto-kufi">Noto Kufi Arabic</option>
-<option value="almarai">Almarai</option>
-<option value="changa">Changa</option>
-<option value="rubik-arabic">Rubik Arabic</option>
-
+    <option value="modern">Modern Clean</option>
+    <option value="creative">Creative</option>
+    <option value="luxury">Luxury</option>
+    <option value="minimal">Minimal</option>
   </select>
 
   <p className="text-xs text-muted-foreground">
-    This font will be applied to all website text
+    Applies a complete typography style instantly
+  </p>
+</div>
+<div
+  className="p-4 border rounded-lg"
+  style={{
+    fontFamily: brand.typography.fontLatin,
+    fontSize: brand.typography.baseFontSize
+  }}
+>
+  <p>English Preview Text</p>
+  <p dir="rtl" style={{ fontFamily: brand.typography.fontArabic }}>
+    معاينة النص العربي
   </p>
 </div>
 

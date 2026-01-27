@@ -109,15 +109,26 @@ export interface FooterSettings {
   socialLinks: FooterSocialLink[];
 }
 
+export interface TypographySettings {
+  preset?: 'modern' | 'creative' | 'luxury' | 'minimal' | 'custom'
+
+  fontLatin: string
+  fontArabic: string
+
+  baseFontSize: number
+  headingWeight: number
+  bodyWeight: number
+}
+
 export interface BrandSettings {
   logoUrl: string
   useLogo: boolean
   headerLogoSize: 'small' | 'medium' | 'large'
   footerLogoSize: 'small' | 'medium' | 'large'
 
-  // ✅ جديد
-  fontFamily?: 'inter' | 'poppins' | 'cairo' | 'tajawal'
+  typography?: TypographySettings
 }
+
 
 export function useSiteSettings<T>(key: string) {
   return useQuery({
