@@ -225,7 +225,8 @@ style={isMobile ? {} : { y: imageY }}          >
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-3xl md:text-4xl lg:text-5xl font-light leading-tight text-foreground"
               >
-              {renderStyledText(toText(designerInfo?.heroQuote))}
+              {renderMarkdownLite(toText(designerInfo?.heroQuote))}
+
               </motion.h1>
 
               <motion.p
