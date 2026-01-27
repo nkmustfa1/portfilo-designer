@@ -99,12 +99,14 @@ export function Header() {
           {/* Logo */}
           <Link
             to="/"
-            className={cn(
-              'transition-all duration-300',
-              isTransparent
-                ? 'text-white hover:opacity-70'
-                : 'text-foreground hover:opacity-70'
-            )}
+           className={cn(
+  'transition-all duration-300',
+  lang === "ar" ? "mr-auto" : "ml-auto",
+  isTransparent
+    ? 'text-white hover:opacity-70'
+    : 'text-foreground hover:opacity-70'
+)}
+
           >
             <motion.div
               initial={{ opacity: 0 }}
