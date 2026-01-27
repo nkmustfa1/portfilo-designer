@@ -100,16 +100,17 @@ export function Header() {
 
           {/* Logo */}
           <Link
-            to="/"
-           className={cn(
-  'transition-all duration-300',
-  lang === "ar",
-  isTransparent
-    ? 'text-white hover:opacity-70'
-    : 'text-foreground hover:opacity-70'
-)}
+  to="/"
+  className={cn(
+    'transition-all duration-300',
+    isTransparent
+      ? 'text-white hover:opacity-70'
+      : 'text-foreground hover:opacity-70',
+    // 🔥 التحكم بالترتيب
+    lang === "ar" ? "order-2 md:order-1" : "order-1"
+  )}
+>
 
-          >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -171,9 +172,11 @@ export function Header() {
          <div
   className={cn(
     "md:hidden flex items-center",
-    lang === "ar"
+    // 🔥 التحكم بالترتيب
+    lang === "ar" ? "order-1" : "order-2"
   )}
 >
+
 
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
