@@ -12,7 +12,6 @@ import { GlassCard } from '@/components/ui/GlassBackground';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
-import { useLanguage } from "@/context/LanguageContext";
 
 
 
@@ -22,7 +21,7 @@ import { useLanguage } from "@/context/LanguageContext";
  */
 export default function Home() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-const { lang } = useLanguage();
+const lang: "en" | "ar" = "ar";
 
 useEffect(() => {
   const onResize = () => setIsMobile(window.innerWidth < 768);
