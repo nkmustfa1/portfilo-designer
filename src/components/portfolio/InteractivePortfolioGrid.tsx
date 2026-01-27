@@ -10,23 +10,16 @@ interface InteractivePortfolioGridProps {
   projects: Project[];
 }
 
-const { lang } = useLanguage();
-const isAr = lang === "ar";
-
-const categories = useMemo(
-  () => [
-    { value: 'all', label: isAr ? 'كل الأعمال' : 'All Work' },
-    { value: 'branding', label: isAr ? 'الهوية البصرية' : 'Branding' },
-    { value: 'print', label: isAr ? 'المطبوعات' : 'Print' },
-    { value: 'social-media', label: isAr ? 'وسائل التواصل' : 'Social Media' },
-    { value: 'ai', label: isAr ? 'الذكاء الاصطناعي' : 'AI' },
-    { value: 'packaging', label: isAr ? 'التغليف' : 'Packaging' },
-    { value: 'merchandise', label: isAr ? 'المنتجات' : 'Merchandise' },
-    { value: 'others', label: isAr ? 'أخرى' : 'Others' },
-  ],
-  [isAr]
-);
-
+const getCategories = (lang: "en" | "ar") => [
+  { value: 'all', label: lang === 'ar' ? 'كل الأعمال' : 'All Work' },
+  { value: 'branding', label: lang === 'ar' ? 'الهوية' : 'Branding' },
+  { value: 'print', label: lang === 'ar' ? 'مطبوعات' : 'Print' },
+  { value: 'social-media', label: lang === 'ar' ? 'سوشيال ميديا' : 'Social Media' },
+  { value: 'ai', label: 'AI' },
+  { value: 'packaging', label: lang === 'ar' ? 'التغليف' : 'Packaging' },
+  { value: 'merchandise', label: lang === 'ar' ? 'منتجات' : 'Merchandise' },
+  { value: 'others', label: lang === 'ar' ? 'أخرى' : 'Others' },
+];
 
 // 3D Tilt Card Component with mouse tracking
 const ParallaxProjectCard = forwardRef<HTMLDivElement, { 
@@ -256,7 +249,9 @@ const ParallaxProjectCard = forwardRef<HTMLDivElement, {
 export function InteractivePortfolioGrid({ projects }: InteractivePortfolioGridProps) {
   const [activeFilter, setActiveFilter] = useState<ProjectCategory | 'all'>('all');
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const { lang } = useLanguage();
 
+  const categories = getCategories(lang);
   const filteredProjects = useMemo(() => {
     if (activeFilter === 'all') return projects;
     return projects.filter((p) => p.category === activeFilter);
