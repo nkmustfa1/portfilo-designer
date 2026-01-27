@@ -17,6 +17,32 @@ const navLinks = [
   { en: "Contact", ar: "تواصل", path: "/contact" },
 ];
 
+function MobileMenuButton({
+  side,
+  mobileMenuOpen,
+  setMobileMenuOpen,
+  children,
+}: {
+  side: "left" | "right";
+  mobileMenuOpen: boolean;
+  setMobileMenuOpen: (v: boolean) => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+      <SheetTrigger asChild>
+        {children}
+      </SheetTrigger>
+
+      <SheetContent
+        side={side}
+        className="w-full sm:w-80 bg-background border-foreground/5"
+      >
+        {/* محتوى القائمة */}
+      </SheetContent>
+    </Sheet>
+  );
+}
 
 /**
  * NavLink component with elegant hover animation
@@ -135,11 +161,17 @@ export function Header() {
 </nav>
 
           {/* Mobile Menu */}
-   <div className="flex-1 flex items-center md:hidden">
+  <div className="flex-1 flex items-center md:hidden">
   {lang === "en" && (
-    <Button variant="ghost" size="icon">
-      <Menu className="size-5" />
-    </Button>
+    <MobileMenuButton
+      side="left"
+      mobileMenuOpen={mobileMenuOpen}
+      setMobileMenuOpen={setMobileMenuOpen}
+    >
+      <Button variant="ghost" size="icon">
+        <Menu className="size-5" />
+      </Button>
+    </MobileMenuButton>
   )}
 
   {lang === "ar" && (
@@ -152,11 +184,18 @@ export function Header() {
     </Link>
   )}
 </div>
+
 <div className="flex-1 flex items-center justify-end md:hidden">
   {lang === "ar" && (
-    <Button variant="ghost" size="icon">
-      <Menu className="size-5" />
-    </Button>
+    <MobileMenuButton
+      side="right"
+      mobileMenuOpen={mobileMenuOpen}
+      setMobileMenuOpen={setMobileMenuOpen}
+    >
+      <Button variant="ghost" size="icon">
+        <Menu className="size-5" />
+      </Button>
+    </MobileMenuButton>
   )}
 
   {lang === "en" && (
@@ -169,6 +208,7 @@ export function Header() {
     </Link>
   )}
 </div>
+
 
         </div>
       </div>
