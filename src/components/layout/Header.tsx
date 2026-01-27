@@ -17,32 +17,7 @@ const navLinks = [
   { en: "Contact", ar: "تواصل", path: "/contact" },
 ];
 
-function MobileMenuButton({
-  side,
-  mobileMenuOpen,
-  setMobileMenuOpen,
-  children,
-}: {
-  side: "left" | "right";
-  mobileMenuOpen: boolean;
-  setMobileMenuOpen: (v: boolean) => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-      <SheetTrigger asChild>
-        {children}
-      </SheetTrigger>
 
-      <SheetContent
-        side={side}
-        className="w-full sm:w-80 bg-background border-foreground/5"
-      >
-        {/* محتوى القائمة */}
-      </SheetContent>
-    </Sheet>
-  );
-}
 
 /**
  * NavLink component with elegant hover animation
@@ -81,6 +56,75 @@ function NavLink({
   );
 }
 
+function MobileMenuButton({
+  side,
+  mobileMenuOpen,
+  setMobileMenuOpen,
+  lang,
+  toggleLang,
+  location,
+  children,
+}: {
+  side: "left" | "right";
+  mobileMenuOpen: boolean;
+  setMobileMenuOpen: (v: boolean) => void;
+  lang: "en" | "ar";
+  toggleLang: () => void;
+  location: ReturnType<typeof useLocation>;
+  children: React.ReactNode;
+}) 
+ {
+  return (
+    <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+      <SheetTrigger asChild>
+        {children}
+      </SheetTrigger>
+
+      <SheetContent
+  side={side}
+  className="w-full sm:w-80 bg-background border-foreground/5"
+>
+  {/* زر تغيير اللغة */}
+  <button
+    onClick={() => {
+      toggleLang();
+      setMobileMenuOpen(false);
+    }}
+    className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground"
+  >
+    {lang === "en" ? "العربية" : "English"}
+  </button>
+
+  {/* روابط القائمة */}
+  <nav className="flex flex-col gap-8 mt-16">
+    {navLinks.map((link, index) => (
+      <motion.div
+        key={link.path}
+        initial={{ opacity: 0, x: side === "right" ? 20 : -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.1 * index }}
+      >
+        <Link
+          to={link.path}
+          onClick={() => setMobileMenuOpen(false)}
+          className={cn(
+            "text-2xl font-light tracking-wide transition-opacity duration-300",
+            lang === "ar" ? "text-right" : "text-left",
+            location.pathname === link.path
+              ? "text-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          {lang === "ar" ? link.ar : link.en}
+        </Link>
+      </motion.div>
+    ))}
+  </nav>
+</SheetContent>
+
+    </Sheet>
+  );
+}
 /**
  * Main header component with scroll-aware styling
  * Transparent on hero section, solid when scrolled
@@ -163,15 +207,19 @@ export function Header() {
           {/* Mobile Menu */}
   <div className="flex-1 flex items-center md:hidden">
   {lang === "en" && (
-    <MobileMenuButton
-      side="left"
-      mobileMenuOpen={mobileMenuOpen}
-      setMobileMenuOpen={setMobileMenuOpen}
-    >
-      <Button variant="ghost" size="icon">
-        <Menu className="size-5" />
-      </Button>
-    </MobileMenuButton>
+   <MobileMenuButton
+  side="left"
+  mobileMenuOpen={mobileMenuOpen}
+  setMobileMenuOpen={setMobileMenuOpen}
+  lang={lang}
+  toggleLang={toggleLang}
+  location={location}
+>
+  <Button variant="ghost" size="icon">
+    <Menu className="size-5" />
+  </Button>
+</MobileMenuButton>
+
   )}
 
   {lang === "ar" && (
@@ -187,15 +235,20 @@ export function Header() {
 
 <div className="flex-1 flex items-center justify-end md:hidden">
   {lang === "ar" && (
-    <MobileMenuButton
-      side="right"
-      mobileMenuOpen={mobileMenuOpen}
-      setMobileMenuOpen={setMobileMenuOpen}
-    >
-      <Button variant="ghost" size="icon">
-        <Menu className="size-5" />
-      </Button>
-    </MobileMenuButton>
+<MobileMenuButton
+  side="right"
+  mobileMenuOpen={mobileMenuOpen}
+  setMobileMenuOpen={setMobileMenuOpen}
+  lang={lang}
+  toggleLang={toggleLang}
+  location={location}
+>
+  <Button variant="ghost" size="icon">
+    <Menu className="size-5" />
+  </Button>
+</MobileMenuButton>
+
+
   )}
 
   {lang === "en" && (
