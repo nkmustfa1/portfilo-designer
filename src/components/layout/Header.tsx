@@ -129,31 +129,40 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-10">
-          {navLinks.map((link, index) => (
-  <motion.div key={link.path}>
-    <NavLink 
-      link={link}
-      lang={lang}
-      isActive={location.pathname === link.path}
-      isTransparent={isTransparent}
-    />
-  </motion.div>
-))}
+<nav className="hidden md:flex items-center gap-10">
+  <div
+    className={cn(
+      "flex items-center gap-10",
+      lang === "ar" ? "text-right" : "text-left",
 
-            <button
-  onClick={toggleLang}
-  className={cn(
-    "text-xs tracking-[0.15em] uppercase transition-opacity",
-    isTransparent
-      ? "text-white/70 hover:text-white"
-      : "text-muted-foreground hover:text-foreground"
-  )}
->
-  {lang === "en" ? "AR" : "EN"}
-</button>
+      lang === "ar" ? "flex-row-reverse" : "flex-row"
+      
+    )}
+  >
+    {navLinks.map((link) => (
+      <NavLink
+        key={link.path}
+        link={link}
+        lang={lang}
+        isActive={location.pathname === link.path}
+        isTransparent={isTransparent}
+        
+      />
+    ))}
+  </div>
 
-          </nav>
+  <button
+    onClick={toggleLang}
+    className={cn(
+      "text-xs tracking-[0.15em] uppercase transition-opacity",
+      isTransparent
+        ? "text-white/70 hover:text-white"
+        : "text-muted-foreground hover:text-foreground"
+    )}
+  >
+    {lang === "en" ? "AR" : "EN"}
+  </button>
+</nav>
 
           {/* Mobile Menu */}
           <div className="md:hidden flex items-center">
@@ -173,7 +182,11 @@ export function Header() {
                   <Menu className="size-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full sm:w-80 bg-background border-foreground/5">
+              <SheetContent
+  side={lang === "ar" ? "left" : "right"}
+  className="w-full sm:w-80 bg-background border-foreground/5"
+>
+
                 <button
   onClick={() => {
     toggleLang();
@@ -188,8 +201,9 @@ export function Header() {
                   {navLinks.map((link, index) => (
                     <motion.div
                       key={link.path}
-                      initial={{ opacity: 0, x: 20 }}
+                      initial={{ opacity: 0, x: lang === "ar" ? -20 : 20 }}
                       animate={{ opacity: 1, x: 0 }}
+
                       transition={{ delay: 0.1 * index }}
                     >
                       <Link
@@ -197,6 +211,8 @@ export function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                         className={cn(
                           "text-2xl font-light tracking-wide transition-opacity duration-300",
+                          lang === "ar" ? "text-right" : "text-left",
+
                           location.pathname === link.path 
                             ? "text-foreground" 
                             : "text-muted-foreground hover:text-foreground"
