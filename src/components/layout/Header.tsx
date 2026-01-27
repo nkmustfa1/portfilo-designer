@@ -183,9 +183,10 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent
-  side={lang === "ar" ? "left" : "right"}
+  side={lang === "ar" ? "right" : "left"}
   className="w-full sm:w-80 bg-background border-foreground/5"
 >
+
 
                 <button
   onClick={() => {
@@ -201,7 +202,8 @@ export function Header() {
                   {navLinks.map((link, index) => (
                     <motion.div
                       key={link.path}
-                      initial={{ opacity: 0, x: lang === "ar" ? -20 : 20 }}
+                      initial={{ opacity: 0, x: lang === "ar" ? 20 : -20 }}
+
                       animate={{ opacity: 1, x: 0 }}
 
                       transition={{ delay: 0.1 * index }}
