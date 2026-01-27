@@ -48,6 +48,8 @@ export default function Contact() {
   if (isLoading) {
     return <LoadingFallback />;
   }
+   const { lang } = useLanguage();
+ 
 const pickLang = (
   value?: string | { en?: string; ar?: string }
 ): string => {
@@ -68,7 +70,6 @@ const location = pickLang(
 const availability = pickLang(
   designerInfo?.availability || photographerInfo.availability
 );
-  const { lang } = useLanguage();
  
 const pickValue = (en?: string, ar?: string) =>
   lang === "ar" ? ar || en : en;
