@@ -121,13 +121,17 @@ const isMobile = window.innerWidth < 768;
   const email = designerInfo?.email || photographerInfo.email;
   const availability = designerInfo?.availability || photographerInfo.availability;
   const footerSocialLinks = footerSettings?.socialLinks || [];
+const safeSplit = (value?: unknown, separator = '\n\n'): string[] => {
+  if (typeof value !== 'string') return [];
+  return value.split(separator);
+};
+const bioSections = safeSplit(biography);
+const philosophySections = safeSplit(philosophy);
+const approachSections = safeSplit(approach);
 
-  const bioSections = biography.split('\n\n');
-  const philosophySections = philosophy?.split('\n\n') || [];
-  const approachSections = approach.split('\n\n');
-  
   const awards = certifications.filter(c => c.type === 'award');
   const certs = certifications.filter(c => c.type === 'certification');
+
 
   return (
     <>
