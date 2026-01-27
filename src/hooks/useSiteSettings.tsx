@@ -30,7 +30,10 @@ export interface DesignerInfo {
   tagline?: LocalizedText;
   heroIntroduction?: LocalizedText;
   biography?: LocalizedText;
-
+    heroQuote?: {
+    en: string;
+    ar: string;
+  };
   philosophy?: LocalizedText;
   approach?: LocalizedText;
 

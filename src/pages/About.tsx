@@ -207,10 +207,7 @@ style={isMobile ? {} : { y: imageY }}          >
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-3xl md:text-4xl lg:text-5xl font-light leading-tight text-foreground"
               >
-                I believe design should be{' '}
-                <em className="font-normal italic">intentional</em>,{' '}
-                <em className="font-normal italic">timeless</em>, and{' '}
-                <em className="font-normal italic">meaningful</em>.
+              {toText(designerInfo?.heroQuote)}
               </motion.h1>
 
               <motion.p

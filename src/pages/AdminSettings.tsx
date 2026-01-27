@@ -34,7 +34,10 @@ export default function AdminSettings() {
 
   philosophy: { en: '', ar: '' },
   approach: { en: '', ar: '' },
-
+  heroQuote: {
+  en: string;
+  ar: string;
+}
   skills: [],
   clients: [],
   workExperience: [],
@@ -673,6 +676,31 @@ const [home, setHome] = useState<HomeSettings>({
   placeholder="متاح للعمل (عربي)"
   dir="rtl"
 />
+<Label>Hero Quote</Label>
+
+<Textarea
+  value={designer.heroQuote?.en || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      heroQuote: { ...prev.heroQuote, en: e.target.value }
+    }))
+  }
+  placeholder="Hero quote (English)"
+/>
+
+<Textarea
+  value={designer.heroQuote?.ar || ''}
+  onChange={(e) =>
+    setDesigner(prev => ({
+      ...prev,
+      heroQuote: { ...prev.heroQuote, ar: e.target.value }
+    }))
+  }
+  placeholder="النص الرئيسي (عربي)"
+  dir="rtl"
+/>
+
 
                   </div>
                 </div>
