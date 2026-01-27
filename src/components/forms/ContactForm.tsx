@@ -5,6 +5,8 @@ import * as z from 'zod';
 import { motion } from 'framer-motion';
 import { Loader2, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from "@/context/LanguageContext";
+
 import {
   Form,
   FormControl,
@@ -23,6 +25,29 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+
+const TEXT = {
+  name: { en: "Name", ar: "الاسم" },
+  namePH: { en: "Your full name", ar: "اسمك الكامل" },
+
+  email: { en: "Email", ar: "البريد الإلكتروني" },
+  emailPH: { en: "your@email.com", ar: "example@email.com" },
+
+  projectType: { en: "Project Type", ar: "نوع المشروع" },
+  projectPH: { en: "Select project type", ar: "اختر نوع المشروع" },
+
+  message: { en: "Message", ar: "الرسالة" },
+  messagePH: { en: "Tell me about your project...", ar: "حدثني عن مشروعك..." },
+
+  send: { en: "Send Message", ar: "إرسال الرسالة" },
+  sending: { en: "Sending...", ar: "جاري الإرسال..." },
+
+  successTitle: { en: "Message Sent!", ar: "تم إرسال الرسالة" },
+  successDesc: {
+    en: "Thank you for reaching out. I'll get back to you soon.",
+    ar: "شكرًا لتواصلك معي، سأرد عليك في أقرب وقت."
+  }
+};
 
 /* ===============================
    Validation Schema
@@ -60,6 +85,10 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { lang } = useLanguage();
+const isAr = lang === "ar";
+const t = (obj: { en: string; ar: string }) =>
+  isAr ? obj.ar : obj.en;
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -119,10 +148,9 @@ export function ContactForm() {
         >
           <CheckCircle2 className="size-16 mx-auto text-green-600 dark:text-green-400" />
         </motion.div>
-        <h3 className="text-2xl font-light tracking-wide">Message Sent!</h3>
-        <p className="text-muted-foreground font-light leading-relaxed">
-          Thank you for reaching out. I'll get back to you as soon as possible.
-        </p>
+        <h3 className="text-2xl font-light">{t(TEXT.successTitle)}</h3>
+<p className="text-muted-foreground">{t(TEXT.successDesc)}</p>
+
       </motion.div>
     );
   }
@@ -132,7 +160,11 @@ export function ContactForm() {
   ================================ */
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+     <form
+  dir={isAr ? "rtl" : "ltr"}
+  onSubmit={form.handleSubmit(onSubmit)}
+  className="space-y-6"
+>
 
         {/* Name */}
         <FormField
@@ -140,9 +172,11 @@ export function ContactForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+             <FormLabel>{t(TEXT.name)}</FormLabel>
+
               <FormControl>
-                <Input placeholder="Your full name" {...field} />
+               <Input placeholder={t(TEXT.namePH)} {...field} />
+
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -155,9 +189,12 @@ export function ContactForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t(TEXT.email)}</FormLabel>
+
+             
               <FormControl>
-                <Input type="email" placeholder="your@email.com" {...field} />
+                <Input placeholder={t(TEXT.emailPH)} {...field} />
+
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -170,21 +207,24 @@ export function ContactForm() {
           name="projectType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Project Type</FormLabel>
+            <FormLabel>{t(TEXT.projectType)}</FormLabel>
+
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select project type" />
+                  <SelectValue placeholder={t(TEXT.projectPH)} />
+
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="branding">Branding</SelectItem>
-                  <SelectItem value="print">Print</SelectItem>
-                  <SelectItem value="social-media">Social Media</SelectItem>
-                  <SelectItem value="ai">AI</SelectItem>
-                  <SelectItem value="packaging">Packaging</SelectItem>
-                  <SelectItem value="merchandise">Merchandise</SelectItem>
-                  <SelectItem value="others">Others</SelectItem>
+              <SelectItem value="branding">{isAr ? "هوية بصرية" : "Branding"}</SelectItem>
+<SelectItem value="print">{isAr ? "مطبوعات" : "Print"}</SelectItem>
+<SelectItem value="social-media">{isAr ? "سوشيال ميديا" : "Social Media"}</SelectItem>
+<SelectItem value="ai">AI</SelectItem>
+<SelectItem value="packaging">{isAr ? "تغليف" : "Packaging"}</SelectItem>
+<SelectItem value="merchandise">{isAr ? "منتجات" : "Merchandise"}</SelectItem>
+<SelectItem value="others">{isAr ? "أخرى" : "Others"}</SelectItem>
+
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -198,13 +238,11 @@ export function ContactForm() {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Message</FormLabel>
+              <FormLabel>{t(TEXT.message)}</FormLabel>
+
+
               <FormControl>
-                <Textarea
-                  placeholder="Tell me about your project..."
-                  className="min-h-32 resize-none"
-                  {...field}
-                />
+               <Textarea placeholder={t(TEXT.messagePH)} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -219,16 +257,17 @@ export function ContactForm() {
         )}
 
         {/* Submit */}
-        <Button type="submit" className="w-full py-6" disabled={isSubmitting}>
-          {isSubmitting ? (
-            <>
-              <Loader2 className="mr-2 size-5 animate-spin" />
-              Sending...
-            </>
-          ) : (
-            'Send Message'
-          )}
-        </Button>
+        <Button type="submit" disabled={isSubmitting}>
+  {isSubmitting ? (
+    <>
+      <Loader2 className="mr-2 size-5 animate-spin" />
+      {t(TEXT.sending)}
+    </>
+  ) : (
+    t(TEXT.send)
+  )}
+</Button>
+
       </form>
     </Form>
   );
