@@ -4,6 +4,7 @@ import { photographerInfo } from '@/data/photographer';
 import { useDesignerInfo, useFooterSettings, useBrandSettings } from '@/hooks/useSiteSettings';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { useLanguage } from "@/context/LanguageContext";
 
 // Custom SVG icons for platforms not in Lucide
 const TwitterIcon = ({ className }: { className?: string }) => (
@@ -45,6 +46,7 @@ export function Footer() {
   const { data: designerInfo } = useDesignerInfo();
   const { data: footerSettings } = useFooterSettings();
   const { data: brandSettings } = useBrandSettings();
+  const { lang } = useLanguage();
 
   const name = designerInfo?.name || photographerInfo.name;
   const designerSocialLinks = designerInfo?.socialLinks || photographerInfo.socialLinks;
@@ -53,7 +55,10 @@ export function Footer() {
   const useLogo = brandSettings?.useLogo && brandSettings?.logoUrl;
   const logoUrl = brandSettings?.logoUrl;
   const footerLogoSize = brandSettings?.footerLogoSize || 'medium';
-  
+  const footerText = {
+  en: "Let's create something meaningful together.",
+  ar: "دعنا نصنع شيئًا ذا معنى معًا."
+};
   const logoSizeClasses = {
     small: 'h-5',
     medium: 'h-6',
@@ -85,20 +90,29 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-t border-foreground/5">
+    <footer
+  dir={lang === "ar" ? "rtl" : "ltr"}
+  className="relative border-t border-foreground/5"
+>
+
       <div className="max-w-6xl mx-auto px-8 lg:px-12 py-16">
         <div className="flex flex-col items-center text-center space-y-10">
           
           {/* Personal Message */}
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-xl md:text-2xl font-light text-foreground/80 tracking-wide max-w-md"
-          >
-            Let's create something meaningful together.
-          </motion.p>
+        <motion.p 
+        
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.6 }}
+  className={cn(
+    "text-xl md:text-2xl font-light tracking-wide max-w-md",
+    lang === "ar" ? "text-right" : "text-center"
+  )}
+>
+  {lang === "ar" ? footerText.ar : footerText.en}
+</motion.p>
+
 
           {/* Social Links */}
           {showSocialLinks && footerSocialLinks.length > 0 && (
