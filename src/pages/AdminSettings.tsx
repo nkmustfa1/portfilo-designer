@@ -348,10 +348,19 @@ const updateCertification = <K extends keyof Certification>(
     }
     className="w-full h-10 px-3 rounded-md border border-foreground/10 bg-background/50 text-foreground"
   >
-    <option value="inter">Inter (English)</option>
-    <option value="poppins">Poppins</option>
-    <option value="cairo">Cairo (Arabic)</option>
-    <option value="tajawal">Tajawal (Arabic)</option>
+  <option value="inter">Inter</option>
+<option value="poppins">Poppins</option>
+<option value="dm-sans">DM Sans</option>
+<option value="manrope">Manrope</option>
+<option value="space-grotesk">Space Grotesk</option>
+<option value="playfair">Playfair Display</option>
+
+<option value="ibm-arabic">IBM Plex Arabic</option>
+<option value="noto-kufi">Noto Kufi Arabic</option>
+<option value="almarai">Almarai</option>
+<option value="changa">Changa</option>
+<option value="rubik-arabic">Rubik Arabic</option>
+
   </select>
 
   <p className="text-xs text-muted-foreground">
