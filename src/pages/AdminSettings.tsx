@@ -34,10 +34,7 @@ export default function AdminSettings() {
 
   philosophy: { en: '', ar: '' },
   approach: { en: '', ar: '' },
-  heroQuote: {
-  en: string;
-  ar: string;
-}
+ 
   skills: [],
   clients: [],
   workExperience: [],
