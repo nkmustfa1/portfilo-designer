@@ -207,7 +207,12 @@ export function Header() {
 
           {/* Mobile Menu */}
 
-<div className="flex w-full items-center md:hidden">
+<div
+  className={cn(
+    "flex w-full items-center md:hidden",
+    lang === "ar" ? "flex-row-reverse" : "flex-row"
+  )}
+>
 
   {/* LEFT */}
   {lang === "en" ? (
