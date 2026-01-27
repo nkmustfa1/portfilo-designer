@@ -165,7 +165,13 @@ export function Header() {
 </nav>
 
           {/* Mobile Menu */}
-          <div className="md:hidden flex items-center">
+         <div
+  className={cn(
+    "md:hidden flex items-center",
+    lang === "ar" ? "order-3" : "order-1"
+  )}
+>
+
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button
