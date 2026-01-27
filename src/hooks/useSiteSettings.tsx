@@ -2,6 +2,11 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
+export interface LocalizedText {
+  en?: string;
+  ar?: string;
+}
+
 export interface WorkExperience {
   id: string;
   company: string;
@@ -21,9 +26,17 @@ export interface Certification {
 
 export interface DesignerInfo {
   name: string;
+  name_ar?: string;
+
   tagline: string;
+  tagline_ar?: string;
+
   heroIntroduction: string;
+  heroIntroduction_ar?: string;
+
   biography: string;
+  biography_ar?: string;
+
   philosophy: string;
   approach: string;
   skills: string[];
@@ -52,9 +65,20 @@ export interface DesignerInfo {
 
 export interface HomeSettings {
   heroImage: string;
-  heroTitle: string;
-  heroSubtitle: string;
+
+  heroBadge?: LocalizedText;
+  heroTitle?: LocalizedText;
+  heroSubtitle?: LocalizedText;
+
+  ctaPortfolio?: LocalizedText;
+  aboutTitle?: LocalizedText;
+  learnMore?: LocalizedText;
+  featuredLabel?: LocalizedText;
+  featuredTitle?: LocalizedText;
+  viewAll?: LocalizedText;
 }
+
+
 
 export interface FooterNavLink {
   name: string;

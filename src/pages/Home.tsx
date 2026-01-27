@@ -12,8 +12,8 @@ import { GlassCard } from '@/components/ui/GlassBackground';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
+import { useLanguage } from "@/context/LanguageContext";
 
-type Lang = "en" | "ar";
 
 
 /**
@@ -22,13 +22,22 @@ type Lang = "en" | "ar";
  */
 export default function Home() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-const lang: Lang = "ar";
+const { lang } = useLanguage();
 
 useEffect(() => {
   const onResize = () => setIsMobile(window.innerWidth < 768);
   window.addEventListener('resize', onResize);
   return () => window.removeEventListener('resize', onResize);
 }, []);
+
+const pickLang = (obj?: { en?: string; ar?: string }) => {
+  if (!obj) return "";
+  return lang === "ar" ? obj.ar || obj.en : obj.en;
+};
+const pickValue = (
+  en?: string,
+  ar?: string
+) => (lang === "ar" ? ar || en : en);
 
   const { data: dbFeaturedProjects, isLoading: isFeaturedLoading } = useFeaturedProjects();
   const { data: designerInfo, isLoading: isDesignerLoading } = useDesignerInfo();
@@ -80,35 +89,40 @@ const featuredProjects = dbFeaturedProjects?.map(p => ({
     aspectRatio: 'landscape' as const
   }))
 })) || [];
-const t = (en?: string, ar?: string) => {
-  if (lang === "ar") {
-    return ar || en || "";
-  }
-  return en || "";
-};
+
 
   // Merge database settings with fallback static data
-const name = t(
+const name = pickValue(
   designerInfo?.name,
   (designerInfo as any)?.name_ar
 );
 
-const tagline = t(
+const tagline = pickValue(
   designerInfo?.tagline,
   (designerInfo as any)?.tagline_ar
 );
 
-const heroIntroduction = t(
+const heroIntroduction = pickValue(
   designerInfo?.heroIntroduction,
   (designerInfo as any)?.heroIntroduction_ar
 );
 
-const biography = t(
+const biography = pickValue(
   designerInfo?.biography,
   (designerInfo as any)?.biography_ar
 );
 
 const heroImage = homeSettings?.heroImage;
+const heroBadge = pickLang(homeSettings?.heroBadge);
+const heroTitle = pickLang(homeSettings?.heroTitle);
+const heroSubtitle = pickLang(homeSettings?.heroSubtitle);
+
+const ctaPortfolio = pickLang(homeSettings?.ctaPortfolio);
+const aboutTitle = pickLang(homeSettings?.aboutTitle);
+const learnMore = pickLang(homeSettings?.learnMore);
+const featuredLabel = pickLang(homeSettings?.featuredLabel);
+const featuredTitle = pickLang(homeSettings?.featuredTitle);
+const viewAll = pickLang(homeSettings?.viewAll);
 
   if (
   isDesignerLoading ||
@@ -173,10 +187,8 @@ const heroImage = homeSettings?.heroImage;
               >
                 <GlassCard className="inline-flex items-center gap-2 px-4 py-2 mb-6" hover={false}>
 <span className="text-sm font-medium text-foreground/80">
-  {t(
-    "Graphic Designer & Visual Artist",
-    "مصممة جرافيك وفنانة بصرية"
-  )}
+{heroBadge}
+
 </span>
                 </GlassCard>
               </motion.div>
@@ -187,7 +199,10 @@ const heroImage = homeSettings?.heroImage;
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.3 }}
               >
-                {name}
+              
+                 {heroTitle || name}
+
+
               </motion.h1>
               
               <motion.p
@@ -217,7 +232,8 @@ const heroImage = homeSettings?.heroImage;
                   to="/portfolio"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass text-foreground font-medium transition-all hover:scale-105"
                 >
-<span>{t("View Portfolio", "عرض الأعمال")}</span>
+                  <span>{ctaPortfolio}</span>
+
                   <ArrowRight className="size-4" />
                 </Link>
               </motion.div>
@@ -255,7 +271,7 @@ const heroImage = homeSettings?.heroImage;
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.7, delay: 0.1 }}
               >
-  {t("About My Work", "عن عملي")}
+                    {aboutTitle}
               </motion.h2>
               
               <motion.p 
@@ -280,7 +296,7 @@ const heroImage = homeSettings?.heroImage;
                   to="/about"
                   className="inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-primary transition-colors group"
                 >
-                 <span>{t("Learn More About Me", "اعرف المزيد عني")}</span>
+                <span>{learnMore}</span>
 
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </Link>
@@ -300,11 +316,11 @@ const heroImage = homeSettings?.heroImage;
     >
       <motion.div {...scrollAnimationVariants.fadeLeft} className="space-y-2">
         <span className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
-  {t("Featured Work", "أعمال مميزة")}
+{featuredLabel}
 </span>
 
 <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-wide text-foreground">
-  {t("Selected Projects", "مختارات من الأعمال")}
+{featuredTitle}
 </h2>
 
       </motion.div>
@@ -315,7 +331,7 @@ const heroImage = homeSettings?.heroImage;
           className="group inline-flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors"
         >
          <span className="font-medium">
-  {t("View All", "عرض الكل")}
+{viewAll}
 </span>
 
           <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
