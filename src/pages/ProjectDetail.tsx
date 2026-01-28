@@ -8,8 +8,10 @@ import { useProject } from '@/hooks/useProjects';
 import { Lightbox } from '@/components/portfolio/Lightbox';
 import { cn } from '@/lib/utils';
 import { GlassBackground } from '@/components/ui/GlassBackground';
+import { projectDetailTranslations } from '@/i18n/projectDetail';
 import { useLanguage } from '@/context/LanguageContext';
- 
+
+
 
 /**
  * Editorial Project detail page - clean, typography-focused, minimal
@@ -23,20 +25,13 @@ export default function ProjectDetail() {
   const [isHeroMounted, setIsHeroMounted] = useState(false);
   const isMobile = window.innerWidth < 768;
   const { lang } = useLanguage();
+const t = projectDetailTranslations[lang];
 const isArabic = lang === 'ar';
-const t = {
-  back: isArabic ? 'رجوع' : 'Back',
-  client: isArabic ? 'العميل' : 'Client',
-  year: isArabic ? 'السنة' : 'Year',
-  category: isArabic ? 'التصنيف' : 'Category',
-  tools: isArabic ? 'الأدوات' : 'Tools',
-  designProcess: isArabic ? 'مراحل التصميم' : 'Design Process',
-  visualStory: isArabic ? 'الصور' : 'Visual Story',
-  images: isArabic ? 'صورة' : 'images',
-  interested: isArabic ? 'مهتم بمشروع مشابه؟' : 'Interested in a similar project?',
-  viewMore: isArabic ? 'عرض المزيد من الأعمال' : 'View More Work',
-};
 
+  
+
+
+  
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -54,7 +49,7 @@ const t = {
 
   const heroY = useTransform(heroScrollProgress, [0, 1], ['0%', '20%']);
   const heroOpacity = useTransform(heroScrollProgress, [0, 0.8], [1, 0]);
-
+  
   // Convert database project to display format
   const project = dbProject ? {
     id: dbProject.id,
@@ -114,32 +109,45 @@ const t = {
     return null;
   };
 
-  const designProcess = [
-    {
-      step: '01',
-      title: 'Concept',
-      description: getDesignProcessValue('concept') || 'Understanding the vision, goals, and context to establish a clear creative direction.'
-    },
-    {
-      step: '02',
-      title: 'Design System',
-      description: getDesignProcessValue('design_system') || 'Developing visual language, typography, colors, and core elements that define the identity.'
-    },
-    {
-      step: '03',
-      title: 'Execution',
-      description: getDesignProcessValue('execution') || 'Bringing the design to life across all touchpoints with precision and consistency.'
-    }
-  ];
+const designProcess = [
+  {
+    step: '01',
+    title: t.process.concept,
+    description:
+      getDesignProcessValue('concept') ||
+      (isArabic
+        ? 'فهم الرؤية والأهداف لتحديد الاتجاه الإبداعي.'
+        : 'Understanding the vision, goals, and context to establish a clear creative direction.'),
+  },
+  {
+    step: '02',
+    title: t.process.designSystem,
+    description:
+      getDesignProcessValue('design_system') ||
+      (isArabic
+        ? 'تطوير الهوية البصرية، الألوان، والخطوط.'
+        : 'Developing visual language, typography, colors, and core elements.'),
+  },
+  {
+    step: '03',
+    title: t.process.execution,
+    description:
+      getDesignProcessValue('execution') ||
+      (isArabic
+        ? 'تنفيذ التصميم بدقة عبر جميع المخرجات.'
+        : 'Bringing the design to life across all touchpoints.'),
+  },
+];
+
 
   return (
     <>
-      <SEOHead
-        title={project.title}
-        description={project.description}
-        image={project.coverImage}
-        type="article"
-      />
+   <SEOHead
+  title={project.title}
+  description={project.description}
+/>
+
+
       
       <div
   className="min-h-screen relative overflow-hidden"
