@@ -151,10 +151,11 @@ export default function AdminProjectEditor() {
     } else if (id) {
       await updateProject.mutateAsync({ id, ...formData });
     }
-    if (!formData.slug) {
-  alert('Slug is missing!');
+   if (!formData.slug) {
+  alert('Slug is missing. Please enter English title.');
   return;
 }
+
 
     navigate('/admin');
   };
@@ -214,6 +215,7 @@ export default function AdminProjectEditor() {
   }}
   required
 />
+
 
       </div>
 
