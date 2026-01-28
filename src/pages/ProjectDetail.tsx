@@ -19,7 +19,6 @@ import { useLanguage } from '@/context/LanguageContext';
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
   const { data: dbProject, isLoading } = useProject(slug || '');
-  const staticProject = slug ? getProjectBySlug(slug) : undefined;
   const heroRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   const [isHeroMounted, setIsHeroMounted] = useState(false);
@@ -51,28 +50,28 @@ const isArabic = lang === 'ar';
   const heroOpacity = useTransform(heroScrollProgress, [0, 0.8], [1, 0]);
   
   // Convert database project to display format
-  const project = dbProject ? {
-    id: dbProject.id,
-    title: dbProject.title,
-    slug: dbProject.slug,
-    category: dbProject.category as 'branding' | 'print' | 'packaging' | 'illustration' | 'digital',
-    description: dbProject.description || '',
-    client: dbProject.client || undefined,
-    year: dbProject.year || new Date().getFullYear().toString(),
-    tools: dbProject.tools?.join(', ') || undefined,
-    location: undefined,
-    coverImage: dbProject.main_image || '/placeholder.svg',
-    images: dbProject.gallery_images?.map((url, i) => ({
-      id: `${dbProject.id}-${i}`,
-      src: url,
-      alt: `${dbProject.title} image ${i + 1}`,
-      aspectRatio: 'landscape' as const
-    })) || [],
-    // Design Process from database
-    concept: dbProject.concept || null,
-    design_system: dbProject.design_system || null,
-    execution: dbProject.execution || null
-  } : staticProject;
+const project = dbProject
+  ? {
+      id: dbProject.id,
+      title: dbProject.title,
+      slug: dbProject.slug,
+      category: dbProject.category,
+      description: dbProject.description || '',
+      client: dbProject.client || undefined,
+      year: dbProject.year || new Date().getFullYear().toString(),
+      tools: dbProject.tools?.join(', ') || undefined,
+      coverImage: dbProject.main_image || '/placeholder.svg',
+      images: dbProject.gallery_images?.map((url, i) => ({
+        id: `${dbProject.id}-${i}`,
+        src: url,
+        alt: `${dbProject.title} image ${i + 1}`,
+        aspectRatio: 'landscape' as const
+      })) || [],
+      concept: dbProject.concept,
+      design_system: dbProject.design_system,
+      execution: dbProject.execution
+    }
+  : null;
 
   if (isLoading) {
     return (
@@ -82,9 +81,10 @@ const isArabic = lang === 'ar';
     );
   }
 
-  if (!project) {
-    return <Navigate to="/404" replace />;
-  }
+if (!isLoading && !project) {
+  return <Navigate to="/404" replace />;
+}
+
 
   const openLightbox = (index: number) => {
     setCurrentImageIndex(index);
