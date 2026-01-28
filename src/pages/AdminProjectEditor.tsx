@@ -315,6 +315,54 @@ export default function AdminProjectEditor() {
             setFormData(p => ({ ...p, execution_en: e.target.value }))
           }
           placeholder="Bringing the design to life..."
+          rows={3}
+        />
+      </div>
+    </TabsContent>
+
+    {/* Arabic */}
+    <TabsContent value="ar" className="space-y-4">
+      <div className="space-y-2">
+        <Label>المفهوم</Label>
+        <Textarea
+          dir="rtl"
+          value={formData.concept_ar}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, concept_ar: e.target.value }))
+          }
+          placeholder="شرح المفهوم والرؤية الإبداعية..."
+          rows={3}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>نظام التصميم</Label>
+        <Textarea
+          dir="rtl"
+          value={formData.design_system_ar}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, design_system_ar: e.target.value }))
+          }
+          placeholder="العناصر البصرية والألوان والخطوط..."
+          rows={3}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>التنفيذ</Label>
+        <Textarea
+          dir="rtl"
+          value={formData.execution_ar}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, execution_ar: e.target.value }))
+          }
+          placeholder="كيفية تنفيذ التصميم..."
+          rows={3}
+        />
+      </div>
+    </TabsContent>
+  </Tabs>
+</CardContent>
 
             </GlassCard>
 

@@ -192,14 +192,15 @@ export function useProjectById(id: string) {
         .from('projects')
         .select('*')
         .eq('id', id)
-        .maybeSingle();
-      
+        .maybeSingle<ProjectDB>();
+
       if (error) throw error;
-      return data as Project | null;
+      return data ?? null;
     },
     enabled: !!id
   });
 }
+
 
 export function useCreateProject() {
   const queryClient = useQueryClient();
