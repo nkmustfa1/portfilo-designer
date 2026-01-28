@@ -2,6 +2,39 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import imageCompression from 'browser-image-compression';
+import { useLanguage } from '@/context/LanguageContext';
+
+interface ProjectDB {
+  id: string;
+  slug: string;
+
+  title_en: string;
+  title_ar: string;
+
+  description_en: string | null;
+  description_ar: string | null;
+
+  client_en: string | null;
+  client_ar: string | null;
+
+  concept_en: string | null;
+  concept_ar: string | null;
+
+  design_system_en: string | null;
+  design_system_ar: string | null;
+
+  execution_en: string | null;
+  execution_ar: string | null;
+
+  category: string;
+  year: string | null;
+  tools: string[];
+  main_image: string | null;
+  gallery_images: string[];
+  featured: boolean;
+  created_at: string;
+  updated_at: string;
+}
 
 export interface Project {
   id: string;
@@ -24,21 +57,31 @@ export interface Project {
 }
 
 export interface ProjectInput {
-  title: string;
   slug: string;
   category: string;
-  description?: string;
-  client?: string;
   year?: string;
   tools?: string[];
   main_image?: string;
   gallery_images?: string[];
   featured?: boolean;
-  // Design Process fields
-  concept?: string;
-  design_system?: string;
-  execution?: string;
+
+  // English
+  title_en: string;
+  description_en?: string;
+  client_en?: string;
+  concept_en?: string;
+  design_system_en?: string;
+  execution_en?: string;
+
+  // Arabic
+  title_ar: string;
+  description_ar?: string;
+  client_ar?: string;
+  concept_ar?: string;
+  design_system_ar?: string;
+  execution_ar?: string;
 }
+
 
 export function useFeaturedProjects() {
   return useQuery({
@@ -94,21 +137,52 @@ export function useProjects() {
 }
 
 export function useProject(slug: string) {
+  const { lang } = useLanguage();
+  const isArabic = lang === 'ar';
+
   return useQuery({
-    queryKey: ['project', slug],
+    queryKey: ['project', slug, lang],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('projects')
         .select('*')
         .eq('slug', slug)
-        .maybeSingle();
-      
+        .maybeSingle<ProjectDB>();
+
       if (error) throw error;
-      return data as Project | null;
+      if (!data) return null;
+
+      // 🔥 التحويل الذكي
+      const localizedProject: Project = {
+        id: data.id,
+        slug: data.slug,
+
+        title: isArabic ? data.title_ar : data.title_en,
+        description: isArabic ? data.description_ar : data.description_en,
+        client: isArabic ? data.client_ar : data.client_en,
+
+        concept: isArabic ? data.concept_ar : data.concept_en,
+        design_system: isArabic
+          ? data.design_system_ar
+          : data.design_system_en,
+        execution: isArabic ? data.execution_ar : data.execution_en,
+
+        category: data.category,
+        year: data.year,
+        tools: data.tools,
+        main_image: data.main_image,
+        gallery_images: data.gallery_images,
+        featured: data.featured,
+        created_at: data.created_at,
+        updated_at: data.updated_at,
+      };
+
+      return localizedProject;
     },
-    enabled: !!slug
+    enabled: !!slug,
   });
 }
+
 
 export function useProjectById(id: string) {
   return useQuery({

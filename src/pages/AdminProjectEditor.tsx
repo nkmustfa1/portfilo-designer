@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Loader2, Upload, X, Plus } from 'lucide-react';
 import { GlassBackground, GlassCard } from '@/components/ui/GlassBackground';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const CATEGORIES = ['branding', 'print', 'packaging', 'illustration', 'digital', 'social-media', 'ai', 'merchandise', 'others'];
 
@@ -26,20 +27,30 @@ export default function AdminProjectEditor() {
   const galleryImageRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<ProjectInput>({
-    title: '',
-    slug: '',
-    category: 'branding',
-    description: '',
-    client: '',
-    year: new Date().getFullYear().toString(),
-    tools: [],
-    main_image: '',
-    gallery_images: [],
-    // Design Process
-    concept: '',
-    design_system: '',
-    execution: ''
-  });
+  slug: '',
+  category: 'branding',
+  year: new Date().getFullYear().toString(),
+  tools: [],
+  main_image: '',
+  gallery_images: [],
+
+  // English
+  title_en: '',
+  description_en: '',
+  client_en: '',
+  concept_en: '',
+  design_system_en: '',
+  execution_en: '',
+
+  // Arabic
+  title_ar: '',
+  description_ar: '',
+  client_ar: '',
+  concept_ar: '',
+  design_system_ar: '',
+  execution_ar: '',
+});
+
   const [toolInput, setToolInput] = useState('');
   const [uploading, setUploading] = useState(false);
 
@@ -49,25 +60,32 @@ export default function AdminProjectEditor() {
     }
   }, [user, isAdmin, authLoading, navigate]);
 
-  useEffect(() => {
-    if (existingProject && !isNew) {
-      setFormData({
-        title: existingProject.title,
-        slug: existingProject.slug,
-        category: existingProject.category,
-        description: existingProject.description || '',
-        client: existingProject.client || '',
-        year: existingProject.year || '',
-        tools: existingProject.tools || [],
-        main_image: existingProject.main_image || '',
-        gallery_images: existingProject.gallery_images || [],
-        // Design Process
-        concept: existingProject.concept || '',
-        design_system: existingProject.design_system || '',
-        execution: existingProject.execution || ''
-      });
-    }
-  }, [existingProject, isNew]);
+ useEffect(() => {
+  if (existingProject && !isNew) {
+    setFormData({
+      slug: existingProject.slug,
+      category: existingProject.category,
+      year: existingProject.year || '',
+      tools: existingProject.tools || [],
+      main_image: existingProject.main_image || '',
+      gallery_images: existingProject.gallery_images || [],
+
+      title_en: existingProject.title_en,
+      description_en: existingProject.description_en,
+      client_en: existingProject.client_en,
+      concept_en: existingProject.concept_en,
+      design_system_en: existingProject.design_system_en,
+      execution_en: existingProject.execution_en,
+
+      title_ar: existingProject.title_ar,
+      description_ar: existingProject.description_ar,
+      client_ar: existingProject.client_ar,
+      concept_ar: existingProject.concept_ar,
+      design_system_ar: existingProject.design_system_ar,
+      execution_ar: existingProject.execution_ar,
+    });
+  }
+}, [existingProject, isNew]);
 
   const generateSlug = (title: string) => {
     return title
@@ -169,113 +187,86 @@ export default function AdminProjectEditor() {
               <CardHeader>
                 <CardTitle className="text-foreground">Basic Information</CardTitle>
               </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title *</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => handleTitleChange(e.target.value)}
-                    placeholder="Project Title"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="slug">Slug *</Label>
-                  <Input
-                    id="slug"
-                    value={formData.slug}
-                    onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
-                    placeholder="project-slug"
-                    required
-                  />
-                </div>
-              </div>
-              
-              <div className="grid gap-4 md:grid-cols-3">
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category *</Label>
-                  <Select
-                    value={formData.category}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {CATEGORIES.map(cat => (
-                        <SelectItem key={cat} value={cat} className="capitalize">
-                          {cat}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="client">Client</Label>
-                  <Input
-                    id="client"
-                    value={formData.client}
-                    onChange={(e) => setFormData(prev => ({ ...prev, client: e.target.value }))}
-                    placeholder="Client Name"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="year">Year</Label>
-                  <Input
-                    id="year"
-                    value={formData.year}
-                    onChange={(e) => setFormData(prev => ({ ...prev, year: e.target.value }))}
-                    placeholder="2024"
-                  />
-                </div>
-              </div>
+           <CardContent className="space-y-6">
+  <Tabs defaultValue="en">
+    <TabsList className="grid grid-cols-2 w-48">
+      <TabsTrigger value="en">English</TabsTrigger>
+      <TabsTrigger value="ar">العربية</TabsTrigger>
+    </TabsList>
 
-              <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                  placeholder="Project description..."
-                  rows={4}
-                />
-              </div>
+    {/* English */}
+    <TabsContent value="en" className="space-y-4">
+      <div className="space-y-2">
+        <Label>Title (English)</Label>
+        <Input
+          value={formData.title_en}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, title_en: e.target.value }))
+          }
+          required
+        />
+      </div>
 
-              <div className="space-y-2">
-                <Label>Tools Used</Label>
-                <div className="flex gap-2 flex-wrap mb-2">
-                  {formData.tools?.map((tool, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"
-                    >
-                      {tool}
-                      <button type="button" onClick={() => removeTool(index)}>
-                        <X className="h-3 w-3" />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-                <div className="flex gap-2">
-                  <Input
-                    value={toolInput}
-                    onChange={(e) => setToolInput(e.target.value)}
-                    placeholder="Add a tool (e.g., Figma, Illustrator)"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addTool();
-                      }
-                    }}
-                  />
-                  <Button type="button" variant="outline" onClick={addTool}>
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-              </CardContent>
+      <div className="space-y-2">
+        <Label>Description (English)</Label>
+        <Textarea
+          value={formData.description_en}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, description_en: e.target.value }))
+          }
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Client (English)</Label>
+        <Input
+          value={formData.client_en}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, client_en: e.target.value }))
+          }
+        />
+      </div>
+    </TabsContent>
+
+    {/* Arabic */}
+    <TabsContent value="ar" className="space-y-4">
+      <div className="space-y-2">
+        <Label>العنوان</Label>
+        <Input
+          dir="rtl"
+          value={formData.title_ar}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, title_ar: e.target.value }))
+          }
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>الوصف</Label>
+        <Textarea
+          dir="rtl"
+          value={formData.description_ar}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, description_ar: e.target.value }))
+          }
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>العميل</Label>
+        <Input
+          dir="rtl"
+          value={formData.client_ar}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, client_ar: e.target.value }))
+          }
+        />
+      </div>
+    </TabsContent>
+  </Tabs>
+</CardContent>
+
             </GlassCard>
 
             {/* Design Process Section */}
@@ -284,42 +275,47 @@ export default function AdminProjectEditor() {
                 <CardTitle className="text-foreground">Design Process</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="concept">Concept</Label>
-                  <Textarea
-                    id="concept"
-                    value={formData.concept}
-                    onChange={(e) => setFormData(prev => ({ ...prev, concept: e.target.value }))}
-                    placeholder="Understanding the vision, goals, and context to establish a clear creative direction..."
-                    rows={3}
-                  />
-                  <p className="text-xs text-muted-foreground">وصف المفهوم والرؤية الإبداعية للمشروع</p>
-                </div>
+  <Tabs defaultValue="en">
+    <TabsList className="grid grid-cols-2 w-48">
+      <TabsTrigger value="en">English</TabsTrigger>
+      <TabsTrigger value="ar">العربية</TabsTrigger>
+    </TabsList>
 
-                <div className="space-y-2">
-                  <Label htmlFor="design_system">Design System</Label>
-                  <Textarea
-                    id="design_system"
-                    value={formData.design_system}
-                    onChange={(e) => setFormData(prev => ({ ...prev, design_system: e.target.value }))}
-                    placeholder="Developing visual language, typography, colors, and core elements that define the identity..."
-                    rows={3}
-                  />
-                  <p className="text-xs text-muted-foreground">نظام التصميم والعناصر البصرية المستخدمة</p>
-                </div>
+    {/* English */}
+    <TabsContent value="en" className="space-y-4">
+      <div className="space-y-2">
+        <Label>Concept (EN)</Label>
+        <Textarea
+          value={formData.concept_en}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, concept_en: e.target.value }))
+          }
+          placeholder="Understanding the vision, goals, and context..."
+          rows={3}
+        />
+      </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="execution">Execution</Label>
-                  <Textarea
-                    id="execution"
-                    value={formData.execution}
-                    onChange={(e) => setFormData(prev => ({ ...prev, execution: e.target.value }))}
-                    placeholder="Bringing the design to life across all touchpoints with precision and consistency..."
-                    rows={3}
-                  />
-                  <p className="text-xs text-muted-foreground">تنفيذ التصميم وتطبيقه على جميع نقاط التواصل</p>
-                </div>
-              </CardContent>
+      <div className="space-y-2">
+        <Label>Design System (EN)</Label>
+        <Textarea
+          value={formData.design_system_en}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, design_system_en: e.target.value }))
+          }
+          placeholder="Visual language, typography, colors..."
+          rows={3}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Execution (EN)</Label>
+        <Textarea
+          value={formData.execution_en}
+          onChange={(e) =>
+            setFormData(p => ({ ...p, execution_en: e.target.value }))
+          }
+          placeholder="Bringing the design to life..."
+
             </GlassCard>
 
             <GlassCard className="border-glass-border">

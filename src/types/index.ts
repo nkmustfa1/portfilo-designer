@@ -14,6 +14,34 @@ export interface ProjectImage {
   caption?: string;
 }
 
+export interface ProjectDB {
+  id: string;
+
+  title_en: string;
+  title_ar: string;
+
+  description_en?: string;
+  description_ar?: string;
+
+  client_en?: string;
+  client_ar?: string;
+
+  concept_en?: string;
+  concept_ar?: string;
+
+  design_system_en?: string;
+  design_system_ar?: string;
+
+  execution_en?: string;
+  execution_ar?: string;
+
+  category: string;
+  year?: string;
+  tools?: string[];
+  main_image?: string;
+  gallery_images?: string[];
+}
+
 export interface Project {
   id: string;
   title: string;
