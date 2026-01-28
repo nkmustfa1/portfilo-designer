@@ -151,7 +151,11 @@ export default function AdminProjectEditor() {
     } else if (id) {
       await updateProject.mutateAsync({ id, ...formData });
     }
-    
+    if (!formData.slug) {
+  alert('Slug is missing!');
+  return;
+}
+
     navigate('/admin');
   };
 
@@ -198,13 +202,19 @@ export default function AdminProjectEditor() {
     <TabsContent value="en" className="space-y-4">
       <div className="space-y-2">
         <Label>Title (English)</Label>
-        <Input
-          value={formData.title_en}
-          onChange={(e) =>
-            setFormData(p => ({ ...p, title_en: e.target.value }))
-          }
-          required
-        />
+       <Input
+  value={formData.title_en}
+  onChange={(e) => {
+    const title = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      title_en: title,
+      slug: isNew ? generateSlug(title) : prev.slug
+    }));
+  }}
+  required
+/>
+
       </div>
 
       <div className="space-y-2">
