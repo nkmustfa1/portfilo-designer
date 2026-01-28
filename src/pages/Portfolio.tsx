@@ -36,7 +36,7 @@ const t = (en: string, ar: string) => (isAr ? ar : en);
     })) || []
   })) || [];
 
-  const displayProjects = convertedDbProjects.length > 0 ? convertedDbProjects : staticProjects;
+  const displayProjects = convertedDbProjects;
 
   return (
     <>
@@ -115,21 +115,27 @@ const t = (en: string, ar: string) => (isAr ? ar : en);
         {/* Portfolio Grid */}
         <section className="relative pb-24 px-4 md:px-8 lg:px-12 overflow-hidden" style={{ zIndex: 1 }}>
           <div className="relative z-10 max-w-7xl mx-auto">
-            {isLoading ? (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex justify-center py-12"
-              >
-                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-              </motion.div>
-            ) : (
-              <motion.div
-                {...scrollAnimationVariants.fadeUp}
-              >
-                <InteractivePortfolioGrid projects={displayProjects} />
-              </motion.div>
-            )}
+           {isLoading ? (
+  <motion.div className="flex justify-center py-12">
+    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+  </motion.div>
+) : displayProjects.length === 0 ? (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    className="text-center py-20 text-muted-foreground"
+  >
+    {t(
+      "No projects yet. New work coming soon.",
+      "لا توجد أعمال حالياً، سيتم إضافة مشاريع قريباً."
+    )}
+  </motion.div>
+) : (
+  <motion.div {...scrollAnimationVariants.fadeUp}>
+    <InteractivePortfolioGrid projects={displayProjects} />
+  </motion.div>
+)}
+
           </div>
         </section>
       </div>
