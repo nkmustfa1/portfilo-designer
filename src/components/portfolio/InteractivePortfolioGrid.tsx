@@ -105,77 +105,143 @@ const ParallaxProjectCard = forwardRef<HTMLDivElement, {
         opacity: cardOpacity
       }}
     >
-     {/* Clickable image only */}
-<Link to={`/project/${project.slug}`} className="block relative">
-  <motion.div
-    className="relative overflow-hidden rounded-xl bg-muted/50"
-    animate={{
-      rotateX,
-      rotateY,
-      scale: isHovering ? 1.02 : 1,
-      z: isHovering ? 50 : 0,
-    }}
-    transition={{ 
-      type: 'spring', 
-      stiffness: 400, 
-      damping: 25,
-      mass: 0.5
-    }}
-    style={{ 
-      transformStyle: 'preserve-3d',
-      transformOrigin: 'center center'
-    }}
-  >
-    {/* Image */}
-    <div className="aspect-[4/3] overflow-hidden">
-      <motion.div
-        className="w-full h-[130%] -mt-[15%]"
-        style={{ y: imageY }}
+      <Link
+        to={`/project/${project.slug}`}
+        className="block relative"
       >
-        <motion.img
-          src={project.coverImage}
-          alt={project.title}
-          className="w-full h-full object-cover"
-          animate={{ scale: isHovering ? 1.15 : 1 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-        />
-      </motion.div>
-    </div>
+        <motion.div
+          className="relative overflow-hidden rounded-xl bg-muted/50"
+          animate={{
+            rotateX,
+            rotateY,
+            scale: isHovering ? 1.02 : 1,
+            z: isHovering ? 50 : 0,
+          }}
+          transition={{ 
+            type: 'spring', 
+            stiffness: 400, 
+            damping: 25,
+            mass: 0.5
+          }}
+          style={{ 
+            transformStyle: 'preserve-3d',
+            transformOrigin: 'center center'
+          }}
+        >
+          {/* Image with Parallax */}
+          <div className="aspect-[4/3] overflow-hidden">
+            <motion.div
+              className="w-full h-[130%] -mt-[15%]"
+              style={{ y: imageY }}
+            >
+              <motion.img
+                src={project.coverImage}
+                alt={project.title}
+                className="w-full h-full object-cover"
+                animate={{
+                  scale: isHovering ? 1.15 : 1,
+                }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+              />
+            </motion.div>
+          </div>
 
-    {/* Hover Overlay */}
-    <motion.div
-      className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: isHovering ? 1 : 0 }}
-      transition={{ duration: 0.3 }}
-      style={{ transform: 'translateZ(20px)' }}
-    >
-      <motion.h3
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: isHovering ? 1 : 0, y: isHovering ? 0 : 20 }}
-        transition={{ duration: 0.3 }}
-        className="text-xl md:text-2xl font-light text-white"
-      >
-        {project.title}
-      </motion.h3>
-    </motion.div>
-  </motion.div>
-</Link>
+          {/* Hover Overlay with 3D depth */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovering ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+            style={{ transform: 'translateZ(20px)' }}
+          >
+            {/* Category Badge */}
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ 
+                opacity: isHovering ? 1 : 0,
+                y: isHovering ? 0 : 10
+              }}
+              transition={{ duration: 0.3, delay: 0.05 }}
+              className="inline-flex self-start px-3 py-1 mb-3 text-xs font-medium uppercase tracking-wider bg-white/20 backdrop-blur-sm rounded-full text-white"
+            >
+              {project.category}
+            </motion.span>
 
-{/* ✅ Title below image (خارج الـ Link) */}
-<motion.div 
-  className="mt-4 space-y-1"
-  animate={{
-    opacity: isHovering ? 0 : 1,
-    y: isHovering ? -10 : 0,
-  }}
-  transition={{ duration: 0.3 }}
->
-  <h3 className="text-lg font-medium text-foreground">
-    {project.title}
-  </h3>
-</motion.div>
+            {/* Title */}
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: isHovering ? 1 : 0,
+                y: isHovering ? 0 : 20
+              }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              className="text-xl md:text-2xl font-light text-white mb-2"
+            >
+              {project.title}
+            </motion.h3>
 
+            {/* View Project */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: isHovering ? 1 : 0,
+                y: isHovering ? 0 : 20
+              }}
+              transition={{ duration: 0.3, delay: 0.15 }}
+              className="flex items-center gap-2 text-sm text-white/80"
+            >
+              <span>View Project</span>
+              <ArrowUpRight className="size-4" />
+            </motion.div>
+          </motion.div>
+
+          {/* Dynamic Shine Effect following mouse */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ opacity: isHovering ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              background: `radial-gradient(circle at ${shineX}% ${shineY}%, rgba(255,255,255,0.25) 0%, transparent 50%)`,
+            }}
+          />
+
+          {/* Edge highlight for 3D effect */}
+          <motion.div
+            className="absolute inset-0 rounded-xl pointer-events-none"
+            animate={{
+              opacity: isHovering ? 1 : 0,
+              boxShadow: isHovering 
+                ? `inset 0 0 0 1px rgba(255,255,255,0.2),
+                   0 25px 50px -12px rgba(0,0,0,0.5),
+                   0 0 0 1px rgba(255,255,255,0.1)`
+                : 'none'
+            }}
+            transition={{ duration: 0.3 }}
+          />
+        </motion.div>
+
+        {/* Info Below Card with subtle 3D lift */}
+        <motion.div 
+          className="mt-4 space-y-1"
+          animate={{
+            y: isHovering ? -5 : 0,
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          <h3 className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
+            {project.title}
+          </h3>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="capitalize">{project.category}</span>
+            {project.year && (
+              <>
+                <span>•</span>
+                <span>{project.year}</span>
+              </>
+            )}
+          </div>
+        </motion.div>
+      </Link>
     </motion.div>
   );
 });
