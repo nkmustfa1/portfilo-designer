@@ -8,17 +8,16 @@ import { useLanguage } from "@/context/LanguageContext";
 
 const normalizeProject = (p: any): Project => ({
   id: p.id,
-  title: p.title, // 🔴 نفس ProjectDetail
+  title: p.title ?? p.name ?? '',
   slug: p.slug,
   category: p.category,
-  year: p.year || '',
-  coverImage: p.main_image || '/placeholder.svg',
+  year: p.year ?? '',
+  coverImage: p.coverImage ?? p.main_image ?? '/placeholder.svg',
 
-  // حقول مطلوبة للـ type فقط
-  description: p.description || '',
-  images: p.gallery_images || [],
+  // ✅ الحقول المطلوبة لكن غير مستخدمة هنا
+  description: p.description ?? '',
+  images: p.images ?? [],
 });
-
 
 interface InteractivePortfolioGridProps {
   projects: Project[];
