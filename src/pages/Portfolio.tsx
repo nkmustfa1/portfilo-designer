@@ -7,6 +7,10 @@ import { Loader2 } from 'lucide-react';
 import { scrollAnimationVariants } from '@/hooks/useScrollAnimations';
 import { GlassBackground } from '@/components/ui/GlassBackground';
 import { useLanguage } from "@/context/LanguageContext";
+import { mapProjectToUI } from '@/utils/mapProjectToUI';
+import type { UIProject } from '@/types/project-ui';
+
+
 
 /**
  * Portfolio page with interactive filter grid and 3D hover effects
@@ -18,26 +22,11 @@ const isAr = lang === "ar";
 
 const t = (en: string, ar: string) => (isAr ? ar : en);
 
-  const convertedDbProjects = dbProjects?.map(p => ({
-    id: p.id,
-    title: p.title,
-    slug: p.slug,
-    category: p.category as 'branding' | 'print' | 'social-media' | 'ai' | 'packaging' | 'merchandise' | 'others',
-    description: p.description || '',
-    client: p.client || undefined,
-    year: p.year || new Date().getFullYear().toString(),
-    tools: p.tools?.join(', ') || undefined,
-    coverImage: p.main_image || '/placeholder.svg',
-    images: p.gallery_images?.map((url, i) => ({
-      id: `${p.id}-${i}`,
-      src: url,
-      alt: `${p.title} image ${i + 1}`,
-      aspectRatio: 'landscape' as const
-    })) || []
-  })) || [];
+  const displayProjects: UIProject[] = dbProjects
+  ? dbProjects.map(mapProjectToUI)
+  : [];
 
-  const displayProjects = convertedDbProjects;
-
+ 
   return (
     <>
      <SEOHead 

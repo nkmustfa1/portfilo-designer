@@ -6,9 +6,12 @@ import { cn } from '@/lib/utils';
 import type { Project, ProjectCategory } from '@/types';
 import { useLanguage } from "@/context/LanguageContext";
 
+import type { UIProject } from '@/types/project-ui';
+
 interface InteractivePortfolioGridProps {
-  projects: Project[];
+  projects: UIProject[];
 }
+
 
 const getCategories = (lang: "en" | "ar") => [
   { value: 'all', label: lang === 'ar' ? 'كل الأعمال' : 'All Work' },
@@ -23,7 +26,7 @@ const getCategories = (lang: "en" | "ar") => [
 
 // 3D Tilt Card Component with mouse tracking
 const ParallaxProjectCard = forwardRef<HTMLDivElement, { 
-  project: Project; 
+  project: UIProject;
   index: number;
   hoveredId: string | null;
   setHoveredId: (id: string | null) => void;

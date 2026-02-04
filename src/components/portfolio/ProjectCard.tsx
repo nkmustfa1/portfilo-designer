@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 import type { Project } from '@/types';
 import { cn } from '@/lib/utils';
 
+import type { UIProject } from '@/types/project-ui';
+
 interface ProjectCardProps {
-  project: Project;
+  project: UIProject;
   aspectRatio?: 'portrait' | 'landscape' | 'square';
   showCategory?: boolean;
   index?: number;
