@@ -6,28 +6,11 @@ import { cn } from '@/lib/utils';
 import type { Project, ProjectCategory } from '@/types';
 import { useLanguage } from "@/context/LanguageContext";
 
-const normalizeProject = (p: any): Project => ({
-  id: p.id,
-  title: p.title ?? p.name ?? '',
-  slug: p.slug,
-  category: p.category,
-  year: p.year ?? '',
-  coverImage: p.coverImage ?? p.main_image ?? '/placeholder.svg',
-
-  // ✅ الحقول المطلوبة لكن غير مستخدمة هنا
-  description: p.description ?? '',
-  images: p.images ?? [],
-});
-
 interface InteractivePortfolioGridProps {
   projects: Project[];
 }
-type FilterCategory = 'all' | ProjectCategory;
 
-const getCategories = (lang: "en" | "ar"): {
-  value: FilterCategory;
-  label: string;
-}[] => [
+const getCategories = (lang: "en" | "ar") => [
   { value: 'all', label: lang === 'ar' ? 'كل الأعمال' : 'All Work' },
   { value: 'branding', label: lang === 'ar' ? 'الهوية' : 'Branding' },
   { value: 'print', label: lang === 'ar' ? 'مطبوعات' : 'Print' },
@@ -37,7 +20,6 @@ const getCategories = (lang: "en" | "ar"): {
   { value: 'merchandise', label: lang === 'ar' ? 'منتجات' : 'Merchandise' },
   { value: 'others', label: lang === 'ar' ? 'أخرى' : 'Others' },
 ];
-
 
 // 3D Tilt Card Component with mouse tracking
 const ParallaxProjectCard = forwardRef<HTMLDivElement, { 
@@ -265,28 +247,21 @@ const ParallaxProjectCard = forwardRef<HTMLDivElement, {
 });
 
 export function InteractivePortfolioGrid({ projects }: InteractivePortfolioGridProps) {
-  const normalizedProjects = useMemo(
-    () => projects.map(normalizeProject),
-    [projects]
-  );
-
   const [activeFilter, setActiveFilter] = useState<ProjectCategory | 'all'>('all');
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const { lang } = useLanguage();
 
   const categories = getCategories(lang);
- const filteredProjects = useMemo(() => {
-  if (activeFilter === 'all') return normalizedProjects;
-  return normalizedProjects.filter((p) => p.category === activeFilter);
-}, [normalizedProjects, activeFilter]);
+  const filteredProjects = useMemo(() => {
+    if (activeFilter === 'all') return projects;
+    return projects.filter((p) => p.category === activeFilter);
+  }, [projects, activeFilter]);
 
   // Get available categories from projects
-const availableCategories = useMemo(() => {
-  const projectCategories = new Set(normalizedProjects.map(p => p.category));
-  return categories.filter(
-    c => c.value === 'all' || projectCategories.has(c.value as ProjectCategory)
-  );
-}, [normalizedProjects]);
+  const availableCategories = useMemo(() => {
+    const projectCategories = new Set(projects.map(p => p.category));
+    return categories.filter(c => c.value === 'all' || projectCategories.has(c.value as ProjectCategory));
+  }, [projects]);
 
   return (
     <div className="space-y-12">
@@ -326,16 +301,15 @@ const availableCategories = useMemo(() => {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
       >
         <AnimatePresence mode="popLayout">
-        {filteredProjects.map((project, index) => (
-  <ParallaxProjectCard
-    key={project.id}
-    project={project}
-    index={index}
-    hoveredId={hoveredId}
-    setHoveredId={setHoveredId}
-  />
-))}
-
+          {filteredProjects.map((project, index) => (
+            <ParallaxProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              hoveredId={hoveredId}
+              setHoveredId={setHoveredId}
+            />
+          ))}
         </AnimatePresence>
       </motion.div>
 
