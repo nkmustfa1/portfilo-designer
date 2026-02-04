@@ -9,8 +9,12 @@ import { useLanguage } from "@/context/LanguageContext";
 interface InteractivePortfolioGridProps {
   projects: Project[];
 }
+type FilterCategory = 'all' | ProjectCategory;
 
-const getCategories = (lang: "en" | "ar") => [
+const getCategories = (lang: "en" | "ar"): {
+  value: FilterCategory;
+  label: string;
+}[] => [
   { value: 'all', label: lang === 'ar' ? 'كل الأعمال' : 'All Work' },
   { value: 'branding', label: lang === 'ar' ? 'الهوية' : 'Branding' },
   { value: 'print', label: lang === 'ar' ? 'مطبوعات' : 'Print' },
@@ -20,6 +24,7 @@ const getCategories = (lang: "en" | "ar") => [
   { value: 'merchandise', label: lang === 'ar' ? 'منتجات' : 'Merchandise' },
   { value: 'others', label: lang === 'ar' ? 'أخرى' : 'Others' },
 ];
+
 
 // 3D Tilt Card Component with mouse tracking
 const ParallaxProjectCard = forwardRef<HTMLDivElement, { 
